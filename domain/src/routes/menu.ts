@@ -14,7 +14,7 @@ router.get('/getAll', menuController.getMenus);
 router.get('/getById', menuController.getMenuById);
 
 // GET /menu/post
-router.get('/update', menuController.updateMenu);
+router.put('/update', menuController.updateMenu);
 
 
 // POST /menu/post

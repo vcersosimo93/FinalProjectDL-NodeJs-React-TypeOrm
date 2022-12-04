@@ -73,35 +73,32 @@ export const getMenuById = (req, res, next) => {
 export const updateMenu = (req, res, next) => {
 
     const idMenu = req.body.id;
+    const esVeg = req.body.esVegetariano;
+    const desc = req.body.descripcion;
+
     const menuEncontrado = AppDataSource.manager.findOneBy(Menu, {
         id: idMenu
     }).then(menuEncontrado => {
-        res
-            .status(200)
-            .json({
-                message: 'Fetched posts successfully.',
-                menuEncontrado: menuEncontrado
-            });
+        if (!menuEncontrado) {
+            const error = new Error('Could not find menu.');
+            throw error;
+        }
+
+        menuEncontrado.esVegetariano = esVeg;
+        menuEncontrado.descripcion = desc;
+
+        AppDataSource.manager.save(menuEncontrado);
     })
+        .then(result => {
+            res.status(200).json({ message: 'Menu updated!', menuEncontrado: result });
+        })
         .catch(err => {
             if (!err.statusCode) {
                 err.statusCode = 500;
             }
             next(err);
         });
-
-    console.log(menuEncontrado);
 };
-
-
-
-
-
-
-
-
-
-
 
 //Precarga Insert
 export const insertMenuManager = async () => {
