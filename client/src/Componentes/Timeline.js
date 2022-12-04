@@ -7,12 +7,11 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useState, useEffect } from 'react';
-//import getProximoHorario from '../domain/src/controllers/HorarioController.ts';
 
 const Timeline = () => {
-    const [horas, setBackendData] = useState([]);
+    const [horas, setHoras] = useState([{}]);
     const [cntHoras, setCntHora] = useState(0);
-    const [pedidos, setPedidos] = useState([]);
+    const [pedidos, setPedidos] = useState([{}]);
     const [showR, setShowR] = useState(false);
     const handleCloseR = () => setShowR(false);
     const handleShowR = () => setShowR(true);
@@ -25,16 +24,20 @@ const Timeline = () => {
       response => response.json()
     ).then(
       data => {
-        console.log(data)
-        //setBackendData(data.hora)
+        setHoras(data)
       }
+    ).then(
+        fetch('http://localhost:8080/pedido/get') .then(
+            response => response.json()
+        ).then(
+            data => {
+                setPedidos(data)
+              } 
+        )
     )
   }, [])
 
-    let pedidosGral = [{id : 1,nombre: "Milanesa con arroz" , hora:'09:45'},
-    {id : 2, nombre: "Frutilla" , hora:'10:00'},
-    {id : 3, nombre: "Manzana", hora:'09:45'}]
-
+    let pedidosAMostrar = []
 
     const horaProx = () => {
         if (horas[cntHoras + 1] != null)
@@ -49,10 +52,10 @@ const Timeline = () => {
     }
 
     const actualizarPedidos = (num) => {
-        pedidos.splice(0,pedidos.length)
-        for (const element of pedidosGral) {
-            if (element.hora == horas[cntHoras + num])
-            pedidos.push(element)
+        pedidosAMostrar.splice(0,pedidosAMostrar.length)
+        for (let i = 0; i < pedidos.length; i++ ) {
+            if (pedidos[i].horarioId == horas[cntHoras + num].id)
+            pedidosAMostrar.push(pedidos[i])
           }
     }
 
@@ -74,7 +77,7 @@ const Timeline = () => {
                     <img src={flechaIzq} className="flechasTimeline" alt="flechaIzq" onClick={() => horaAnt()}/>
                 </div>
                 <div className="col d-flex justify-content-center transparent">
-                    <h2 className='transparent'>{horas[cntHoras]}</h2>
+                    <h2 className='transparent'>{horas[cntHoras].hora}</h2>
                 </div>
                 <div className="col d-flex justify-content-center transparent">
                     <img src={flechaDer} className="flechasTimeline" alt="flechaDer" onClick={() => horaProx()}/>
@@ -82,10 +85,10 @@ const Timeline = () => {
             </div> 
             <div className="container " style={{"paddingTop":"5%"}}>
                 <div className="container tableGridTimeline" >
-                    {pedidos.map((pedido) =>
+                    {pedidosAMostrar.map((pedido) =>
                     (<div key={pedido.id} className="container itemTimeline " >
                     <p>
-                    {pedido.nombre}               
+                    {pedido.menuId}               
                     <img src={LiquidarImg}  style={{"margin-left":"55%"}} alt="Liquidar" onClick={handleShowL} />
                     <img src={cambiarHoraImg} alt="Cambiar hora"  onClick={handleShowR}/>
                     </p>

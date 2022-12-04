@@ -1,7 +1,7 @@
-const express = require('express');
+const expressHorario = require('express');
 const horarioController = require('../controllers/HorarioController');
-const router = express.Router();
+const routerHorario = expressHorario.Router();
 
-router.get('/get', horarioController.getHoras);
+routerHorario.get('/get', horarioController.getHorarios);
 
-module.exports = router;
+module.exports = routerHorario;
