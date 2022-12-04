@@ -15,7 +15,7 @@ export const AppDataSource = new DataSource({
     username: "Noe",
     password: "Noe12345678!",
     database: "proyectoDL",
-    synchronize: false, //Si no lo dejo en true no crea las tablas. 
+    synchronize: true, //Si no lo dejo en true no crea las tablas. 
     logging: false,
     entities: [DetalleMenu,Empleado,Feedback,Horario,Ingrediente,Menu,Pedido],
     migrations: [],

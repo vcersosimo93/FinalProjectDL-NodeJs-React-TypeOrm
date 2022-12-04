@@ -70,6 +70,30 @@ export const getMenuById = (req, res, next) => {
 };
 
 
+export const updateMenu = (req, res, next) => {
+
+    const idMenu = req.body.id;
+    const menuEncontrado = AppDataSource.manager.findOneBy(Menu, {
+        id: idMenu
+    }).then(menuEncontrado => {
+        res
+            .status(200)
+            .json({
+                message: 'Fetched posts successfully.',
+                menuEncontrado: menuEncontrado
+            });
+    })
+        .catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
+        });
+
+    console.log(menuEncontrado);
+};
+
+
 
 
 
