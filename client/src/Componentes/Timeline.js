@@ -32,9 +32,7 @@ const Timeline = () => {
         ).then(
             data => {
                 setPedidos(data)
-              } 
-        )
-    )
+              } ))
   }, [])
 
     let pedidosAMostrar = []
