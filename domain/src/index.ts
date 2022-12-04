@@ -4,20 +4,18 @@ import { Menu } from "./entity/Menu"
 //import { getRepository } from "typeorm"
 import { insertMenuManager } from "./controllers/MenuController"
 const express = require('express');
+const bodyParser = require('body-parser');
+const horarioRoutes = require('./routes/horario');
 const axios = require('axios');
 const app = express();
 
 //Crea la conexion con la base de datos.
 AppDataSource.initialize().then(async () => {
-    insertMenuManager().catch((err) => {
+  insertMenuManager().catch((err) => {
         console.log(err);
     })
 })
 .catch(error => console.log(error))
-
-app.get("/getHoras", (req, res) =>{
-  res.json({"horas": ["09:45","10:00","11:00","11:20"]})
-})
 
 
 app.post('/button-submit', (req, res) => {
@@ -40,7 +38,19 @@ app.post('/button-submit', (req, res) => {
   `})
   });
 
-  app.listen(5000, () => {
-    console.log("Server started at port 5000")
+app.use(bodyParser.json()); // application/json
+
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader(
+      'Access-Control-Allow-Methods',
+      'OPTIONS, GET, POST, PUT, PATCH, DELETE'
+    );
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
   });
+
+app.use('/horario', horarioRoutes);
+
+app.listen(8080);
   

@@ -21,11 +21,12 @@ const Timeline = () => {
     const handleShowL = () => setShowL(true);
 
   useEffect(() =>{
-    fetch("/getHoras").then(
+    fetch('http://localhost:8080/horario/get').then(
       response => response.json()
     ).then(
       data => {
-       setBackendData(data.horas)
+        console.log(data)
+        //setBackendData(data.hora)
       }
     )
   }, [])
