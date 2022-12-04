@@ -1,11 +1,13 @@
 import { AppDataSource } from "./data-source"
 import "reflect-metadata";
 import { Menu } from "./entity/Menu"
-import { insertMenuManager } from "./controllers/MenuController"
+import { insertMenuManager } from "./controllers/menuController"
+const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const horarioRoutes = require('./routes/horario');
 const pedidoRoutes = require('./routes/pedido');
+const menuRoutes = require('./routes/menu');
 const axios = require('axios');
 const app = express();
 
@@ -52,7 +54,13 @@ app.use((req, res, next) => {
   });
 
 app.use('/horario', horarioRoutes);
+app.use('/menu', menuRoutes);
 app.use('/pedido', pedidoRoutes);
+
+app.use(cors({
+  origin: '*'
+}));
+
 
 app.listen(8080);
   
