@@ -8,6 +8,9 @@ const router = express.Router();
 router.post('/post', menuController.createMenu);
 
 // POST /menu/post
+router.get('/getAll', menuController.getMenus);
+
+// POST /menu/post
 //router1.post('/post2', menuController.createPost);
 
 // GET /menu/posts

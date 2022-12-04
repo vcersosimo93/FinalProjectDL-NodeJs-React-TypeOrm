@@ -25,6 +25,38 @@ export const createMenu =  (req,res, next) =>{
     });
   };
 
+
+  export const getMenus = (req, res, next) => {
+
+    const menus = AppDataSource.manager.find(Menu)
+       .then(menus => {
+         res
+           .status(200)
+           .json({
+             message: 'Fetched posts successfully.',
+             menus: menus
+           });
+       })
+       .catch(err => {
+         if (!err.statusCode) {
+           err.statusCode = 500;
+         }
+         next(err);
+       });
+   };
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Precarga Insert
 export const insertMenuManager = async () =>{
     console.log("Se procede a insertar un menu.")
