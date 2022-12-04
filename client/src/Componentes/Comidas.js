@@ -19,19 +19,105 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useRef } from 'react';
 
+
 const Comidas = () => {
 
 
-    const descripcionMenu = useRef(null)
-    const vegetarianoMenu = useRef(null)
+    const descripcion = useRef()
+    const esVegetariano = useRef()
 
-    const crearMenu = async e => {
+    let [vege,setveg] = useState("");
+
+    const _onChangeVegetariano = () =>{
+        try {
+          ;(async () => {
+            console.log("_onChangeVegetariano");
+            console.log(esVegetariano.current.checked);
+            setveg = esVegetariano
+
+          })()
+        } catch (error) {
+          console.error(error)
+        }
+    }
+   
+    const handleSubmit = postData => {
+
+        postData.preventDefault();
+
+
+        const desc = descripcion.current.value
+
+        /* 
+        let veget
+
+        if(vege === 'on'){
+            veget = true
+        }else{
+            veget = false
+        }*/
+
         
-        const desc = descripcionMenu.current.value
-        const veg = vegetarianoMenu.current.value
+        console.log(esVegetariano.current.checked);
+        console.log(desc);
+
+        let url = 'http://localhost:8080/menu/post';
+        let method = 'POST'; 
+
+        fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "esVegetariano": esVegetariano.current.checked,
+            "descripcion": desc
+        })
+        })
+        .then(res => {
+            if (res.status !== 200 && res.status !== 201) {
+            throw new Error('Creating or editing a post failed!');
+            }
+            return res.json();
+        })
+        .then(resData => {
+            console.log(resData);
+            const post = {
+            esVegetariano: resData.post.esVegetariano,
+            descipcion: resData.post.descipcion
+            };
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
         
 
-    };
+/* 
+        // WARNING: For POST requests, body is set to null by browsers.
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+        "esVegetariano": vege,
+        "descripcion": desc
+        });
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+        };
+
+        fetch("http://localhost:8080/menu/post", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));*/
+ 
+    }
+
+    
     
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -66,31 +152,34 @@ const Comidas = () => {
                     <Modal.Title>Crear Menu</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                    <Form className="my-modal-form" >
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form className="my-modal-form"  >
+                        <Form.Group className="mb-3" controlId="descripcion" >
                         <Form.Label>Descripción</Form.Label>
                         <Form.Control
                             type="text"
                             placeholder="Nuevo menu"
                             autoFocus
-                            ref={descripcionMenu}
+                            name="descripcion" 
+                            ref={descripcion}
                         />
                         </Form.Group>
                         <Form.Group
                         className="mb-3"
-                        controlId="exampleForm.ControlTextarea1"
+                        controlId="esVegetariano"
                         >
                         <Form.Check 
-                            type="switch"
-                            id="custom-switch"
+                            type="checkbox"
+                           
                             label="Vegetariano"
-                            ref={vegetarianoMenu}
+                            name='esVegetariano'
+                            ref={esVegetariano}
+                            onChange={_onChangeVegetariano} 
                         />
                         </Form.Group>
                     </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                    <Button variant="outline-primary" onHandleClick={crearMenu}>
+                    <Button type="submit" variant="outline-primary" onClick={handleSubmit}>
                         Crear
                     </Button>
                     </Modal.Footer>

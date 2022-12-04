@@ -1,13 +1,13 @@
 import { AppDataSource } from "./data-source"
 import "reflect-metadata";
-import { Menu } from "./entity/Menu"
-//import { getRepository } from "typeorm"
-import { insertMenuManager } from "./controllers/MenuController"
+import { insertMenuManager } from "./controllers/menuController"
 const express = require('express');
 const bodyParser = require('body-parser');
 const horarioRoutes = require('./routes/horario');
+const menuRoutes = require('./routes/menu');
 const axios = require('axios');
 const app = express();
+
 
 //Crea la conexion con la base de datos.
 AppDataSource.initialize().then(async () => {
@@ -51,6 +51,7 @@ app.use((req, res, next) => {
   });
 
 app.use('/horario', horarioRoutes);
+app.use('/menu', menuRoutes);
 
 app.listen(8080);
   
