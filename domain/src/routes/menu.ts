@@ -10,6 +10,10 @@ router.post('/post', menuController.createMenu);
 // POST /menu/post
 router.get('/getAll', menuController.getMenus);
 
+// PUT /menu/post
+router.get('/getById', menuController.getMenuById);
+
+
 // POST /menu/post
 //router1.post('/post2', menuController.createPost);
 

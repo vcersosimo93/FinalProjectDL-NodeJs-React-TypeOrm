@@ -4,15 +4,15 @@ const express = require('express');
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 
-export const createMenu =  (req,res, next) =>{
-  
+export const createMenu = (req, res, next) => {
+
     const esVegetariano = req.body.esVegetariano;
     const descripcion = req.body.descripcion;
-  
+
     console.log("createMenu")
     console.log(esVegetariano)
     console.log(descripcion)
-  
+
     const menu = new Menu();
     //menu.id = id
     menu.esVegetariano = esVegetariano
@@ -20,32 +20,54 @@ export const createMenu =  (req,res, next) =>{
     AppDataSource.manager.save(menu)
     // Create post in db
     res.status(201).json({
-      message: 'Post created successfully!',
-      post: { esVegetariano: esVegetariano, descripcion: descripcion }
+        message: 'Post created successfully!',
+        post: { esVegetariano: esVegetariano, descripcion: descripcion }
     });
-  };
+};
 
 
-  export const getMenus = (req, res, next) => {
+export const getMenus = (req, res, next) => {
 
     const menus = AppDataSource.manager.find(Menu)
-       .then(menus => {
-         res
-           .status(200)
-           .json({
-             message: 'Fetched posts successfully.',
-             menus: menus
-           });
-       })
-       .catch(err => {
-         if (!err.statusCode) {
-           err.statusCode = 500;
-         }
-         next(err);
-       });
-   };
+        .then(menus => {
+            res
+                .status(200)
+                .json({
+                    message: 'Fetched posts successfully.',
+                    menus: menus
+                });
+        })
+        .catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
+        });
+};
 
+export const getMenuById = (req, res, next) => {
 
+    const idMenu = req.body.id;
+
+    const menuEncontrado = AppDataSource.manager.findOneBy(Menu, {
+        id: idMenu
+    }).then(menuEncontrado => {
+        res
+            .status(200)
+            .json({
+                message: 'Fetched posts successfully.',
+                menuEncontrado: menuEncontrado
+            });
+    })
+        .catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
+        });
+
+    console.log(menuEncontrado);
+};
 
 
 
@@ -58,7 +80,7 @@ export const createMenu =  (req,res, next) =>{
 
 
 //Precarga Insert
-export const insertMenuManager = async () =>{
+export const insertMenuManager = async () => {
     console.log("Se procede a insertar un menu.")
     const menu = new Menu()
     menu.esVegetariano = false;
