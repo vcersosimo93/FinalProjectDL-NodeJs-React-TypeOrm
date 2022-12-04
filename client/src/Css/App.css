@@ -97,7 +97,6 @@ height: 100%;
   margin-top: 12%;
 }
 
-
 .textosMenuInicial{
   color: white;
   padding-top: 3%;
@@ -199,7 +198,7 @@ background-color: transparent;
 
 .tituloInforme{
   background-color: white;
-  color: #3B95F5; 
+  color: black; 
   border-radius: 25px;
   margin: 30px 10px 30px 10px;
   height: 60px;
