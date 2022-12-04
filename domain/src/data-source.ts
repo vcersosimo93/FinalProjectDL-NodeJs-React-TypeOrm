@@ -12,8 +12,8 @@ export const AppDataSource = new DataSource({
     type: "mysql",
     host: "localhost",
     port: 3306,
-    username: "Noe",
-    password: "Noe12345678!",
+    username: "root",
+    password: "root",
     database: "proyectoDL",
     synchronize: true, //Si no lo dejo en true no crea las tablas. 
     logging: false,

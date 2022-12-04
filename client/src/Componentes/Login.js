@@ -34,25 +34,10 @@ function Login() {
 
   return (
     <div className="container">
-      <div class="row " >
-        <div class="col align-self-start">
-          <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
-        </div>
-        <div class="col d-flex align-self-center justify-content-end">
-          <img src={UserImg} className="UserImg" alt="User" />
-        </div>
-        <div class="row textosMenuInicial">
-          <div class=" card col d-flex justify-content-center">
-            <h3 class=" justify-content-center tituloInforme">Login</h3>
-            <p class=" justify-content-center divTexto">
-              <div id="signInDiv"></div>
+          <div style={{"padding-left":"40%", "padding-top":"10%",}} id="signInDiv"></div>
               {userLS &&
                 history.push('/Inicio')
               }
-            </p>
-          </div>
-        </div>
-      </div >
     </div >
   );
 }
