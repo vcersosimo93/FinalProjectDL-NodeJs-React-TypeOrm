@@ -18,6 +18,7 @@ import flechaIzq from '../Images/flechaIzq.png';
 import { useState } from 'react';
 import axios from 'axios';
 import { useRef } from 'react';
+import { useEffect } from 'react';
 
 
 const Comidas = () => {
@@ -25,8 +26,20 @@ const Comidas = () => {
 
     const descripcion = useRef()
     const esVegetariano = useRef()
+    let [menues, setmenues] = useState([]);
+
+    let menuesAMostrar = []
 
     let [vege,setveg] = useState("");
+
+    useEffect(() =>{
+        fetch('http://localhost:8080/menu/getAll')
+        .then(response => response.json()) 
+        .then((data) => {
+        setmenues(data.data);
+     })
+      }, [])
+    
 
     const _onChangeVegetariano = () =>{
         try {
@@ -94,7 +107,7 @@ const Comidas = () => {
         
 
 /* 
-        // WARNING: For POST requests, body is set to null by browsers.
+        
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -204,10 +217,10 @@ const Comidas = () => {
          <div className="container">  
            
             <div className="row " style={{"paddingTop":"20%"}}>
-                    {pedidosComidas.map((pedidosComidas) =>
+                    {menues.map((menu) =>
                     (
                     <div>
-                        <p className="itemTimelineComidas" key={pedidosComidas.id}><img src={Volver_img}/> <img src={Lapiz_Comidas_Menu_img}/> {pedidosComidas.nombre} </p>
+                        <p className="itemTimelineComidas" key={menu.id}><img src={Volver_img}/> <img src={Lapiz_Comidas_Menu_img}/> {menu.descipcion} </p>
                     </div>
                     ))}
             </div>        
