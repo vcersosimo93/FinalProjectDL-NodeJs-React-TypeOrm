@@ -9,6 +9,8 @@ import Modal from 'react-bootstrap/Modal';
 import { useState, useEffect } from 'react';
 
 const Timeline = () => {
+    let menus = [];
+    let menusAmostrar = [];
     const [horas, setHoras] = useState([{}]);
     const [cntHoras, setCntHora] = useState(0);
     const [pedidos, setPedidos] = useState([{}]);
@@ -19,53 +21,99 @@ const Timeline = () => {
     const handleCloseL = () => setShowL(false);
     const handleShowL = () => setShowL(true);
 
-  useEffect(() =>{
-    fetch('http://localhost:8080/horario/get').then(
-      response => response.json()
+useEffect(() =>{
+fetch('http://localhost:8080/horario/get').then(
+    response => response.json()
     ).then(
-      data => {
-        setHoras(data)
-      }
-    ).then(
-        fetch('http://localhost:8080/pedido/get') .then(
-            response => response.json()
-        ).then(
-            data => {
-                setPedidos(data)
-              } ))
-  }, [])
-
-    let pedidosAMostrar = []
+        data => {
+            setHoras(data)
+            }
+                ).then(
+                    fetch('http://localhost:8080/pedido/get').then(
+                        response => response.json()
+                        ).then(
+                            data => {
+                                setPedidos(data)
+                                    }
+                                )
+                        )
+                }, [])
 
     const horaProx = () => {
         if (horas[cntHoras + 1] != null)
         setCntHora(cntHoras + 1)
-        actualizarPedidos(1);
+        actualizarMenus(1);
     }
 
     const horaAnt = () => {
         if (horas[cntHoras - 1] != null)
          setCntHora(cntHoras - 1)
-         actualizarPedidos(-1);
+         actualizarMenus(-1);
     }
 
-    const actualizarPedidos = (num) => {
-        pedidosAMostrar.splice(0,pedidosAMostrar.length)
-        for (let i = 0; i < pedidos.length; i++ ) {
-            if (pedidos[i].horarioId == horas[cntHoras + num].id)
-            pedidosAMostrar.push(pedidos[i])
+    const actualizarMenus = (num) => {
+        menusAmostrar.splice(0,menusAmostrar.length)
+        for (let i = 0; i < menus.length; i++ ) {
+            if (menus[i].horarioId == horas[cntHoras + num].id)
+            menusAmostrar.push(menus[i])
           }
     }
 
+    const menuCargado = (menu, horario) => {
+        
+        if (menus.length == 0)
+        {
+          
+            return false;
+            
+        }
+        else{
+            for (let i = 0; i < menus.length; i++ ) {
+                if(menus[i].id == menu && menus[i].horarioId == horario){
+                   
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+    }
+
+    const cargarMenus = () => {
+        for (let i = 0; i < pedidos.length; i++ ) {
+            if (!menuCargado(pedidos[i].menuId, pedidos[i].horarioId)){
+                let menu = {
+                    id : pedidos[i].menuId,
+                    horarioId : pedidos[i].horarioId,
+                    cantidad : 0
+                 }
+                 menus.push(menu);
+                 //console.log(menus);
+            }
+          } 
+    }
+
+    const cargarCantidadesMenus = () => {
+        for (let i = 0; i < pedidos.length; i++ ) {
+            for (let j = 0; j < menus.length; j++ ) {
+               if (pedidos[i].menuId == menus[j].id && pedidos[i].horarioId ==  menus[j].horarioId)
+               {
+                menus[j].cantidad ++;
+               }
+              }
+          } 
+    }
+
     function culminarPedido(PedidoId) {
-    console.log(PedidoId);
     }
 
     const reprogramarPedido = PedidoId => {   
     }
 
-    //Llamada de arranque
-    actualizarPedidos(0);
+    //Llamadas de arranque
+    cargarMenus();
+    cargarCantidadesMenus();
+    actualizarMenus(0);
 
     return (
         <div className="container">  
@@ -83,11 +131,12 @@ const Timeline = () => {
             </div> 
             <div className="container " style={{"paddingTop":"5%"}}>
                 <div className="container tableGridTimeline" >
-                    {pedidosAMostrar.map((pedido) =>
-                    (<div key={pedido.id} className="container itemTimeline " >
-                    <p>
-                    {pedido.menuId}               
-                    <img src={LiquidarImg}  style={{"margin-left":"55%"}} alt="Liquidar" onClick={handleShowL} />
+                    {menusAmostrar.map((menu) =>
+                    (<div key={menu.id} className="container itemTimeline " >
+                    <p style={{"margin-left":"5%"}}>
+                    {menu.id} - 
+                    {menu.cantidad}               
+                    <img src={LiquidarImg} style={{"margin-left":"55%"}} alt="Liquidar" onClick={handleShowL} />
                     <img src={cambiarHoraImg} alt="Cambiar hora"  onClick={handleShowR}/>
                     </p>
                      </div>))}
