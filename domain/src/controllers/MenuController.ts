@@ -100,6 +100,30 @@ export const updateMenu = (req, res, next) => {
         });
 };
 
+export const deleteMenu = (req, res, next) => {
+
+    const idMenu = req.body.id;
+
+    const menuEncontrado = AppDataSource.manager.findOneBy(Menu, {
+        id: idMenu
+    }).then(menuEncontrado => {
+        if (!menuEncontrado) {
+            const error = new Error('Could not find menu.');
+            throw error;
+        }
+        AppDataSource.manager.remove(menuEncontrado);
+    })
+        .then(result => {
+            res.status(200).json({ message: 'Menu removed!'});
+        })
+        .catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
+        });
+};
+
 //Precarga Insert
 export const insertMenuManager = async () => {
     console.log("Se procede a insertar un menu.")
