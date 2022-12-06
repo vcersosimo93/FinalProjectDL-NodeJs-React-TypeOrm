@@ -29,6 +29,10 @@ const Comidas = () => {
     let [menues, setmenues] = useState([]);
 
     let menuesAMostrar = []
+    let menuesAMostrarPrueba;
+    let menuesAMostrarPrueba2 = []
+    let menuesAMostrarPrueba3 = []
+    let copiadoMenus = []
 
     let [vege,setveg] = useState("");
 
@@ -36,7 +40,20 @@ const Comidas = () => {
         fetch('http://localhost:8080/menu/getAll')
         .then(response => response.json()) 
         .then((data) => {
-        setmenues(data.data);
+        menuesAMostrarPrueba2.splice(0,menuesAMostrarPrueba2.length)
+        console.log(data)
+        copiadoMenus=[...data.menus]
+        menuesAMostrarPrueba2=data.menus.slice();
+       
+        console.log("pedidosComidas")
+        console.log(pedidosComidas[0])
+        console.log("copiadoMenus")
+        console.log(copiadoMenus[0])
+        for (let i = 0; i < data.menus.length; i++ ) {
+            menuesAMostrarPrueba2.push(data.menus[i])
+        }
+        console.log("PRUEBA menuesAMostrarPrueba2")
+        console.log(menuesAMostrarPrueba2)
      })
       }, [])
     
@@ -135,6 +152,15 @@ const Comidas = () => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    
+    const actualizarMenus = () => {
+        for (let i = 0; i < menuesAMostrarPrueba2.length; i++ ) {
+            menuesAMostrarPrueba3.push(menuesAMostrarPrueba2[i])
+        }
+        console.log("menuesAMostrarPrueba3")
+        console.log(menuesAMostrarPrueba3)
+    }
+
     let pedidosComidas = [
         {id : 1,nombre: "Banana"},
         {id : 2, nombre: "Frutilla"},
@@ -142,8 +168,6 @@ const Comidas = () => {
     ]
     
     return (
-
-
 
         <div className="container m-2">
         <div class="row " >
@@ -217,14 +241,16 @@ const Comidas = () => {
          <div className="container">  
            
             <div className="row " style={{"paddingTop":"20%"}}>
-                    {menues.map((menu) =>
+                    {copiadoMenus.map((pedidosComidas) =>
                     (
                     <div>
-                        <p className="itemTimelineComidas" key={menu.id}><img src={Volver_img}/> <img src={Lapiz_Comidas_Menu_img}/> {menu.descipcion} </p>
+                        <p className="itemTimelineComidas" key={pedidosComidas.descipcion}><img src={Volver_img}/> <img src={Lapiz_Comidas_Menu_img}/> {pedidosComidas.descipcion} </p>
                     </div>
                     ))}
             </div>        
         </div>
+
+        
          
      </div>
 
