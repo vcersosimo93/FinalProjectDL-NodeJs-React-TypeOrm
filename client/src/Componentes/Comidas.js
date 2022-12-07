@@ -10,6 +10,8 @@ import Lapiz_Comidas_Menu_img from '../Images/Lapiz_Comidas_Menu.png';
 import { NavLink } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import Modal from 'react-bootstrap/Modal';
 import ModalDialog from 'react-bootstrap/ModalDialog'
 import ModalHeader from 'react-bootstrap/ModalHeader'
@@ -19,12 +21,15 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';
 
 
 const Comidas = () => {
 
     const descripcion = useRef()
     const esVegetariano = useRef()
+    const id = useRef()
+    const idMenuSeleccionado = useRef()
     const [menues, setmenues] = useState([{}]);
 
     let [vege, setveg] = useState("");
@@ -40,6 +45,19 @@ const Comidas = () => {
     }, [])
 
     const _onChangeVegetariano = () => {
+        try {
+            ; (async () => {
+                console.log("_onChangeVegetariano");
+                console.log(esVegetariano.current.checked);
+                setveg = esVegetariano
+
+            })()
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const _onChangeVegetarianoUP = () => {
         try {
             ; (async () => {
                 console.log("_onChangeVegetariano");
@@ -125,11 +143,78 @@ const Comidas = () => {
 
     }
 
+    const handleSubmitUP = updateData => {
+
+        updateData.preventDefault();
+        const idMenu = id.current.value
+        const desc = descripcion.current.value
+        const esVeget = esVegetariano.current.checked
+
+        let url = 'http://localhost:8080/menu/update'
+        let method = 'PUT'
+
+        fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "id": idMenu,
+                "esVegetariano": esVeget,
+                "descripcion": desc
+            })
+        })
+            .then(res => {
+                if (res.status !== 200 && res.status !== 201) {
+                    throw new Error('Creating or editing a post failed!');
+                }
+                return res.json();
+            })
+            .then(resData => {
+                console.log(resData);
+                const post = {
+                    esVegetariano: resData.post.esVegetariano,
+                    descipcion: resData.post.descipcion
+                };
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+
+
+        /* 
+                
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+        
+                var raw = JSON.stringify({
+                "esVegetariano": vege,
+                "descripcion": desc
+                });
+        
+                var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+                };
+        
+                fetch("http://localhost:8080/menu/post", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));*/
+
+    }
 
 
     const [show, setShow] = useState(false);
+    const [showUP, setShowUP] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const handleCloseUP = () => setShowUP(false);
+    const handleShowUP = () => setShowUP(true);
+
 
     /*
     const actualizarMenus = () => {
@@ -147,7 +232,6 @@ const Comidas = () => {
     ]
 
     return (
-
         <div className="container m-2">
             <div class="row " >
                 <div class="col-md-1 ">
@@ -156,13 +240,11 @@ const Comidas = () => {
                     </table>
                 </div>
                 <div class="col-md-1" >
-
                     <table className="linkContainerSecondOption" >
                         <Button variant="default" onClick={handleShow}>
                             <img src={Agregar_Menu_img} className="iconosImgThirdOption" />
                         </Button>
                     </table>
-
                     <Modal show={show} className="my-modal" onHide={handleClose}>
                         <Modal.Header closeButton>
                             <Modal.Title>Crear Menu</Modal.Title>
@@ -201,7 +283,58 @@ const Comidas = () => {
                         </Modal.Footer>
                     </Modal>
                 </div>
+                <div class="col-md-1" >
+                    <Modal show={showUP} className="my-modal" onHide={handleCloseUP}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Modificar Menu</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form className="my-modal-form"  >
+                                <Form.Group className="mb-3" controlId="descripcion" >
+                                    <Form.Label>Id</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        //value={idMenuSeleccionado}
+                                        autoFocus
+                                        name="id"
+                                        ref={id}
+                                    />
+                                    <Form.Label>Descripción</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Nueva Descripción"
+                                        autoFocus
+                                        name="descripcion"
+                                        ref={descripcion}
+                                    />
+                                </Form.Group>
+                                <Form.Group
+                                    className="mb-3"
+                                    controlId="esVegetariano"
+                                >
+                                    <Form.Check
+                                        type="checkbox"
 
+                                        label="Vegetariano"
+                                        name='esVegetariano'
+                                        ref={esVegetariano}
+                                        onChange={_onChangeVegetarianoUP}
+                                    />
+                                    <DropdownButton id="dropdown-basic-button" title="Dropdown button">
+                                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                    </DropdownButton>
+                                </Form.Group>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button type="submit" variant="outline-primary" onClick={handleSubmitUP}>
+                                Modificar
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
                 <div class="col-md-5 " >
                     <div class="input-group">
                         <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
@@ -216,14 +349,12 @@ const Comidas = () => {
                     </NavLink>
                 </div>
             </div>
-
             <div className="container">
-
                 <div className="row " style={{ "paddingTop": "20%" }}>
                     {menues.map((m) =>
                     (
                         <div>
-                            <p className="itemTimelineComidas" key={m.descripcion}><img src={Volver_img}/> <img src={Lapiz_Comidas_Menu_img} /> {m.descripcion} </p>
+                            <p className="itemTimelineComidas" key={m.descripcion}><img src={Volver_img} /> <img src={Lapiz_Comidas_Menu_img} onClick={handleShowUP} ref={idMenuSeleccionado}/> {m.descripcion} </p>
                         </div>
                     ))}
                 </div>
