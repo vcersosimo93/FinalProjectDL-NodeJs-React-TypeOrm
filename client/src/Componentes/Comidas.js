@@ -6,7 +6,7 @@ import cancelMenuImg from '../Images/cancel.png';
 import Filtro_Comidas_img from '../Images/Filtro_Comidas.png';
 import Agregar_Menu_img from '../Images/Agregar_Menu.png';
 import Volver_img from '../Images/Volver.png';
-import Lapiz_Comidas_Menu_img from '../Images/Lapiz_Comidas_Menu.png'; 
+import Lapiz_Comidas_Menu_img from '../Images/Lapiz_Comidas_Menu.png';
 import { NavLink } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -23,59 +23,38 @@ import { useEffect } from 'react';
 
 const Comidas = () => {
 
-
     const descripcion = useRef()
     const esVegetariano = useRef()
-    let [menues, setmenues] = useState([]);
+    const [menues, setmenues] = useState([{}]);
 
-    let menuesAMostrar = []
-    let menuesAMostrarPrueba;
-    let menuesAMostrarPrueba2 = []
-    let menuesAMostrarPrueba3 = []
-    let copiadoMenus = []
+    let [vege, setveg] = useState("");
 
-    let [vege,setveg] = useState("");
+    useEffect(() => {
+        fetch('http://localhost:8080/menu/getAll').then(
+            response => response.json())
+            .then(
+                data => {
+                    setmenues(data.menus);
+                }
+            )
+    }, [])
 
-    useEffect(() =>{
-        fetch('http://localhost:8080/menu/getAll')
-        .then(response => response.json()) 
-        .then((data) => {
-        menuesAMostrarPrueba2.splice(0,menuesAMostrarPrueba2.length)
-        console.log(data)
-        copiadoMenus=[...data.menus]
-        menuesAMostrarPrueba2=data.menus.slice();
-       
-        console.log("pedidosComidas")
-        console.log(pedidosComidas[0])
-        console.log("copiadoMenus")
-        console.log(copiadoMenus[0])
-        for (let i = 0; i < data.menus.length; i++ ) {
-            menuesAMostrarPrueba2.push(data.menus[i])
-        }
-        console.log("PRUEBA menuesAMostrarPrueba2")
-        console.log(menuesAMostrarPrueba2)
-     })
-      }, [])
-    
-
-    const _onChangeVegetariano = () =>{
+    const _onChangeVegetariano = () => {
         try {
-          ;(async () => {
-            console.log("_onChangeVegetariano");
-            console.log(esVegetariano.current.checked);
-            setveg = esVegetariano
+            ; (async () => {
+                console.log("_onChangeVegetariano");
+                console.log(esVegetariano.current.checked);
+                setveg = esVegetariano
 
-          })()
+            })()
         } catch (error) {
-          console.error(error)
+            console.error(error)
         }
     }
-   
+
     const handleSubmit = postData => {
 
         postData.preventDefault();
-
-
         const desc = descripcion.current.value
 
         /* 
@@ -87,210 +66,169 @@ const Comidas = () => {
             veget = false
         }*/
 
-        
         console.log(esVegetariano.current.checked);
         console.log(desc);
 
         let url = 'http://localhost:8080/menu/post';
-        let method = 'POST'; 
+        let method = 'POST';
 
         fetch(url, {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            "esVegetariano": esVegetariano.current.checked,
-            "descripcion": desc
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "esVegetariano": esVegetariano.current.checked,
+                "descripcion": desc
+            })
         })
-        })
-        .then(res => {
-            if (res.status !== 200 && res.status !== 201) {
-            throw new Error('Creating or editing a post failed!');
-            }
-            return res.json();
-        })
-        .then(resData => {
-            console.log(resData);
-            const post = {
-            esVegetariano: resData.post.esVegetariano,
-            descipcion: resData.post.descipcion
-            };
-        })
-        .catch(err => {
-            console.log(err);
-        });
+            .then(res => {
+                if (res.status !== 200 && res.status !== 201) {
+                    throw new Error('Creating or editing a post failed!');
+                }
+                return res.json();
+            })
+            .then(resData => {
+                console.log(resData);
+                const post = {
+                    esVegetariano: resData.post.esVegetariano,
+                    descipcion: resData.post.descipcion
+                };
+            })
+            .catch(err => {
+                console.log(err);
+            });
 
+
+
+        /* 
+                
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
         
-
-/* 
+                var raw = JSON.stringify({
+                "esVegetariano": vege,
+                "descripcion": desc
+                });
         
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
+                var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+                };
+        
+                fetch("http://localhost:8080/menu/post", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));*/
 
-        var raw = JSON.stringify({
-        "esVegetariano": vege,
-        "descripcion": desc
-        });
-
-        var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-        };
-
-        fetch("http://localhost:8080/menu/post", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));*/
- 
     }
 
-    
-    
+
+
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    
+
+    /*
     const actualizarMenus = () => {
         for (let i = 0; i < menuesAMostrarPrueba2.length; i++ ) {
             menuesAMostrarPrueba3.push(menuesAMostrarPrueba2[i])
         }
         console.log("menuesAMostrarPrueba3")
         console.log(menuesAMostrarPrueba3)
-    }
+    }*/
 
     let pedidosComidas = [
-        {id : 1,nombre: "Banana"},
-        {id : 2, nombre: "Frutilla"},
-        {id : 3, nombre: "Manzana"}
+        { id: 1, descripcion: "Banana" },
+        { id: 2, descripcion: "Frutilla" },
+        { id: 3, descripcion: "Manzana" }
     ]
-    
+
     return (
 
         <div className="container m-2">
-        <div class="row " >
-            <div class="col-md-1 ">
-                 <table className="linkContainerSecondOption" >  
-                     <img src={Filtro_Comidas_img} className="iconosImgSecondOption" />
-                 </table>
-            </div>   
-            <div class="col-md-1" >
-
-            <table className="linkContainerSecondOption" >
-                <Button variant="default" onClick={handleShow}>
-                    <img src={Agregar_Menu_img} className="iconosImgThirdOption" />
-                </Button>
-            </table>
-
-                <Modal show={show} className="my-modal" onHide={handleClose}>
-                    <Modal.Header closeButton>
-                    <Modal.Title>Crear Menu</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                    <Form className="my-modal-form"  >
-                        <Form.Group className="mb-3" controlId="descripcion" >
-                        <Form.Label>Descripción</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Nuevo menu"
-                            autoFocus
-                            name="descripcion" 
-                            ref={descripcion}
-                        />
-                        </Form.Group>
-                        <Form.Group
-                        className="mb-3"
-                        controlId="esVegetariano"
-                        >
-                        <Form.Check 
-                            type="checkbox"
-                           
-                            label="Vegetariano"
-                            name='esVegetariano'
-                            ref={esVegetariano}
-                            onChange={_onChangeVegetariano} 
-                        />
-                        </Form.Group>
-                    </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                    <Button type="submit" variant="outline-primary" onClick={handleSubmit}>
-                        Crear
-                    </Button>
-                    </Modal.Footer>
-                </Modal>
-             </div>
-             
-             <div class="col-md-5 " >
-                 <div class="input-group">
-                     <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                     <button type="button" class="btn btn-dark">Buscar</button>
-                 </div>
-             </div>
-             <div class="col-md-5 d-flex flex-row-reverse">
-                 <NavLink exact to="/Inicio"  id="dash" >
-                     <table className="linkContainerSecondOption" > 
-                         <img src={Volver_img} className="iconosImgSecondOption" />
-                     </table>
-                 </NavLink> 
-             </div>
-         </div>
-
-         <div className="container">  
-           
-            <div className="row " style={{"paddingTop":"20%"}}>
-                    {copiadoMenus.map((pedidosComidas) =>
-                    (
-                    <div>
-                        <p className="itemTimelineComidas" key={pedidosComidas.descipcion}><img src={Volver_img}/> <img src={Lapiz_Comidas_Menu_img}/> {pedidosComidas.descipcion} </p>
-                    </div>
-                    ))}
-            </div>        
-        </div>
-
-        
-         
-     </div>
-
-
-        /* 
-
-        ----LO QUE HIZO NOE-----
-
-        
-        <div className="container">
-
             <div class="row " >
-                <div class="col align-self-start">
-                    <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
-                </div>   
-                
-                <div class="col d-flex align-self-center justify-content-end">
-                    <img src={UserImg} className="UserImg" alt="User" />
+                <div class="col-md-1 ">
+                    <table className="linkContainerSecondOption" >
+                        <img src={Filtro_Comidas_img} className="iconosImgSecondOption" />
+                    </table>
                 </div>
-                <NavLink  exact to="/Menu"  id="dash" >
-                        <div class="col d-flex align-self-center justify-content-end">
-                            <img src={altaMenuImg} className="userImg" alt="User" />
-                        </div>
+                <div class="col-md-1" >
 
-                </NavLink>
-                <div class="col d-flex align-self-center justify-content-end">
-                            <img src={cancelMenuImg} className="userImg" alt="User" />
-                        </div>
-            </div>
+                    <table className="linkContainerSecondOption" >
+                        <Button variant="default" onClick={handleShow}>
+                            <img src={Agregar_Menu_img} className="iconosImgThirdOption" />
+                        </Button>
+                    </table>
 
-                    <NavLink className="linkMenu" exact to="./Comidas"  id="dash" >
-                        <table className="linkContainer" >                    
-                            <img src={Filtro_Comidas} className="Filtro_Comidas" />
-                        </table>
-                        <table className="linkContainer" >                    
-                            <img src={Filtro_Comidas} className="Filtro_Comidas" />
+                    <Modal show={show} className="my-modal" onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Crear Menu</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form className="my-modal-form"  >
+                                <Form.Group className="mb-3" controlId="descripcion" >
+                                    <Form.Label>Descripción</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Nuevo menu"
+                                        autoFocus
+                                        name="descripcion"
+                                        ref={descripcion}
+                                    />
+                                </Form.Group>
+                                <Form.Group
+                                    className="mb-3"
+                                    controlId="esVegetariano"
+                                >
+                                    <Form.Check
+                                        type="checkbox"
+
+                                        label="Vegetariano"
+                                        name='esVegetariano'
+                                        ref={esVegetariano}
+                                        onChange={_onChangeVegetariano}
+                                    />
+                                </Form.Group>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button type="submit" variant="outline-primary" onClick={handleSubmit}>
+                                Crear
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
+
+                <div class="col-md-5 " >
+                    <div class="input-group">
+                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <button type="button" class="btn btn-dark">Buscar</button>
+                    </div>
+                </div>
+                <div class="col-md-5 d-flex flex-row-reverse">
+                    <NavLink exact to="/Inicio" id="dash" >
+                        <table className="linkContainerSecondOption" >
+                            <img src={Volver_img} className="iconosImgSecondOption" />
                         </table>
                     </NavLink>
-                </div>*/
+                </div>
+            </div>
 
+            <div className="container">
+
+                <div className="row " style={{ "paddingTop": "20%" }}>
+                    {menues.map((m) =>
+                    (
+                        <div>
+                            <p className="itemTimelineComidas" key={m.descripcion}><img src={Volver_img}/> <img src={Lapiz_Comidas_Menu_img} /> {m.descripcion} </p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
     )
 }
 
