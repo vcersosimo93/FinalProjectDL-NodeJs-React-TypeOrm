@@ -19,6 +19,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import TableComida from './TableComida';
 
 
 const Comidas = () => {
@@ -140,6 +141,15 @@ const Comidas = () => {
 
     }
 
+    const handleShowDL = (id) => {
+        //console.log(id)
+       console.log(id)
+        //const index = e;
+        //console.log(index)
+    }
+      
+     
+
     const handleSubmitUP = updateData => {
 
         updateData.preventDefault();
@@ -181,7 +191,8 @@ const Comidas = () => {
 
     const handleSubmitDL = updateData => {
 
-        updateData.preventDefault();
+
+        //updateData.preventDefault();
         const idMenu = id.current.value
 
         let url = 'http://localhost:8080/menu/delete'
@@ -218,7 +229,7 @@ const Comidas = () => {
     const handleCloseUP = () => setShowUP(false);
     const handleShowUP = () => setShowUP(true);
     const handleCloseDL = () => setShowDL(false);
-    const handleShowDL = () => setShowDL(true);
+    //const handleShowDL = () => setShowDL(true);
 
     /*
     const actualizarMenus = () => {
@@ -335,30 +346,7 @@ const Comidas = () => {
                     </Modal>
                 </div>
                 <div class="col-md-1" >
-                    <Modal show={showDL} className="my-modal" onHide={handleCloseDL}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Eliminar Menu</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Form className="my-modal-form"  >
-                                <Form.Group className="mb-3" controlId="descripcion" >
-                                    <Form.Label>Id</Form.Label>
-                                    <Form.Control
-                                        type="number"
-                                        //value={idMenuSeleccionado}
-                                        autoFocus
-                                        name="id"
-                                        ref={id}
-                                    />
-                                </Form.Group>
-                            </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button type="submit" variant="outline-primary" onClick={handleSubmitDL}>
-                                Eliminar
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
+                    
                 </div>
                 <div class="col-md-5 " >
                     <div class="input-group">
@@ -375,14 +363,16 @@ const Comidas = () => {
                 </div>
             </div>
             <div className="container">
-                <div className="row " style={{ "paddingTop": "20%" }}>
-                    {menues.map((m) =>
-                    (
-                        <div>
-                            <p className="itemTimelineComidas" key={m.descripcion}><img src={Volver_img} onClick={handleShowDL} /> <img src={Lapiz_Comidas_Menu_img} onClick={handleShowUP} ref={idMenuSeleccionado}/> {m.descripcion} </p>
+                <table className='table table-hover'>
+                    <tbody>
+                        <div className="row " style={{ "paddingTop": "20%" }}>
+                            {menues.map((m) =>
+                            (
+                                <TableComida menu={m} />
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
     )
