@@ -40,7 +40,7 @@ const Comidas = () => {
                     setmenues(data.menus);
                 }
             )
-    }, [])
+    }, [menues])
 
     const _onChangeVegetariano = () => {
         try {
