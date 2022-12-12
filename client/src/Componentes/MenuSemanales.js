@@ -21,6 +21,8 @@ const MenuSemanales = () => {
             <div class="row textosMenuInicial">
                 <form action="/button-submit" method="POST" class="card col d-flex justify-content-center">
                     <label for="pedido" class="divContenido">Seleccionar opciones de Pedidos a realizar el {date}</label>
+                    <label for="fecha" class="divContenido">Fecha</label>
+                    <input placeholder="Seleccionar fecha" type="date" class="form-control" id="fechaAlmuerzo"></input>
                     <select aria-label="Default select example" id="pedido" class="selectpicker" name="Menu" multiple data-live-search="true">
                         {menu.map(h => <option key={h.id} value={h.nombreMenu} >{h.nombreMenu} </option>)}
                     </select><br></br>

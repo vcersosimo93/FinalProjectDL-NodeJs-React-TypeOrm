@@ -110,9 +110,11 @@ const Comidas = () => {
                     esVegetariano: resData.post.esVegetariano,
                     descipcion: resData.post.descipcion
                 };
+                handleClose();
             })
             .catch(err => {
                 console.log(err);
+                alert("No Se pudo Ingresar el menu. Complete todos los campos.");
             });
 
 
@@ -191,7 +193,6 @@ const Comidas = () => {
 
     const handleSubmitDL = updateData => {
 
-
         //updateData.preventDefault();
         const idMenu = id.current.value
 
@@ -240,11 +241,7 @@ const Comidas = () => {
         console.log(menuesAMostrarPrueba3)
     }*/
 
-    let pedidosComidas = [
-        { id: 1, descripcion: "Banana" },
-        { id: 2, descripcion: "Frutilla" },
-        { id: 3, descripcion: "Manzana" }
-    ]
+
 
     return (
         <div className="container m-2">
@@ -263,7 +260,7 @@ const Comidas = () => {
                 </div>
                 <div class="col-md-9 d-flex flex-row-reverse" >
                     <div class="input-group">
-                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <input type="search" class="form-control rounded" placeholder="Ingrese nombre de Menú a buscar..." aria-label="Search" aria-describedby="search-addon" />
                         <button type="button" class="btn btn-dark">Buscar</button>
                     </div>
                 </div>
@@ -366,7 +363,7 @@ const Comidas = () => {
                 </div>
             </div>
             <div className="container">
-                <table class="table table-striped table-dark table-hover borderTable" style={{ "paddingTop": "20%" }}>
+                <table class="table table-striped table-dark table-hover borderTable new" style={{ "paddingTop": "20%" }}>
                     <thead>
                         <tr>
                             <th scope="col">Descripcion</th>

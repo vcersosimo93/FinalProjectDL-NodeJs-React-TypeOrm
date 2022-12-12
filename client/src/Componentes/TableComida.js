@@ -15,8 +15,11 @@ const TableComida = ({ menu }) => {
     const esVegetariano = useRef()
 
     const [show, setShow] = useState(false);
+    const [showDL, setShowDL] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const handleShowDL = () => setShowDL(true);
+    const handleCloseDL = () => setShowDL(false);
     const descripcionMenu = menu.descripcion
     const esVegetarianoMenu = menu.esVegetariano
     let [vege, setveg] = useState("");
@@ -64,13 +67,11 @@ const TableComida = ({ menu }) => {
             })
             .then(resData => {
                 console.log(resData);
-                const post = {
-                    esVegetariano: resData.post.esVegetariano,
-                    descipcion: resData.post.descipcion
-                };
+                handleClose();
             })
             .catch(err => {
                 console.log(err);
+                alert("No se pudo modificar el menu seleccionado.");
             });
     }
 
@@ -102,6 +103,7 @@ const TableComida = ({ menu }) => {
             })
             .then(resData => {
                 console.log(resData);
+                handleCloseDL();
             })
             .catch(err => {
                 console.log(err);
@@ -121,7 +123,7 @@ const TableComida = ({ menu }) => {
             <tr key={menu.id} >
                 <td >{menu.descripcion}</td>
                 <td >{boolToString(menu.esVegetariano)}</td>
-                <td ><Button variant="default" onClick={handleSubmitDL}><img src={Volver_img} className="iconosOtherOption" /></Button></td>
+                <td ><Button variant="default" onClick={handleShowDL}><img src={Volver_img} className="iconosOtherOption" /></Button></td>
                 <td ><Button variant="default" onClick={handleShow}><img src={Lapiz_Comidas_Menu_img} className="iconosOtherOption" /></Button></td>
 
                 <Modal show={show} className="my-modal" onHide={handleClose}>
@@ -159,6 +161,24 @@ const TableComida = ({ menu }) => {
                     <Modal.Footer>
                         <Button type="submit" variant="outline-primary" onClick={handleSubmitUP}  >
                             Editar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                <Modal show={showDL} className="my-modal" onHide={handleCloseDL}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Borrar Menú</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form className="my-modal-form"  >
+                            <Form.Group className="mb-3" controlId="Confirmar Borrado" >
+                                <Form.Label>Confirma borrar el menú seleccionado?</Form.Label>
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button type="submit" variant="outline-primary" onClick={handleSubmitDL}  >
+                            Confirmar
                         </Button>
                     </Modal.Footer>
                 </Modal>
