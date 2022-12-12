@@ -143,12 +143,12 @@ const Comidas = () => {
 
     const handleShowDL = (id) => {
         //console.log(id)
-       console.log(id)
+        console.log(id)
         //const index = e;
         //console.log(index)
     }
-      
-     
+
+
 
     const handleSubmitUP = updateData => {
 
@@ -248,18 +248,34 @@ const Comidas = () => {
 
     return (
         <div className="container m-2">
-            <div class="row " >
-                <div class="col-md-1 ">
-                    <table className="linkContainerSecondOption" >
-                        <img src={Filtro_Comidas_img} className="iconosImgSecondOption" />
-                    </table>
-                </div>
-                <div class="col-md-1" >
+            <div class="row heading" >
+                <div class="col-md-1 d-flex flex-row-reverse">
                     <table className="linkContainerSecondOption" >
                         <Button variant="default" onClick={handleShow}>
                             <img src={Agregar_Menu_img} className="iconosImgThirdOption" />
                         </Button>
                     </table>
+                </div>
+                <div class="col-md-1 d-flex flex-row-reverse">
+                    <table className="linkContainerSecondOption" >
+                        <img src={Filtro_Comidas_img} className="iconosImgSecondOption" />
+                    </table>
+                </div>
+                <div class="col-md-9 d-flex flex-row-reverse" >
+                    <div class="input-group">
+                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <button type="button" class="btn btn-dark">Buscar</button>
+                    </div>
+                </div>
+                <div class="col-md-1 d-flex flex-row-reverse">
+                    <NavLink exact to="/Inicio" id="dash" >
+                        <table className="linkContainerSecondOption" >
+                            <img src={Volver_img} className="iconosImgSecondOption" />
+                        </table>
+                    </NavLink>
+                </div>
+                <div class="col-md-1" >
+
                     <Modal show={show} className="my-modal" onHide={handleClose}>
                         <Modal.Header closeButton>
                             <Modal.Title>Crear Menu</Modal.Title>
@@ -346,31 +362,24 @@ const Comidas = () => {
                     </Modal>
                 </div>
                 <div class="col-md-1" >
-                    
-                </div>
-                <div class="col-md-5 " >
-                    <div class="input-group">
-                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                        <button type="button" class="btn btn-dark">Buscar</button>
-                    </div>
-                </div>
-                <div class="col-md-5 d-flex flex-row-reverse">
-                    <NavLink exact to="/Inicio" id="dash" >
-                        <table className="linkContainerSecondOption" >
-                            <img src={Volver_img} className="iconosImgSecondOption" />
-                        </table>
-                    </NavLink>
+
                 </div>
             </div>
             <div className="container">
-                <table className='table table-hover'>
+                <table class="table table-striped table-dark table-hover borderTable" style={{ "paddingTop": "20%" }}>
+                    <thead>
+                        <tr>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">Es Vegetariano</th>
+                            <th scope="col">Eliminar</th>
+                            <th scope="col">Modificar</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <div className="row " style={{ "paddingTop": "20%" }}>
-                            {menues.map((m) =>
-                            (
-                                <TableComida menu={m} />
-                            ))}
-                        </div>
+                        {menues.map((m) =>
+                        (
+                            <TableComida menu={m} />
+                        ))}
                     </tbody>
                 </table>
             </div>

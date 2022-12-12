@@ -11,9 +11,6 @@ import { useRef } from 'react';
 
 const TableComida = ({ menu }) => {
 
- 
-    
-
     const descripcion = useRef()
     const esVegetariano = useRef()
 
@@ -111,59 +108,62 @@ const TableComida = ({ menu }) => {
             });
     }
 
+    const boolToString = (boolean) => {
+        if(boolean){
+            return "Si"
+        }
+        else{
+            return "No"
+        }
+    }
+
   return (
-    <tr key = {menu.id}>
-      <th scope='row'>{menu.id}</th>
-      <td>{menu.descripcion}</td>
-      <td>
-      </td>
-      <Button variant="default" onClick={handleSubmitDL}  >
-        <img src={Volver_img}  /> 
-      </Button>
-      <Button variant="default" onClick={handleShow}  >
-        <img src={Lapiz_Comidas_Menu_img}  /> 
-      </Button>
+            <tr key={menu.id} >
+                <td >{menu.descripcion}</td>
+                <td >{boolToString(menu.esVegetariano)}</td>
+                <td ><Button variant="default" onClick={handleSubmitDL}><img src={Volver_img} className="iconosOtherOption" /></Button></td>
+                <td ><Button variant="default" onClick={handleShow}><img src={Lapiz_Comidas_Menu_img} className="iconosOtherOption" /></Button></td>
 
-      <Modal show={show} className="my-modal" onHide={handleClose}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Editar Menu</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Form className="my-modal-form"  >
-                                <Form.Group className="mb-3" controlId="descripcion" >
-                                    <Form.Label>Descripción</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        autoFocus
-                                        placeholder = "prueba"
-                                        name="descripcion"
-                                        ref={descripcion}
-                                        defaultValue={descripcionMenu}
-                                    />
-                                </Form.Group>
-                                <Form.Group
-                                    className="mb-3"
-                                    controlId="esVegetariano"
-                                >
-                                    <Form.Check
-                                        type="checkbox"
-                                        label="Vegetariano"
-                                        name='esVegetariano'
-                                        ref={esVegetariano}
-                                        defaultChecked={esVegetarianoMenu}
-                                        onChange={_onChangeVegetarianoUP}
-                                    />
-                                </Form.Group>
-                            </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button type="submit" variant="outline-primary" onClick={handleSubmitUP}  >
-                                Editar
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
-    </tr>
-  )
-}
+                <Modal show={show} className="my-modal" onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Editar Menu</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form className="my-modal-form"  >
+                            <Form.Group className="mb-3" controlId="descripcion" >
+                                <Form.Label>Descripción</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    autoFocus
+                                    placeholder="prueba"
+                                    name="descripcion"
+                                    ref={descripcion}
+                                    defaultValue={descripcionMenu}
+                                />
+                            </Form.Group>
+                            <Form.Group
+                                className="mb-3"
+                                controlId="esVegetariano"
+                            >
+                                <Form.Check
+                                    type="checkbox"
+                                    label="Vegetariano"
+                                    name='esVegetariano'
+                                    ref={esVegetariano}
+                                    defaultChecked={esVegetarianoMenu}
+                                    onChange={_onChangeVegetarianoUP}
+                                />
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button type="submit" variant="outline-primary" onClick={handleSubmitUP}  >
+                            Editar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </tr>
+        )
+    }
 
-export default TableComida
+    export default TableComida
