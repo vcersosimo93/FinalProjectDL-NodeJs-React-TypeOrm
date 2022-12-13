@@ -12,7 +12,7 @@ export class Empleado {
     @Column({nullable :false})
     nombre: string
 
-    @Column()
+    @Column({nullable :true})
     foto: string
 
     @OneToMany(() => Feedback, (feedback) => feedback.empleado)

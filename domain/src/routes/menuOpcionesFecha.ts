@@ -7,7 +7,7 @@ const router = express.Router();
 // POST /menuOpcionesFecha/post
 router.post('/post', menuOpcionesFechaController.createMenuOpciones);
 
-// GET /menuOpcionesFecha/post
+// GET /menuOpcionesFecha/getAll
 router.get('/getAll', menuOpcionesFechaController.getMenusOpciones);
 
 
