@@ -22,4 +22,7 @@ export class Menu {
     @OneToMany(() => DetalleMenu, (detalleMenu) => detalleMenu.menu)
     @JoinColumn({name: 'menu_id_detallesMenu'})
     detallesMenu: DetalleMenu[]
+
+    @ManyToMany(() => MenuOpcionesFecha, (menuOpcionesFecha) => menuOpcionesFecha.menu)
+    menuOpcionesFecha: MenuOpcionesFecha[]
 }

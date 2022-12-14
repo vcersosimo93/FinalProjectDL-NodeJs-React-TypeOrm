@@ -4,12 +4,14 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
+
 const MenuSemanales = () => {
 
     const current = new Date();
     const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
 
     const [menuesGet, setmenuesGet] = useState([{}]);
+    const [menues, setmenues] = useState();
     const menu = useRef()
     const fechaSeleccionada = useRef()
     const [show, setShow] = useState(false);
@@ -26,12 +28,41 @@ const MenuSemanales = () => {
             )
     }, [menuesGet])
 
+    const _onHandleSeleccionMenus = (e) =>{
+       
+        let value = Array.from(e.target.selectedOptions, option => option.value);
+        //console.log(value)
+        setmenues(value);
+
+        console.log(menues)
+
+        /* 
+        var options = e.target.options;
+
+        console.log(options)
+
+        var value = [];
+
+        for (var i = 0, l = options.length; i < l; i++) {
+            if (options[i].selected) {
+                value.push(options[i].value);
+            }
+        }
+
+
+
+        console.log(value)
+
+        menu == value;*/
+        
+      }
+
 
     const postearOpcionMenu = menuOpcionData => {
 
         menuOpcionData.preventDefault();
-        const menuSelecc = menu.current.value
-        console.log(menuSelecc)
+        const menuSelecc = menues
+        //console.log(menuSelecc)
         const fechaAPublicar = fechaSeleccionada.current.value
 
         console.log(menuSelecc);
@@ -83,7 +114,7 @@ const MenuSemanales = () => {
                     <label for="fecha" class="divContenido">Fecha Publicación. Día habil previo a la elaboración</label>
                     <input placeholder="Seleccionar fecha" type="date" class="form-control" id="fechaAlmuerzo" ref={fechaSeleccionada}></input>
                     <br></br>
-                    <select aria-label="Default select example" id="pedido" class="selectpicker" name="Menu" multiple data-live-search="true" ref={menu}>
+                    <select aria-label="Default select example" id="pedido" class="selectpicker" name="Menu" multiple data-live-search="true" ref={menu} onChange={_onHandleSeleccionMenus}>
                         {menuesGet.map(h => <option key={h.id} value={h.id} >{h.descripcion} </option>)}
                     </select><br></br>
                     <button type="submit" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" onClick={postearOpcionMenu}> Enviar Opciones</button><br></br>
