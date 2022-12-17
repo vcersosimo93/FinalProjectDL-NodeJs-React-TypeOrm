@@ -11,7 +11,6 @@ const menuRoutes = require('./routes/menu');
 const axios = require('axios');
 const app = express();
 
-
 //Crea la conexion con la base de datos.
 AppDataSource.initialize().then(async () => {
   insertMenuManager().catch((err) => {
@@ -20,6 +19,10 @@ AppDataSource.initialize().then(async () => {
 })
 .catch(error => console.log(error))
 
+app.get('https://slack.com/api/conversations.history', (req, res) => {
+  req.header("Bearer xoxb-4138084449795-4512742898497-5LxKqvjgOORXx56HqhdpnDC2")
+  console.log(res);
+});
 
 app.post('/button-submit', (req, res) => {
     //axios.post('https://hooks.slack.com/services/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',{text:'Esto es una Prueba'})
