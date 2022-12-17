@@ -1,7 +1,14 @@
+//Inicio de variables de entorno
+import {config as configDotenv} from 'dotenv'
+import {resolve} from 'path'
+configDotenv({
+    path: resolve(__dirname, "./.env")
+  })
+
 import { AppDataSource } from "./data-source"
 import "reflect-metadata";
-import { Menu } from "./entity/Menu"
 import { precargaMenus } from "./controllers/menuController"
+import {findConversation} from "./slack/index"
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -18,7 +25,6 @@ app.use(bodyParser.json()); // application/json
 app.use(cors({
   origin: '*'
 }));
-
 
 //Crea la conexion con la base de datos.
 AppDataSource.initialize().then(async () => {
@@ -73,5 +79,11 @@ app.use('/pedido', pedidoRoutes);
 app.use('/menuOpcionesFecha', menuOpcionesFechaRoutes);
 
 
+findConversation("test-proyecto-ort-ati");
+
 app.listen(8080);
+
+
+
+
   

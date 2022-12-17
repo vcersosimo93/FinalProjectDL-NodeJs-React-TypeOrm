@@ -49,7 +49,6 @@ const Timeline = () => {
     }
 
     const actualizarMenus = (num) => {
-<<<<<<< HEAD
         ordenesAmostrar.splice(0,ordenesAmostrar.length)
         for (let i = 0; i < ordenes.length; i++ ) {
             if (ordenes[i].horarioId == horas[cntHoras + num].id)
@@ -69,36 +68,11 @@ const Timeline = () => {
                     return true;
                 }
             }     
-=======
-        menusAmostrar.splice(0, menusAmostrar.length)
-        for (let i = 0; i < menus.length; i++) {
-            if (menus[i].horarioId == horas[cntHoras + num].id)
-                menusAmostrar.push(menus[i])
-        }
-    }
-
-    const menuCargado = (menu, horario) => {
-
-        if (menus.length == 0) {
-
-            return false;
-
-        }
-        else {
-            for (let i = 0; i < menus.length; i++) {
-                if (menus[i].id == menu && menus[i].horarioId == horario) {
-
-                    return true;
-                }
-            }
-
->>>>>>> 08311b38be5187da9ea896c05c43d79e7093ee68
             return false;
         }
     }
 
     const cargarMenus = () => {
-<<<<<<< HEAD
         for (let i = 0; i < pedidos.length; i++ ) {
             if (!menuCargado(pedidos[i].menuId, pedidos[i].horarioId)){
                 let orden = {
@@ -107,23 +81,11 @@ const Timeline = () => {
                     cantidad : 0
                  }
                  ordenes.push(orden);
-=======
-        for (let i = 0; i < pedidos.length; i++) {
-            if (!menuCargado(pedidos[i].menuId, pedidos[i].horarioId)) {
-                let menu = {
-                    id: pedidos[i].menuId,
-                    horarioId: pedidos[i].horarioId,
-                    cantidad: 0
-                }
-                menus.push(menu);
-                //console.log(menus);
->>>>>>> 08311b38be5187da9ea896c05c43d79e7093ee68
             }
         }
     }
 
     const cargarCantidadesMenus = () => {
-<<<<<<< HEAD
         for (let i = 0; i < pedidos.length; i++ ) {
             for (let j = 0; j < ordenes.length; j++ ) {
                if (pedidos[i].menuId == ordenes[j].id && pedidos[i].horarioId ==  ordenes[j].horarioId)
@@ -132,23 +94,9 @@ const Timeline = () => {
                }
               }
           } 
-=======
-        for (let i = 0; i < pedidos.length; i++) {
-            for (let j = 0; j < menus.length; j++) {
-                if (pedidos[i].menuId == menus[j].id && pedidos[i].horarioId == menus[j].horarioId) {
-                    menus[j].cantidad++;
-                }
-            }
-        }
->>>>>>> 08311b38be5187da9ea896c05c43d79e7093ee68
     }
 
 
-<<<<<<< HEAD
-=======
-    const reprogramarPedido = PedidoId => {
-    }
->>>>>>> 08311b38be5187da9ea896c05c43d79e7093ee68
 
     //Llamadas de arranque
     cargarMenus();
@@ -171,7 +119,6 @@ const Timeline = () => {
             </div>
             <div className="container " style={{ "paddingTop": "5%" }}>
                 <div className="container tableGridTimeline" >
-<<<<<<< HEAD
                     {ordenesAmostrar.map((orden) =>
                     (<div key={orden.id} className="container itemTimeline " >
                     <p style={{"margin-left":"5%"}}>
@@ -180,49 +127,11 @@ const Timeline = () => {
                     <img src={LiquidarImg} style={{"margin-left":"55%"}} alt="Liquidar" onClick={handleShowL} />
                     </p>
                      </div>))}
-=======
-                    {menusAmostrar.map((menu) =>
-                    (<div key={menu.id} className="container itemTimeline " >
-                        <p style={{ "margin-left": "5%" }}>
-                            {menu.id} -
-                            {menu.cantidad}
-                            <img src={LiquidarImg} style={{ "margin-left": "55%" }} alt="Liquidar" onClick={handleShowL} />
-                            <img src={cambiarHoraImg} alt="Cambiar hora" onClick={handleShowR} />
-                        </p>
-                    </div>))}
->>>>>>> 08311b38be5187da9ea896c05c43d79e7093ee68
                 </div>
             </div>
 
-<<<<<<< HEAD
                 <Modal show={showL} className="my-modal" onHide={handleCloseL}>
                     <Modal.Header closeButton>
-=======
-            <Modal show={showR} className="my-modal" onHide={handleCloseR}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Reprogramar pedido</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form className="my-modal-form" >
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label>Nuevo horario</Form.Label>
-                            <Form.Group
-                                type="list"
-                                autoFocus
-                            />
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="outline-primary">
-                        Reprogramar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
-            <Modal show={showL} className="my-modal" onHide={handleCloseL}>
-                <Modal.Header closeButton>
->>>>>>> 08311b38be5187da9ea896c05c43d79e7093ee68
                     <Modal.Title>Terminar pedido</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
