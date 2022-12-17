@@ -124,12 +124,29 @@ export const deleteMenu = (req, res, next) => {
         });
 };
 
-//Precarga Insert
-export const insertMenuManager = async () => {
+//PRECARGA
+export const precarga =async()=>{
+    precargaMenus();
+}
+
+export const precargaMenus = async ()=>{
+    insertMenuManager(" Bondiola confitada a la cerveza acompañada por puré mixto con parmesano y ciboulette.",false);
+    //insertMenuManager(" Bondiola confitada a la cerveza acompañada por puré mixto con parmesano y ciboulette.",true);
+    insertMenuManager(" Bondiola confitada a la cerveza acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.",false);
+   // insertMenuManager(" Bondiola confitada a la cerveza acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.",true);
+    insertMenuManager(" Tortilla de papa con criollita acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.",false); 
+   // insertMenuManager(" Tortilla de papa con criollita acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.",true); 
+    insertMenuManager(" Tortilla de papa con criollita acompañada por puré mixto con parmesano y ciboulette.",false); 
+   // insertMenuManager(" Tortilla de papa con criollita acompañada por puré mixto con parmesano y ciboulette.",true); 
+    insertMenuManager(" Ensalada de la semana: Tomates cherry, champiñones a la provenzal, rúcula, zanahoria, pollo, lascas de parmesano, nuez y huevo duro.",true); 
+   // insertMenuManager(" Ensalada de la semana: Tomates cherry, champiñones a la provenzal, rúcula, zanahoria, pollo, lascas de parmesano, nuez y huevo duro.",true); 
+}
+
+export const insertMenuManager = async (descrip,esVeget) => {
     console.log("Se procede a insertar un menu.")
     const menu = new Menu()
-    menu.esVegetariano = false;
-    menu.descripcion = "Tortilla de Papas.";
+    menu.esVegetariano = esVeget;
+    menu.descripcion = descrip;
     await AppDataSource.manager.save(menu)
     console.log("Se guardo el menú con el Id: " + menu.id)
 

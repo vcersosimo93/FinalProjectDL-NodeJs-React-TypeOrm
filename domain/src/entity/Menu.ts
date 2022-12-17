@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn ,ManyToMany} from "typeorm"
 import { Pedido } from "./Pedido"
+import { MenuOpcionesFecha } from "./MenuOpcionesFecha"
 import { DetalleMenu } from "./DetalleMenu"
 
 @Entity()
@@ -21,4 +22,7 @@ export class Menu {
     @OneToMany(() => DetalleMenu, (detalleMenu) => detalleMenu.menu)
     @JoinColumn({name: 'menu_id_detallesMenu'})
     detallesMenu: DetalleMenu[]
+
+    @ManyToMany(() => MenuOpcionesFecha, (menuOpcionesFecha) => menuOpcionesFecha.menu)
+    menuOpcionesFecha: MenuOpcionesFecha[]
 }

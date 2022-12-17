@@ -1,36 +1,43 @@
 import { AppDataSource } from "./data-source"
 import "reflect-metadata";
 import { Menu } from "./entity/Menu"
-import { insertMenuManager } from "./controllers/menuController"
+import { precargaMenus } from "./controllers/menuController"
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const horarioRoutes = require('./routes/horario');
 const pedidoRoutes = require('./routes/pedido');
 const menuRoutes = require('./routes/menu');
+const menuOpcionesFechaRoutes = require('./routes/menuOpcionesFecha');
 const axios = require('axios');
 const app = express();
 
+app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json()); // application/json
+app.use(cors({
+  origin: '*'
+}));
+
+
 //Crea la conexion con la base de datos.
 AppDataSource.initialize().then(async () => {
-  insertMenuManager().catch((err) => {
+  precargaMenus().catch((err) => {
         console.log(err);
     })
 })
 .catch(error => console.log(error))
 
-app.get('https://slack.com/api/conversations.history', (req, res) => {
-  req.header("Bearer xoxb-4138084449795-4512742898497-5LxKqvjgOORXx56HqhdpnDC2")
-  console.log(res);
-});
-
 app.post('/button-submit', (req, res) => {
-    //axios.post('https://hooks.slack.com/services/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',{text:'Esto es una Prueba'})
-    console.log(req.body);
-    axios.post('https://hooks.slack.com/services/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', {
-      text:
-        `Buenas!! Les envío las opciones del próximo día hábil! :raised_hands::skin-tone-2:  :
-    :letra-a: ${req.body.Menu}
+  console.log(req.body);
+  axios.post('https://hooks.slack.com/services/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', {
+    text:
+      `Buenas!! Les envío las opciones del próximo día hábil! :raised_hands::skin-tone-2:  :
+    :letra-a: ${req.body.Menu[0]}
+    :letra-a: ${req.body.Menu[1]}
+    :letra-c: ${req.body.Menu[2]}
+    :letra-d: ${req.body.Menu[3]}
+    :letra-e: ${req.body.Menu[4]}
   
     Para quien desee adaptar alguno de estos menús a opción vegana, le pedimos que reaccione con :seedling:  además de la letra de su elección.
     Horarios:
@@ -41,10 +48,14 @@ app.post('/button-submit', (req, res) => {
     :five: 13:30
     :six: 13:45
     :seven: 14:00
-  `})
+  `}).then(() => {
+        res.send('Form submitted')
+      })
+      .catch(()=>{
+        res.send('Form failed')
+      })
   });
 
-app.use(bodyParser.json()); // application/json
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -59,10 +70,7 @@ app.use((req, res, next) => {
 app.use('/horario', horarioRoutes);
 app.use('/menu', menuRoutes);
 app.use('/pedido', pedidoRoutes);
-
-app.use(cors({
-  origin: '*'
-}));
+app.use('/menuOpcionesFecha', menuOpcionesFechaRoutes);
 
 
 app.listen(8080);

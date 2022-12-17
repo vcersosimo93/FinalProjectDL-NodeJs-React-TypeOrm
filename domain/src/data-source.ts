@@ -6,6 +6,7 @@ import { Feedback } from "./entity/Feedback"
 import { Horario } from "./entity/Horario"
 import { Ingrediente } from "./entity/Ingrediente"
 import { Menu } from "./entity/Menu"
+import { MenuOpcionesFecha } from "./entity/MenuOpcionesFecha"
 import { Pedido } from "./entity/Pedido"
 import {config as configDotenv} from 'dotenv'
 import {resolve} from 'path'
@@ -25,7 +26,7 @@ export const AppDataSource = new DataSource({
 
     synchronize: true, //Si no lo dejo en true no crea las tablas. 
     logging: false,
-    entities: [DetalleMenu,Empleado,Feedback,Horario,Ingrediente,Menu,Pedido],
+    entities: [DetalleMenu,Empleado,Feedback,Horario,Ingrediente,Menu,Pedido,MenuOpcionesFecha],
     migrations: [],
     subscribers: [],
 })
