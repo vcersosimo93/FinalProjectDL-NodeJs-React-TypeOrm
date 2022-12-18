@@ -8,7 +8,7 @@ configDotenv({
 import { AppDataSource } from "./data-source"
 import "reflect-metadata";
 import { precargaMenus } from "./controllers/menuController"
-import {findConversation} from "./slack/index"
+import {findConversation} from "./slack/slack"
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -33,36 +33,7 @@ AppDataSource.initialize().then(async () => {
     })
 })
 .catch(error => console.log(error))
-
-app.post('/button-submit', (req, res) => {
-  console.log(req.body);
-  axios.post('https://hooks.slack.com/services/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', {
-    text:
-      `Buenas!! Les envío las opciones del próximo día hábil! :raised_hands::skin-tone-2:  :
-    :letra-a: ${req.body.Menu[0]}
-    :letra-a: ${req.body.Menu[1]}
-    :letra-c: ${req.body.Menu[2]}
-    :letra-d: ${req.body.Menu[3]}
-    :letra-e: ${req.body.Menu[4]}
-  
-    Para quien desee adaptar alguno de estos menús a opción vegana, le pedimos que reaccione con :seedling:  además de la letra de su elección.
-    Horarios:
-    :one: 12:30
-    :two: 12:45
-    :three: 13:00
-    :four: 13:15
-    :five: 13:30
-    :six: 13:45
-    :seven: 14:00
-  `}).then(() => {
-        res.send('Form submitted')
-      })
-      .catch(()=>{
-        res.send('Form failed')
-      })
-  });
-
-
+/*
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(
@@ -71,7 +42,7 @@ app.use((req, res, next) => {
     );
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
-  });
+  });*/
 
 app.use('/horario', horarioRoutes);
 app.use('/menu', menuRoutes);

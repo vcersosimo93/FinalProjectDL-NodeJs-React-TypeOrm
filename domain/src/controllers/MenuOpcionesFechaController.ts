@@ -4,7 +4,6 @@ const express = require('express');
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 
-
 export const createMenuOpciones = (req, res, next) => {
 
     const menuId = req.body.menuId;

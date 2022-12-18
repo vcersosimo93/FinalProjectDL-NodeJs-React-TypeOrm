@@ -14,16 +14,29 @@ export const createMenu = (req, res, next) => {
     console.log(descripcion)
 
     const menu = new Menu();
-    //menu.id = id
     menu.esVegetariano = esVegetariano
     menu.descripcion = descripcion
     AppDataSource.manager.save(menu)
-    // Create post in db
     res.status(201).json({
         message: 'Post created successfully!',
         post: { esVegetariano: esVegetariano, descripcion: descripcion }
     });
 };
+
+export const getMenuNombre = (req, res) => {
+    const idMenu = req.body.id;
+    const menuEncontrado = AppDataSource.manager.findOneBy(Menu, {
+    id: idMenu
+    }).then(menuEncontrado => {
+        res.status(200).json({
+                menuEncontrado: menuEncontrado.descripcion
+            });})
+        .catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+        });
+}
 
 
 export const getMenus = (req, res, next) => {
