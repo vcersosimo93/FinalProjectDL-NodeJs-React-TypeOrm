@@ -1,22 +1,12 @@
 import React from 'react';
-import LogoInicio from '../Images/LogoInicio.jpg';
-import UserImg from '../Images/iconoPerfil.png';
-import altaMenuImg from '../Images/mas.png';
-import cancelMenuImg from '../Images/cancel.png';
 import Filtro_Comidas_img from '../Images/Filtro_Comidas.png';
 import Agregar_Menu_img from '../Images/Agregar_Menu.png';
 import Volver_img from '../Images/Volver.png';
-import Lapiz_Comidas_Menu_img from '../Images/Lapiz_Comidas_Menu.png';
 import { NavLink } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import ModalDialog from 'react-bootstrap/ModalDialog'
-import ModalHeader from 'react-bootstrap/ModalHeader'
-import flechaDer from '../Images/flechaDer.png';
-import flechaIzq from '../Images/flechaIzq.png';
 import { useState } from 'react';
-import axios from 'axios';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import TableComida from './TableComida';
@@ -27,7 +17,6 @@ const Comidas = () => {
     const descripcion = useRef()
     const esVegetariano = useRef()
     const id = useRef()
-    const idMenuSeleccionado = useRef()
     const [menues, setmenues] = useState([{}]);
 
     let [vege, setveg] = useState("");
@@ -73,15 +62,6 @@ const Comidas = () => {
         postData.preventDefault();
         const desc = descripcion.current.value
 
-        /* 
-        let veget
-
-        if(vege === 'on'){
-            veget = true
-        }else{
-            veget = false
-        }*/
-
         console.log(esVegetariano.current.checked);
         console.log(desc);
 
@@ -117,40 +97,7 @@ const Comidas = () => {
                 alert("No Se pudo Ingresar el menu. Complete todos los campos.");
             });
 
-
-
-        /* 
-                
-                var myHeaders = new Headers();
-                myHeaders.append("Content-Type", "application/json");
-        
-                var raw = JSON.stringify({
-                "esVegetariano": vege,
-                "descripcion": desc
-                });
-        
-                var requestOptions = {
-                method: 'POST',
-                headers: myHeaders,
-                body: raw,
-                redirect: 'follow'
-                };
-        
-                fetch("http://localhost:8080/menu/post", requestOptions)
-                .then(response => response.text())
-                .then(result => console.log(result))
-                .catch(error => console.log('error', error));*/
-
     }
-
-    const handleShowDL = (id) => {
-        //console.log(id)
-        console.log(id)
-        //const index = e;
-        //console.log(index)
-    }
-
-
 
     const handleSubmitUP = updateData => {
 
@@ -191,57 +138,12 @@ const Comidas = () => {
             });
     }
 
-    const handleSubmitDL = updateData => {
-
-        //updateData.preventDefault();
-        const idMenu = id.current.value
-
-        let url = 'http://localhost:8080/menu/delete'
-        let method = 'DELETE'
-
-        fetch(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "id": idMenu
-            })
-        })
-            .then(res => {
-                if (res.status !== 200 && res.status !== 201) {
-                    throw new Error('Deleting a post failed!');
-                }
-                return res.json();
-            })
-            .then(resData => {
-                console.log(resData);
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }
-
     const [show, setShow] = useState(false);
     const [showUP, setShowUP] = useState(false);
     const [showDL, setShowDL] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const handleCloseUP = () => setShowUP(false);
-    const handleShowUP = () => setShowUP(true);
-    const handleCloseDL = () => setShowDL(false);
-    //const handleShowDL = () => setShowDL(true);
-
-    /*
-    const actualizarMenus = () => {
-        for (let i = 0; i < menuesAMostrarPrueba2.length; i++ ) {
-            menuesAMostrarPrueba3.push(menuesAMostrarPrueba2[i])
-        }
-        console.log("menuesAMostrarPrueba3")
-        console.log(menuesAMostrarPrueba3)
-    }*/
-
-
 
     return (
         <div className="container m-2">

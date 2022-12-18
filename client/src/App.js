@@ -6,6 +6,7 @@ import MenuSemanales from './Componentes/MenuSemanales';
 import Timeline from './Componentes/Timeline';
 import Informes from './Componentes/Informes';
 import Graficas from './Componentes/Graficas';
+import Horario from './Componentes/Horarios';
 import Menu from './Componentes/Menu';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from "react-redux";
@@ -63,6 +64,7 @@ return (
           <Route exact path="/Inicio" component={Inicio}/>
           <Route exact path="/Comidas" component={Comidas}/>
           <Route exact path="/MenuSemanales" component={MenuSemanales}/>
+          <Route exact path="/Horarios" component={Horario}/>
           <Route exact path="/Informes" component={Informes}/>
           <Route exact path="/Graficas" component={Graficas}/>
           <Route exact path="/Timeline" component={Timeline}/>

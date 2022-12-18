@@ -1,5 +1,5 @@
-import { Entity, JoinTable, JoinColumn, ManyToMany,PrimaryColumn } from "typeorm"
-import { Menu } from "./Menu"
+import { Entity, JoinColumn, ManyToOne ,PrimaryColumn } from "typeorm"
+import { Reaccion } from "./Reaccion"
 
 @Entity()
 export class MenuOpcionesFecha {
@@ -10,16 +10,10 @@ export class MenuOpcionesFecha {
     @PrimaryColumn({nullable :false})
     fechaAPublicar: Date
 
-    @ManyToMany(() => Menu)
-    @JoinTable()
-    menu: Menu[]
+    @ManyToOne(() => Reaccion, (reaccion) => reaccion.menus)
+    @JoinColumn({ name : 'reaccionId'})
+    reaccion: Reaccion
 
 
 }
 
-
-/*
-    @ManyToMany(() => Menu, (menu) => menu.menuOpcionesFecha)
-    @JoinColumn({ name : 'menuId'})
-    menu: Menu[]
-*/

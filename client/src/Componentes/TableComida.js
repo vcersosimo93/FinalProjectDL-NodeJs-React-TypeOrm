@@ -4,8 +4,6 @@ import Volver_img from '../Images/Volver.png';
 import Lapiz_Comidas_Menu_img from '../Images/Lapiz_Comidas_Menu.png';
 import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
-import ModalDialog from 'react-bootstrap/ModalDialog'
-import ModalHeader from 'react-bootstrap/ModalHeader'
 import Form from 'react-bootstrap/Form';
 import { useRef } from 'react';
 
