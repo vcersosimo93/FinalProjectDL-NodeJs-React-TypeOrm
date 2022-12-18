@@ -8,6 +8,7 @@ configDotenv({
 import { AppDataSource } from "./data-source"
 import "reflect-metadata";
 import { precargaMenus } from "./controllers/menuController"
+import { precargaHorarios } from "./controllers/horarioController"
 import {findConversation} from "./slack/slack"
 const cors = require('cors');
 const express = require('express');
@@ -31,6 +32,9 @@ AppDataSource.initialize().then(async () => {
   precargaMenus().catch((err) => {
         console.log(err);
     })
+  precargaHorarios().catch((err) => {
+      console.log(err);
+  })
 })
 .catch(error => console.log(error))
 /*

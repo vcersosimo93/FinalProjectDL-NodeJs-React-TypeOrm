@@ -22,11 +22,11 @@ const Horario = () => {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        fetch('http://localhost:8080/horario/getHorarios').then(
+        fetch('http://localhost:8080/horario/get').then(
             response => response.json())
             .then(
                 data => {
-                    setHorarios(data.horarios);
+                    setHorarios(data);
                 }
             )
     }, [horarios])

@@ -20,7 +20,7 @@ const TableHorario = ({ horario }) => {
     const handleCloseDL = () => setShowDL(false);
     const horaHorario = horario.hora
     const limitePersonasHorario = horario.limitePersonas
- 
+
     const handleSubmitUP = updateData => {
 
         updateData.preventDefault();
@@ -91,70 +91,68 @@ const TableHorario = ({ horario }) => {
             });
     }
 
-   return (
-            <tr key={horario.id} >
-                <td >{horario.hora}</td>
-                <td >{horario.limite}</td>
-                <td ><Button variant="default" onClick={handleShowDL}><img src={Volver_img} className="iconosOtherOption" /></Button></td>
-                <td ><Button variant="default" onClick={handleShow}><img src={Lapiz_Comidas_Menu_img} className="iconosOtherOption" /></Button></td>
+    return (
+        <tr key={horario.id} >
+            <td >{horario.hora}</td>
+            <td >{horario.limitePersonas}</td>
+            <td ><Button variant="default" onClick={handleShowDL}><img src={Volver_img} className="iconosOtherOption" /></Button></td>
+            <td ><Button variant="default" onClick={handleShow}><img src={Lapiz_Comidas_Menu_img} className="iconosOtherOption" /></Button></td>
 
-                <Modal show={show} className="my-modal" onHide={handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Editar Horario</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form className="my-modal-form"  >
-                            <Form.Group className="mb-3" controlId="hora" >
-                                <Form.Label>Hora</Form.Label>
-                                <Form.Control
-                                    type="time"
-                                    autoFocus
-                                    placeholder="prueba"
-                                    name="horario"
-                                    ref={hora}
-                                    defaultValue={horaHorario}
-                                />
-                            </Form.Group>
-                            <Form.Group
-                                className="mb-3"
-                                controlId="esVegetariano"
-                            >
-                                <Form.Label>Limite Personas</Form.Label>
-                                <Form.Control
-                                    type="number"
-                                    label="LimitePersonas"
-                                    name='limitePersonas'
-                                    ref={limitePersonasHorario}
-                                />
-                            </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button type="submit" variant="outline-primary" onClick={handleSubmitUP}  >
-                            Editar
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+            <Modal show={show} className="my-modal" onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Editar Horario</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form className="my-modal-form"  >
+                        <Form.Group className="mb-3" controlId="descripcion" >
+                            <Form.Label>Hora</Form.Label>
+                            <Form.Control
+                                type="time"
+                                placeholder="Nuevo horario"
+                                autoFocus
+                                name="hora"
+                                ref={hora}
+                                defaultValue={horaHorario}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="limitePersonas" >
+                            <Form.Label>Limite Personas</Form.Label>
+                            <Form.Control
+                                type="number"
+                                label="Limite Personas"
+                                name='limitePersonas'
+                                ref={limitePersonas}
+                                defaultValue={limitePersonasHorario}
+                            />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button type="submit" variant="outline-primary" onClick={handleSubmitUP}>
+                        Editar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
-                <Modal show={showDL} className="my-modal" onHide={handleCloseDL}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Borrar Menú</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form className="my-modal-form"  >
-                            <Form.Group className="mb-3" controlId="Confirmar Borrado" >
-                                <Form.Label>Confirma borrar el horario seleccionado?</Form.Label>
-                            </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button type="submit" variant="outline-primary" onClick={handleSubmitDL}  >
-                            Confirmar
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-            </tr>
-        )
-    }
+            <Modal show={showDL} className="my-modal" onHide={handleCloseDL}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Borrar Menú</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form className="my-modal-form"  >
+                        <Form.Group className="mb-3" controlId="Confirmar Borrado" >
+                            <Form.Label>Confirma borrar el horario seleccionado?</Form.Label>
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button type="submit" variant="outline-primary" onClick={handleSubmitDL}  >
+                        Confirmar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </tr>
+    )
+}
 
-    export default TableHorario
+export default TableHorario

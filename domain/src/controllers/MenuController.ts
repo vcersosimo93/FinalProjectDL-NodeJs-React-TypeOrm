@@ -170,3 +170,5 @@ export const insertMenuManager = async (descrip,esVeget) => {
     const menus = await AppDataSource.manager.find(Menu)
     console.log("Los menus son: ", menus)
 };
+
+
