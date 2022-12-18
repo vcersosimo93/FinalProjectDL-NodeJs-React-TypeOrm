@@ -7,10 +7,10 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useRef } from 'react';
 
-const TableComida = ({ menu }) => {
+const TableHorario = ({ horario }) => {
 
-    const descripcion = useRef()
-    const esVegetariano = useRef()
+    const hora = useRef()
+    const limitePersonas = useRef()
 
     const [show, setShow] = useState(false);
     const [showDL, setShowDL] = useState(false);
@@ -18,32 +18,17 @@ const TableComida = ({ menu }) => {
     const handleShow = () => setShow(true);
     const handleShowDL = () => setShowDL(true);
     const handleCloseDL = () => setShowDL(false);
-    const descripcionMenu = menu.descripcion
-    const esVegetarianoMenu = menu.esVegetariano
-    let [vege, setveg] = useState("");
-
-
-    const _onChangeVegetarianoUP = () => {
-        try {
-            ; (async () => {
-                console.log("_onChangeVegetariano");
-                console.log(esVegetariano.current.checked);
-                setveg = esVegetariano
-
-            })()
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
+    const horaHorario = horario.hora
+    const limitePersonasHorario = horario.limitePersonas
+ 
     const handleSubmitUP = updateData => {
 
         updateData.preventDefault();
-        const idMenu = menu.id
-        const desc = descripcion.current.value
-        const esVeget = esVegetariano.current.checked
+        const idHorario = horario.id
+        const horaHorario = hora.current.value
+        const limitePers = limitePersonas.current.value
 
-        let url = 'http://localhost:8080/menu/update'
+        let url = 'http://localhost:8080/horario/update'
         let method = 'PUT'
 
         fetch(url, {
@@ -52,14 +37,14 @@ const TableComida = ({ menu }) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "id": idMenu,
-                "esVegetariano": esVeget,
-                "descripcion": desc
+                "id": idHorario,
+                "hora": horaHorario,
+                "limitePersonas": limitePers
             })
         })
             .then(res => {
                 if (res.status !== 200 && res.status !== 201) {
-                    throw new Error('Creating or editing a post failed!');
+                    throw new Error('Error al actualizar horario.');
                 }
                 return res.json();
             })
@@ -69,19 +54,17 @@ const TableComida = ({ menu }) => {
             })
             .catch(err => {
                 console.log(err);
-                alert("No se pudo modificar el menu seleccionado.");
+                alert("No se pudo modificar el horario seleccionado.");
             });
     }
 
 
     const handleSubmitDL = updateData => {
 
-
-        console.log(menu.id)
         updateData.preventDefault();
-        const idMenu = menu.id
+        const idHorario = horario.id
 
-        let url = 'http://localhost:8080/menu/delete'
+        let url = 'http://localhost:8080/horario/delete'
         let method = 'DELETE'
 
         fetch(url, {
@@ -90,12 +73,12 @@ const TableComida = ({ menu }) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "id": idMenu
+                "id": idHorario
             })
         })
             .then(res => {
                 if (res.status !== 200 && res.status !== 201) {
-                    throw new Error('Deleting a post failed!');
+                    throw new Error('Error al borrar el horario!');
                 }
                 return res.json();
             })
@@ -108,50 +91,40 @@ const TableComida = ({ menu }) => {
             });
     }
 
-    const boolToString = (boolean) => {
-        if(boolean){
-            return "Si"
-        }
-        else{
-            return "No"
-        }
-    }
-
-  return (
-            <tr key={menu.id} >
-                <td >{menu.descripcion}</td>
-                <td >{boolToString(menu.esVegetariano)}</td>
+   return (
+            <tr key={horario.id} >
+                <td >{horario.hora}</td>
+                <td >{horario.limite}</td>
                 <td ><Button variant="default" onClick={handleShowDL}><img src={Volver_img} className="iconosOtherOption" /></Button></td>
                 <td ><Button variant="default" onClick={handleShow}><img src={Lapiz_Comidas_Menu_img} className="iconosOtherOption" /></Button></td>
 
                 <Modal show={show} className="my-modal" onHide={handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Editar Menu</Modal.Title>
+                        <Modal.Title>Editar Horario</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form className="my-modal-form"  >
-                            <Form.Group className="mb-3" controlId="descripcion" >
-                                <Form.Label>Descripción</Form.Label>
+                            <Form.Group className="mb-3" controlId="hora" >
+                                <Form.Label>Hora</Form.Label>
                                 <Form.Control
-                                    type="text"
+                                    type="time"
                                     autoFocus
                                     placeholder="prueba"
-                                    name="descripcion"
-                                    ref={descripcion}
-                                    defaultValue={descripcionMenu}
+                                    name="horario"
+                                    ref={hora}
+                                    defaultValue={horaHorario}
                                 />
                             </Form.Group>
                             <Form.Group
                                 className="mb-3"
                                 controlId="esVegetariano"
                             >
-                                <Form.Check
-                                    type="checkbox"
-                                    label="Vegetariano"
-                                    name='esVegetariano'
-                                    ref={esVegetariano}
-                                    defaultChecked={esVegetarianoMenu}
-                                    onChange={_onChangeVegetarianoUP}
+                                <Form.Label>Limite Personas</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    label="LimitePersonas"
+                                    name='limitePersonas'
+                                    ref={limitePersonasHorario}
                                 />
                             </Form.Group>
                         </Form>
@@ -170,7 +143,7 @@ const TableComida = ({ menu }) => {
                     <Modal.Body>
                         <Form className="my-modal-form"  >
                             <Form.Group className="mb-3" controlId="Confirmar Borrado" >
-                                <Form.Label>Confirma borrar el menú seleccionado?</Form.Label>
+                                <Form.Label>Confirma borrar el horario seleccionado?</Form.Label>
                             </Form.Group>
                         </Form>
                     </Modal.Body>
@@ -184,4 +157,4 @@ const TableComida = ({ menu }) => {
         )
     }
 
-    export default TableComida
+    export default TableHorario

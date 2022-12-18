@@ -7,7 +7,7 @@ export class Horario{
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({nullable :false})
+    @Column('time',{nullable :false})
     hora: Date
 
     @Column({nullable :false})

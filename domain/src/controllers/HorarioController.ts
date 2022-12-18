@@ -13,3 +13,24 @@ export const getHorarios = async (req, res) => {
     }
 }
 
+
+export const createHorario = async (req, res, next) => {
+
+    const hora = req.body.hora;
+    const limitePersonas = req.body.limitePersonas;
+
+    try{
+        const horario = new Horario();
+        horario.hora = hora
+        horario.limitePersonas = limitePersonas
+        await AppDataSource.manager.save(horario)
+        res.status(201).json({
+            message: 'Horario creado exitosamente.',
+            post: { hora: hora, limitePersonas: limitePersonas }
+        });
+    }
+    catch (error){
+        return res.status(500).json({message: error.message})
+    }
+};
+

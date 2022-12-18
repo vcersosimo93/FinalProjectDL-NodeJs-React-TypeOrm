@@ -4,30 +4,33 @@ const express = require('express');
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 
-export const createMenu = (req, res, next) => {
+
+export const createMenu = async (req, res, next) => {
 
     const esVegetariano = req.body.esVegetariano;
     const descripcion = req.body.descripcion;
 
-    console.log("createMenu")
-    console.log(esVegetariano)
-    console.log(descripcion)
-
-    const menu = new Menu();
-    menu.esVegetariano = esVegetariano
-    menu.descripcion = descripcion
-    AppDataSource.manager.save(menu)
-    res.status(201).json({
-        message: 'Post created successfully!',
-        post: { esVegetariano: esVegetariano, descripcion: descripcion }
-    });
+    try{
+        const menu = new Menu();
+        menu.esVegetariano = esVegetariano
+        menu.descripcion = descripcion
+        await AppDataSource.manager.save(menu)
+        res.status(201).json({
+            message: 'Menu creado exitosamente.',
+            post: { esVegetariano: esVegetariano, descripcion: descripcion }
+        });
+    }
+    catch (error){
+        return res.status(500).json({message: error.message})
+    }
 };
 
-export const getMenuNombre = (req, res) => {
+export const getMenuNombre = async (req, res) => {
     const idMenu = req.body.id;
-    const menuEncontrado = AppDataSource.manager.findOneBy(Menu, {
+    const menuEncontrado =  await AppDataSource.manager.findOneBy(Menu, {
     id: idMenu
-    }).then(menuEncontrado => {
+    })
+    .then(menuEncontrado => {
         res.status(200).json({
                 menuEncontrado: menuEncontrado.descripcion
             });})

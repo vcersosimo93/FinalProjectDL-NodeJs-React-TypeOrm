@@ -10,16 +10,5 @@ export class MenuOpcionesFecha {
     @PrimaryColumn({nullable :false})
     fechaAPublicar: Date
 
-    @ManyToMany(() => Menu)
-    @JoinTable()
-    menu: Menu[]
-
-
 }
 
-
-/*
-    @ManyToMany(() => Menu, (menu) => menu.menuOpcionesFecha)
-    @JoinColumn({ name : 'menuId'})
-    menu: Menu[]
-*/

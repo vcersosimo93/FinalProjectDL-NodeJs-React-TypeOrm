@@ -4,4 +4,6 @@ const routerHorario = expressHorario.Router();
 
 routerHorario.get('/get', horarioController.getHorarios);
 
+routerHorario.post('/post', horarioController.createHorario);
+
 module.exports = routerHorario;
