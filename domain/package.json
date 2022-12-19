@@ -22,6 +22,7 @@
       "reflect-metadata": "^0.1.13",
       "slackbot": "^0.0.2",
       "slackbots": "^1.3.0",
+      "toad-scheduler": "^2.1.0",
       "typeorm": "0.3.10"
    },
    "scripts": {
