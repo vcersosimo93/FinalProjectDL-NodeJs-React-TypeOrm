@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import TableComida from './TableComida';
+import LogoInicio from '../Images/LogoInicio.jpg';
 
 
 const Comidas = () => {
@@ -148,23 +149,15 @@ const Comidas = () => {
     return (
         <div className="container m-2">
             <div class="row heading" >
-                <div class="col-md-1 d-flex flex-row-reverse">
+            <div className="col-md-2 align-self-start">
+                    <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
+                </div>
+                <div class="col-md-9 d-flex flex-row-reverse">
                     <table className="linkContainerSecondOption" >
                         <Button variant="default" onClick={handleShow}>
                             <img src={Agregar_Menu_img} className="iconosImgThirdOption" />
                         </Button>
                     </table>
-                </div>
-                <div class="col-md-1 d-flex flex-row-reverse">
-                    <table className="linkContainerSecondOption" >
-                        <img src={Filtro_Comidas_img} className="iconosImgSecondOption" />
-                    </table>
-                </div>
-                <div class="col-md-9 d-flex flex-row-reverse" >
-                    <div class="input-group">
-                        <input type="search" class="form-control rounded" placeholder="Ingrese nombre de Menú a buscar..." aria-label="Search" aria-describedby="search-addon" />
-                        <button type="button" class="btn btn-dark">Buscar</button>
-                    </div>
                 </div>
                 <div class="col-md-1 d-flex flex-row-reverse">
                     <NavLink exact to="/Inicio" id="dash" >
