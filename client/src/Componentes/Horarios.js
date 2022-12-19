@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import TableHorario from './TableHorario';
+import LogoInicio from '../Images/LogoInicio.jpg';
 
 
 const Horario = () => {
@@ -75,85 +76,77 @@ const Horario = () => {
     return (
         <div className="container m-2">
             <div class="row heading" >
-                <div class="col-md-1 d-flex flex-row-reverse">
-                    <table className="linkContainerSecondOption" >
-                        <Button variant="default" onClick={handleShow}>
-                            <img src={Agregar_Menu_img} className="iconosImgThirdOption" />
-                        </Button>
-                    </table>
-                </div>
-                <div class="col-md-1 d-flex flex-row-reverse">
-                    <table className="linkContainerSecondOption" >
-                        <img src={Filtro_Comidas_img} className="iconosImgSecondOption" />
-                    </table>
-                </div>
-                <div class="col-md-9 d-flex flex-row-reverse" >
-                    <div class="input-group">
-                        <input type="search" class="form-control rounded" placeholder="Ingrese nombre de Menú a buscar..." aria-label="Search" aria-describedby="search-addon" />
-                        <button type="button" class="btn btn-dark">Buscar</button>
+                <div className="col-md-2 align-self-start">
+                        <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
+                    </div>
+                    <div class="col-md-9 d-flex flex-row-reverse">
+                        <table className="linkContainerSecondOption" >
+                            <Button variant="default" onClick={handleShow}>
+                                <img src={Agregar_Menu_img} className="iconosImgThirdOption" />
+                            </Button>
+                        </table>
+                    </div>
+                    <div class="col-md-1 d-flex flex-row-reverse">
+                        <NavLink exact to="/Inicio" id="dash" >
+                            <table className="linkContainerSecondOption" >
+                                <img src={Volver_img} className="iconosImgSecondOption" />
+                            </table>
+                        </NavLink>
+                    </div>
+                    <div class="col-md-1" >
+
+                        <Modal show={show} className="my-modal" onHide={handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Crear Horario</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Form className="my-modal-form"  >
+                                    <Form.Group className="mb-3" controlId="descripcion" >
+                                        <Form.Label>Hora</Form.Label>
+                                        <Form.Control
+                                            type="time"
+                                            placeholder="Nuevo horario"
+                                            autoFocus
+                                            name="hora"
+                                            ref={hora}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="limitePersonas" >
+                                        <Form.Label>Limite Personas</Form.Label>
+                                        <Form.Control
+                                            type="number"
+                                            label="Limite Personas"
+                                            name='limitePersonas'
+                                            ref={limitePersonas}
+                                        />
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button type="submit" variant="outline-primary" onClick={handleSubmit}>
+                                    Crear
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
                     </div>
                 </div>
-                <div class="col-md-1 d-flex flex-row-reverse">
-                    <NavLink exact to="/Inicio" id="dash" >
-                        <table className="linkContainerSecondOption" >
-                            <img src={Volver_img} className="iconosImgSecondOption" />
-                        </table>
-                    </NavLink>
-                </div>
-                <div class="col-md-1" >
-
-                    <Modal show={show} className="my-modal" onHide={handleClose}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Crear Horario</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Form className="my-modal-form"  >
-                                <Form.Group className="mb-3" controlId="descripcion" >
-                                    <Form.Label>Hora</Form.Label>
-                                    <Form.Control
-                                        type="time"
-                                        placeholder="Nuevo horario"
-                                        autoFocus
-                                        name="hora"
-                                        ref={hora}
-                                    />
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="limitePersonas" >
-                                    <Form.Label>Limite Personas</Form.Label>
-                                    <Form.Control
-                                        type="number"
-                                        label="Limite Personas"
-                                        name='limitePersonas'
-                                        ref={limitePersonas}
-                                    />
-                                </Form.Group>
-                            </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button type="submit" variant="outline-primary" onClick={handleSubmit}>
-                                Crear
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
-                </div>
-            </div>
-            <div className="container">
-                <table class="table table-striped table-dark table-hover borderTable new" style={{ "paddingTop": "20%" }}>
-                    <thead>
-                        <tr>
-                            <th scope="col">Hora</th>
-                            <th scope="col">Limite Personas</th>
-                            <th scope="col">Eliminar</th>
-                            <th scope="col">Modificar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {horarios.map((h) =>
-                        (
-                            <TableHorario horario={h} />
-                        ))}
-                    </tbody>
-                </table>
+                <div className="container">
+                    <table class="table table-striped table-dark table-hover borderTable new" style={{ "paddingTop": "20%" }}>
+                        <thead>
+                            <tr>
+                                <th scope="col">Hora</th>
+                                <th scope="col">Limite Personas</th>
+                                <th scope="col">Eliminar</th>
+                                <th scope="col">Modificar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {horarios.map((h) =>
+                            (
+                                <TableHorario horario={h} />
+                            ))}
+                        </tbody>
+                    </table>
             </div>
         </div>
     )

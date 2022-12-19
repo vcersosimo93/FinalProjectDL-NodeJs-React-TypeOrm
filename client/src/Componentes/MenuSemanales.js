@@ -3,6 +3,9 @@ import { useState, useEffect, useRef } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Volver_img from '../Images/Volver.png';
+import LogoInicio from '../Images/LogoInicio.jpg';
+import { NavLink } from 'react-router-dom';
 
 
 const MenuSemanales = () => {
@@ -105,39 +108,51 @@ const MenuSemanales = () => {
     }
 
     return (
-        <div className="container">
-            <h2 class="col d-flex justify-content-center textosMenuInicial">Pedidos</h2>
-            <div class="row textosMenuInicial">
-                <form action="/button-submit" method="POST" class="card col d-flex justify-content-center">
-                    <label for="pedido" class="divContenido">Seleccionar Las opciones de Pedidos a elaborar.</label>
-                    <br></br>
-                    <label for="fecha" class="divContenido">Fecha Publicación. Día habil previo a la elaboración</label>
-                    <input placeholder="Seleccionar fecha" type="date" class="form-control" id="fechaAlmuerzo" ref={fechaSeleccionada}></input>
-                    <br></br>
-                    <select aria-label="Default select example" id="pedido" class="selectpicker" name="Menu" multiple data-live-search="true" ref={menu} onChange={_onHandleSeleccionMenus}>
-                        {menuesGet.map(h => <option key={h.id} value={h.id} >{h.descripcion} </option>)}
-                    </select><br></br>
-                    <button type="submit" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" onClick={postearOpcionMenu}> Enviar Opciones</button><br></br>
-                </form>
+        <div className="container m-2">
+            <div class="row heading" >
+            <div className="col-md-1 ">
+                    <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
+                </div>
+                <div class="col-md-11 d-flex flex-row-reverse">
+                    <NavLink exact to="/Inicio" id="dash" >
+                        <table className="linkContainerSecondOption" >
+                            <img src={Volver_img} className="iconosImgSecondOption" />
+                        </table>
+                    </NavLink>
+                </div>
+                <h2 class="col d-flex justify-content-center textosMenuInicial">Menu Programados</h2>
+                <div class="row textosMenuInicial">
+                    <form action="/button-submit" method="POST" class="card col d-flex justify-content-center">
+                        <label for="pedido" class="divContenido">Seleccionar Las opciones de Pedidos a elaborar.</label>
+                        <br></br>
+                        <label for="fecha" class="divContenido">Fecha Publicación. Día habil previo a la elaboración</label>
+                        <input placeholder="Seleccionar fecha" type="date" class="form-control" id="fechaAlmuerzo" ref={fechaSeleccionada}></input>
+                        <br></br>
+                        <select aria-label="Default select example" id="pedido" class="selectpicker" name="Menu" multiple data-live-search="true" ref={menu} onChange={_onHandleSeleccionMenus}>
+                            {menuesGet.map(h => <option key={h.id} value={h.id} >{h.descripcion} </option>)}
+                        </select><br></br>
+                        <button type="submit" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" onClick={postearOpcionMenu}> Enviar Opciones</button><br></br>
+                    </form>
+                </div>
+                <Modal show={show} className="my-modal" onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Guardado de Opciones Menu</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form className="my-modal-form"  >
+                                <Form.Group className="mb-3" controlId="Confirmar Guardado." >
+                                    <Form.Label>Se ha guardado correctamente las opciones de menus seleccionados para publicar en la app de mensajería en la fecha seleccionada.</Form.Label>
+                                    <Form.Label>Siga eligiendo los menú para completar todos los días de la semana.</Form.Label>
+                                </Form.Group>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button type="submit" variant="outline-primary" onClick={cerrarModal}  >
+                                Ok, continuar Eligiendo.
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
             </div>
-            <Modal show={show} className="my-modal" onHide={handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Guardado de Opciones Menu</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form className="my-modal-form"  >
-                            <Form.Group className="mb-3" controlId="Confirmar Guardado." >
-                                <Form.Label>Se ha guardado correctamente las opciones de menus seleccionados para publicar en la app de mensajería en la fecha seleccionada.</Form.Label>
-                                <Form.Label>Siga eligiendo los menú para completar todos los días de la semana.</Form.Label>
-                            </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button type="submit" variant="outline-primary" onClick={cerrarModal}  >
-                            Ok, continuar Eligiendo.
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
         </div>
     )
 }

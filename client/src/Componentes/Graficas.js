@@ -1,5 +1,8 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
+import Volver_img from '../Images/Volver.png';
+import LogoInicio from '../Images/LogoInicio.jpg';
+import { NavLink } from 'react-router-dom';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -55,44 +58,56 @@ let cantidadMenus = [
 
 const Graficas = () => {
     return (
-        <div className="container">
-            <h2 class="col d-flex justify-content-center textosMenuInicial">Graficas</h2>
-            <div class="row textosMenuInicial">
-                <div class="card col d-flex justify-content-center">
-                    <h3 class="col d-flex justify-content-center divContenido">Almuerzos por mes</h3>
-                    <Bar className="grafica" data={{
-                         labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
-                        datasets: [
-                            {
-                                label: 'Cant Almuerzos',
-                                data: cantidadMenus.map(p => (p.cantidad)),
-                                backgroundColor: [
-                                    'black',
-                                    'black',
-                                    'black',
-                                    'black',
-                                ],
-                                borderColor: [
-                                    'black',
-                                    'black',
-                                    'black',
-                                    'black',
-                                ],
-                                borderWidth: 1,
-                            },
-                        ],
-                    }} options={options} class="divContenido"/>
+        <div className="container m-2">
+            <div class="row heading" >
+                <div className="col-md-1 ">
+                        <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
                 </div>
-                <div class="col d-flex justify-content-center">
-                    <h3 class="col d-flex justify-content-center">Promedio de Almuerzos por mes</h3>
+                <div class="col-md-11 d-flex flex-row-reverse">
+                    <NavLink exact to="/Inicio" id="dash" >
+                        <table className="linkContainerSecondOption" >
+                            <img src={Volver_img} className="iconosImgSecondOption" />
+                        </table>
+                    </NavLink>
                 </div>
-            </div>
-            <div class="row textosMenuInicial">
-                <div class="col d-flex justify-content-center">
-                    <h3 class="col d-flex justify-content-center">Pedidos por personas</h3>
+                <h2 class="col d-flex justify-content-center textosMenuInicial">Graficas</h2>
+                <div class="row textosMenuInicial">
+                    <div class="card col d-flex justify-content-center">
+                        <h3 class="col d-flex justify-content-center divContenido">Almuerzos por mes</h3>
+                        <Bar className="grafica" data={{
+                            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
+                            datasets: [
+                                {
+                                    label: 'Cant Almuerzos',
+                                    data: cantidadMenus.map(p => (p.cantidad)),
+                                    backgroundColor: [
+                                        'black',
+                                        'black',
+                                        'black',
+                                        'black',
+                                    ],
+                                    borderColor: [
+                                        'black',
+                                        'black',
+                                        'black',
+                                        'black',
+                                    ],
+                                    borderWidth: 1,
+                                },
+                            ],
+                        }} options={options} class="divContenido"/>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                        <h3 class="col d-flex justify-content-center">Promedio de Almuerzos por mes</h3>
+                    </div>
                 </div>
-                <div class="col d-flex justify-content-center">
-                    <h3 class="col d-flex justify-content-center">Picos de hora</h3>
+                <div class="row textosMenuInicial">
+                    <div class="col d-flex justify-content-center">
+                        <h3 class="col d-flex justify-content-center">Pedidos por personas</h3>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                        <h3 class="col d-flex justify-content-center">Picos de hora</h3>
+                    </div>
                 </div>
             </div>
         </div>

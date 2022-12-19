@@ -7,6 +7,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useState, useEffect } from 'react';
+import LogoInicio from '../Images/LogoInicio.jpg';
+import Volver_img from '../Images/Volver.png';
+import { NavLink } from 'react-router-dom';
 
 const Timeline = () => {
     let ordenes = [];
@@ -104,44 +107,56 @@ const Timeline = () => {
     actualizarMenus(0);
 
     return (
-        <div className="container">
-            <div className="row" style={{ "paddingTop": "2%" }} ></div>
-            <div className="row tableRedonda">
-                <div className="col d-flex justify-content-center transparent">
-                    <img src={flechaIzq} className="flechasTimeline" alt="flechaIzq" onClick={() => horaAnt()} />
+        <div className="container m-2">
+            <div class="row heading" >
+                <div className="col-md-1 align-self-start">
+                    <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
                 </div>
-                <div className="col d-flex justify-content-center transparent">
-                    <h2 className='transparent'>{horas[cntHoras].hora}</h2>
+                <div class="col-md-11 d-flex flex-row-reverse">
+                    <NavLink exact to="/Inicio" id="dash" >
+                        <table className="linkContainerSecondOption" >
+                            <img src={Volver_img} className="iconosImgSecondOption" />
+                        </table>
+                    </NavLink>
                 </div>
-                <div className="col d-flex justify-content-center transparent">
-                    <img src={flechaDer} className="flechasTimeline" alt="flechaDer" onClick={() => horaProx()} />
+                <div className="row" style={{ "paddingTop": "2%" }} ></div>
+                <div className="row tableRedonda">
+                    <div className="col d-flex justify-content-center transparent">
+                        <img src={flechaIzq} className="flechasTimeline" alt="flechaIzq" onClick={() => horaAnt()} />
+                    </div>
+                    <div className="col d-flex justify-content-center transparent">
+                        <h2 className='transparent'>{horas[cntHoras].hora}</h2>
+                    </div>
+                    <div className="col d-flex justify-content-center transparent">
+                        <img src={flechaDer} className="flechasTimeline" alt="flechaDer" onClick={() => horaProx()} />
+                    </div>
                 </div>
-            </div>
-            <div className="container " style={{ "paddingTop": "5%" }}>
-                <div className="container tableGridTimeline" >
-                    {ordenesAmostrar.map((orden) =>
-                    (<div key={orden.id} className="container itemTimeline " >
-                    <p style={{"margin-left":"5%"}}>
-                    {orden.id} - 
-                    {orden.cantidad}               
-                    <img src={LiquidarImg} style={{"margin-left":"55%"}} alt="Liquidar" onClick={handleShowL} />
-                    </p>
-                     </div>))}
+                <div className="container " style={{ "paddingTop": "5%" }}>
+                    <div className="container tableGridTimeline" >
+                        {ordenesAmostrar.map((orden) =>
+                        (<div key={orden.id} className="container itemTimeline " >
+                        <p style={{"margin-left":"5%"}}>
+                        {orden.id} - 
+                        {orden.cantidad}               
+                        <img src={LiquidarImg} style={{"margin-left":"55%"}} alt="Liquidar" onClick={handleShowL} />
+                        </p>
+                        </div>))}
+                    </div>
                 </div>
-            </div>
 
-                <Modal show={showL} className="my-modal" onHide={handleCloseL}>
-                    <Modal.Header closeButton>
-                    <Modal.Title>Terminar pedido</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="outline-primary">
-                        Finalizar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+                    <Modal show={showL} className="my-modal" onHide={handleCloseL}>
+                        <Modal.Header closeButton>
+                        <Modal.Title>Terminar pedido</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="outline-primary">
+                            Finalizar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
         </div>
 
 
