@@ -44,3 +44,34 @@ export const getMenusOpciones = (req, res, next) => {
             next(err);
         });
 };
+
+export const getMenusOpcionesFecha = (req, res, next) => {
+
+        const fecha = req.body.fechaAPublicar;
+    
+        const opcionesEncontradas = AppDataSource.manager.findBy(MenuOpcionesFecha, {
+            fechaAPublicar: fecha
+        }).then(opcionesEncontradas => {
+            res
+                .status(200)
+                .json({
+                    message: 'Fetched posts successfully.',
+                    opcionesEncontradas: opcionesEncontradas
+                });
+        })
+            .catch(err => {
+                if (!err.statusCode) {
+                    err.statusCode = 500;
+                }
+                next(err);
+            });
+    
+        return opcionesEncontradas;
+    };
+    
+
+    export const findOpcionesPorFecha = async (fecha) => {
+        const opciones =await AppDataSource.manager.findBy(MenuOpcionesFecha, fecha)
+        return opciones
+    };
+    

@@ -10,5 +10,8 @@ router.post('/post', menuOpcionesFechaController.createMenuOpciones);
 // GET /menuOpcionesFecha/getAll
 router.get('/getAll', menuOpcionesFechaController.getMenusOpciones);
 
+// GET /menuOpcionesFecha/getByFecha
+router.get('/getByFecha', menuOpcionesFechaController.getMenusOpcionesFecha);
+
 
 module.exports = router;

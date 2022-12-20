@@ -6,8 +6,8 @@ configDotenv({path: resolve(__dirname, "./.env")})
 
 import { AppDataSource } from "./data-source"
 import "reflect-metadata";
-import { precargaMenus } from "./controllers/menuController"
-import { precargaHorarios } from "./controllers/horarioController"
+import { precargaMenus } from "./controllers/MenuController"
+import { precargaHorarios } from "./controllers/HorarioController"
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
