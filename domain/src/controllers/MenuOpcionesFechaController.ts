@@ -71,7 +71,7 @@ export const getMenusOpcionesFecha = (req, res, next) => {
     
 
     export const findOpcionesPorFecha = async (fecha) => {
-        const opciones =await AppDataSource.manager.findBy(MenuOpcionesFecha, fecha)
+        const opciones = await AppDataSource.manager.findBy(MenuOpcionesFecha, fecha)
         return opciones
     };
     

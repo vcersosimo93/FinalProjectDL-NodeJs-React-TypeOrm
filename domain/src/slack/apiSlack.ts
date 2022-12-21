@@ -2,7 +2,8 @@ let tokenBot = process.env.SLACK_TOKEN
 const { WebClient, LogLevel } = require("@slack/web-api");
 const client = new WebClient(tokenBot, {logLevel: LogLevel.DEBUG});
 
-export async function publicarMensaje(canal, mensaje) {
+export async function publicarMensaje(mensaje) {
+  let canal = await findConversation(process.env.SLACK_CHANNEL);
   try {
     const result = await client.chat.postMessage({
       token: tokenBot,

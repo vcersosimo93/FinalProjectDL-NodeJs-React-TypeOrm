@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, AfterLoa
 import { Horario } from "./Horario"
 import { Empleado } from "./Empleado"
 import { Menu } from "./Menu"
-import {getMenuNombre} from "../controllers/MenuController"
+import { getMenuNombre } from "../controllers/MenuController"
 
 @Entity()
 export class Pedido {
