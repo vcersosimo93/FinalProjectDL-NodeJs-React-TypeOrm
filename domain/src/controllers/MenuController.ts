@@ -25,20 +25,14 @@ export const createMenu = async (req, res, next) => {
     }
 };
 
-export const getMenuNombre = async (req, res) => {
-    const idMenu = req.body.id;
-    const menuEncontrado =  await AppDataSource.manager.findOneBy(Menu, {
-    id: idMenu
-    })
-    .then(menuEncontrado => {
-        res.status(200).json({
-                menuEncontrado: menuEncontrado.descripcion
-            });})
-        .catch(err => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-        });
+export const getMenuNombre = async (idMenu) => {
+    try{
+    const menuEncontrado =  await AppDataSource.manager.findOneBy(Menu, {id: idMenu})
+    return menuEncontrado.descripcion
+    }
+    catch(error){
+    console.log("Error al buscar el nombre de un menú.")
+    }
 }
 
 

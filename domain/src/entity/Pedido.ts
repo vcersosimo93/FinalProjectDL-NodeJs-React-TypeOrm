@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, AfterLoad } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, BeforeInsert } from "typeorm"
 import { Horario } from "./Horario"
 import { Empleado } from "./Empleado"
 import { Menu } from "./Menu"
@@ -36,11 +36,10 @@ export class Pedido {
     @Column({nullable :true})
     menuNombre: string
 
-    //PROBAR ESTO
-    @AfterLoad()
-    async afterLoad() {
+    @BeforeInsert()
+    async HandleBeforeInsert() {
         let res;
-        getMenuNombre(this.menuId, res)
-       this.menuNombre  =  res
+        res = await getMenuNombre(this.menuId)
+        this.menuNombre = res
     }
 }

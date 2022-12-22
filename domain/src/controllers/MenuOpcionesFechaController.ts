@@ -26,9 +26,15 @@ export const createMenuOpciones = (req, res, next) => {
 };
 
 
-export const getMenusOpciones = (req, res, next) => {
-
-    const menusOpciones = AppDataSource.manager.find(MenuOpcionesFecha)
+export const getMenusOpciones = async (req, res, next) => {
+    try{
+        const menusOpciones = await AppDataSource.manager.find(MenuOpcionesFecha);
+        return res.json(menusOpciones);
+        }
+        catch (error){
+            return res.status(500).json({message: error.message})
+        }
+    /*const menusOpciones = AppDataSource.manager.find(MenuOpcionesFecha)
         .then(menusOpciones => {
             res
                 .status(200)
@@ -42,7 +48,7 @@ export const getMenusOpciones = (req, res, next) => {
                 err.statusCode = 500;
             }
             next(err);
-        });
+        });*/
 };
 
 export const getMenusOpcionesFecha = (req, res, next) => {
@@ -72,6 +78,7 @@ export const getMenusOpcionesFecha = (req, res, next) => {
 
     export const findOpcionesPorFecha = async (fecha) => {
         const opciones = await AppDataSource.manager.findBy(MenuOpcionesFecha, fecha)
+        console.log("OPCIONES X FECHA:" + fecha + " :" + opciones)
         return opciones
     };
     

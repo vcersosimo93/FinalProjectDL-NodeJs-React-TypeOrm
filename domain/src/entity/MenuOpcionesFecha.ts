@@ -1,6 +1,7 @@
-import { Entity, JoinColumn, ManyToOne ,PrimaryColumn, AfterLoad, Column } from "typeorm"
+import { Entity, JoinColumn, ManyToOne ,PrimaryColumn, BeforeInsert, Column } from "typeorm"
 import { Reaccion } from "./Reaccion"
-import {getMenuNombre} from "../controllers/MenuController"
+import { getMenuNombre } from "../controllers/MenuController"
+import { getEmoji } from "../controllers/ReaccionController"
 
 @Entity()
 export class MenuOpcionesFecha {
@@ -11,19 +12,25 @@ export class MenuOpcionesFecha {
     @PrimaryColumn({nullable :false})
     fechaAPublicar: Date
 
+    @Column({name : 'reaccionId'})
+    reaccionId : number
+
     @ManyToOne(() => Reaccion, (reaccion) => reaccion.menus)
     @JoinColumn({ name : 'reaccionId'})
     reaccion: Reaccion
 
     @Column({nullable :true})
+    reaccionEmoji: string
+
+    @Column({nullable :true})
     menuNombre: string
 
-    //PROBAR ESTO
-    @AfterLoad()
-    async afterLoad() {
-        let res;
-        getMenuNombre(this.menuId, res)
-       this.menuNombre  =  res
+    @BeforeInsert()
+    async HandleBeforeInsert() {
+        let mN = await getMenuNombre(this.menuId)
+        this.menuNombre = mN
+        let emoji = await getEmoji(this.reaccionId)
+        this.reaccionEmoji = emoji 
     }
 
 }

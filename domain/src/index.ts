@@ -9,6 +9,7 @@ import "reflect-metadata";
 import { precargaMenus } from "./controllers/MenuController"
 import { precargaHorarios } from "./controllers/HorarioController"
 import { precargaReacciones } from "./controllers/ReaccionController"
+const posteoDiario = require('./tareasProgramadas/posteoDiario')
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -17,6 +18,7 @@ const pedidoRoutes = require('./routes/pedido');
 const menuRoutes = require('./routes/menu');
 const menuOpcionesFechaRoutes = require('./routes/menuOpcionesFecha');
 const app = express();
+
 
 
 app.use(bodyParser.json()); 
@@ -40,6 +42,8 @@ app.use('/menu', menuRoutes);
 app.use('/pedido', pedidoRoutes);
 app.use('/menuOpcionesFecha', menuOpcionesFechaRoutes);
 
+
+posteoDiario.initScheduledJobs();
 
 app.listen(8080);
 
