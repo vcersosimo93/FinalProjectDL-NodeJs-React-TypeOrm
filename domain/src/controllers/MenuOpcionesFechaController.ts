@@ -8,6 +8,7 @@ export const createMenuOpciones = (req, res, next) => {
 
     const menuId = req.body.menuId;
     const fechaAPublicar = req.body.fechaAPublicar;
+    const reaccionId = req.body.reaccionId;
 
     console.log("createMenuOpciones")
     console.log(menuId)
@@ -17,11 +18,12 @@ export const createMenuOpciones = (req, res, next) => {
     //menu.id = id
     menuOpciones.menuId = menuId
     menuOpciones.fechaAPublicar = fechaAPublicar
+    menuOpciones.reaccion = reaccionId
     AppDataSource.manager.save(menuOpciones)
     // Create post in db
     res.status(201).json({
         message: 'Post created successfully!',
-        post: { menuId: menuId, fechaAPublicar: fechaAPublicar }
+        post: { menuId: menuId, fechaAPublicar: fechaAPublicar , reaccion:reaccionId}
     });
 };
 

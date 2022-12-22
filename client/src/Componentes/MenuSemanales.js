@@ -68,10 +68,13 @@ const MenuSemanales = () => {
         //console.log(menuSelecc)
         const fechaAPublicar = fechaSeleccionada.current.value
 
+        let reaccionId=1;
+
         console.log(menuSelecc);
         for (let menu of menuSelecc) {
             let url = 'http://localhost:8080/menuOpcionesFecha/post'
             let method = 'POST'
+            console.log(reaccionId);
 
             fetch(url, {
                 method: method,
@@ -80,7 +83,8 @@ const MenuSemanales = () => {
                 },
                 body: JSON.stringify({
                     "menuId": menu,
-                    "fechaAPublicar": fechaAPublicar
+                    "fechaAPublicar": fechaAPublicar,
+                    "reaccionId": reaccionId
                 })
             })
                 .then(res => {
@@ -94,12 +98,15 @@ const MenuSemanales = () => {
                     handleShow();
                     const post = {
                         menuId: resData.post.menuId,
-                        fechaAPublicar: resData.post.fechaAPublicar
+                        fechaAPublicar: resData.post.fechaAPublicar,
+                        reaccionId: resData.post.reaccionId
                     };
+                    
                 })
                 .catch(err => {
                     console.log(err);
                 });
+                reaccionId++;
         }
     }
 

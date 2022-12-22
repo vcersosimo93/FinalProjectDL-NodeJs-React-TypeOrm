@@ -11,6 +11,11 @@ export class MenuOpcionesFecha {
     @PrimaryColumn({nullable :false})
     fechaAPublicar: Date
 
+    /*
+    @Column({name : 'reaccionId'})
+    reaccionId : number
+    */
+   
     @ManyToOne(() => Reaccion, (reaccion) => reaccion.menus)
     @JoinColumn({ name : 'reaccionId'})
     reaccion: Reaccion
