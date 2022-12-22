@@ -127,10 +127,6 @@ export const getMenuNombre = async (req, res) => {
 //PRECARGA 
 //----------------------------------------------------------------------------------------------
 
-export const precarga = async () => {
-    precargaMenus();
-}
-
 export const precargaMenus = async () => {
     insertMenuManager(" Bondiola confitada a la cerveza acompañada por puré mixto con parmesano y ciboulette.", false);
     insertMenuManager(" Bondiola confitada a la cerveza acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.", false);

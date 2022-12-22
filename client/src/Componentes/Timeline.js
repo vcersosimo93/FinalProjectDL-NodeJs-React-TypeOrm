@@ -27,6 +27,7 @@ const Timeline = () => {
         ).then(
             data => {
                 setHoras(data)
+                console.log(data)
             }
         ).then(
             fetch('http://localhost:8080/pedido/get').then(

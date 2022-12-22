@@ -3,6 +3,10 @@ import { Reaccion } from "../entity/Reaccion"
 
 const manager = AppDataSource.manager
 
+//----------------------------------------------------------------------------------------------
+//PRECARGA 
+//----------------------------------------------------------------------------------------------
+
 export const insertReaccion = async (emoji) => {
     const horario = new Reaccion()
     horario.emoji = emoji;
