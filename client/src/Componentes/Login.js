@@ -38,12 +38,12 @@ function Login() {
         <div className="col align-self-start">
           <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
         </div>
-        <div class="col d-flex align-self-center justify-content-end">
+        <div className="col d-flex align-self-center justify-content-end">
           <img src={UserImg} className="UserImg" alt="User" />
         </div>
       </div>
       <div className="row"> <h2 className="col d-flex justify-content-center textosMenuInicial">Login</h2></div>
-      <div style={{ "padding-left": "40%", "padding-top": "5%", }} id="signInDiv"></div>
+      <div style={{ "paddingLeft": "40%", "paddingTop": "5%", }} id="signInDiv"></div>
       {userLS &&
         history.push('/Inicio')
       }
