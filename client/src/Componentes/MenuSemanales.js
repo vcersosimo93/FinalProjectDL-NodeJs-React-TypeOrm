@@ -10,8 +10,7 @@ import { NavLink } from 'react-router-dom';
 
 const MenuSemanales = () => {
 
-    const current = new Date();
-    const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+    
 
     const [menuesGet, setmenuesGet] = useState([{}]);
     const [menues, setmenues] = useState();
@@ -38,27 +37,8 @@ const MenuSemanales = () => {
         setmenues(value);
 
         console.log(menues)
-
-        /* 
-        var options = e.target.options;
-
-        console.log(options)
-
-        var value = [];
-
-        for (var i = 0, l = options.length; i < l; i++) {
-            if (options[i].selected) {
-                value.push(options[i].value);
-            }
-        }
-
-
-
-        console.log(value)
-
-        menu == value;*/
         
-      }
+    }
 
 
     const postearOpcionMenu = menuOpcionData => {
@@ -116,29 +96,29 @@ const MenuSemanales = () => {
 
     return (
         <div className="container m-2">
-            <div class="row heading" >
+            <div className="row heading" >
             <div className="col-md-1 ">
                     <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
                 </div>
-                <div class="col-md-11 d-flex flex-row-reverse">
+                <div className="col-md-11 d-flex flex-row-reverse">
                     <NavLink exact to="/Inicio" id="dash" >
-                        <table className="linkContainerSecondOption" >
+                        <div className="linkContainerSecondOption" >
                             <img src={Volver_img} className="iconosImgSecondOption" />
-                        </table>
+                        </div>
                     </NavLink>
                 </div>
-                <h2 class="col d-flex justify-content-center textosMenuInicial">Menu Programados</h2>
-                <div class="row textosMenuInicial">
-                    <form action="/button-submit" method="POST" class="card col d-flex justify-content-center">
-                        <label for="pedido" class="divContenido">Seleccionar Las opciones de Pedidos a elaborar.</label>
+                <h2 className="col d-flex justify-content-center textosMenuInicial">Menu Programados</h2>
+                <div className="row textosMenuInicial">
+                    <form action="/button-submit" method="POST" className="card col d-flex justify-content-center">
+                        <label className="divContenido">Seleccionar Las opciones de Pedidos a elaborar.</label>
                         <br></br>
-                        <label for="fecha" class="divContenido">Fecha Publicación. Día habil previo a la elaboración</label>
-                        <input placeholder="Seleccionar fecha" type="date" class="form-control" id="fechaAlmuerzo" ref={fechaSeleccionada}></input>
+                        <label  className="divContenido">Fecha Publicación. Día habil previo a la elaboración</label>
+                        <input placeholder="Seleccionar fecha" type="date" className="form-control" id="fechaAlmuerzo" ref={fechaSeleccionada}></input>
                         <br></br>
-                        <select aria-label="Default select example" id="pedido" class="selectpicker" name="Menu" multiple data-live-search="true" ref={menu} onChange={_onHandleSeleccionMenus}>
-                            {menuesGet.map(h => <option key={h.id} value={h.id} >{h.descripcion} </option>)}
+                        <select aria-label="Default select example" id="pedido" className="selectpicker" name="Menu" multiple data-live-search="true" ref={menu} onChange={_onHandleSeleccionMenus}>
+                            {menuesGet.map((h,index) => <option key={index} value={h.id} >{h.descripcion} </option>)}
                         </select><br></br>
-                        <button type="submit" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" onClick={postearOpcionMenu}> Enviar Opciones</button><br></br>
+                        <button type="submit" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off" onClick={postearOpcionMenu}> Enviar Opciones</button><br></br>
                     </form>
                 </div>
                 <Modal show={show} className="my-modal" onHide={handleClose}>

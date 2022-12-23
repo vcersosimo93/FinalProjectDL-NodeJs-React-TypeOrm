@@ -11,7 +11,7 @@ import Menu from './Componentes/Menu';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Switch ,Route } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import "reflect-metadata";
 
 const initialState = [

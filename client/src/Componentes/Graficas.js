@@ -59,22 +59,22 @@ let cantidadMenus = [
 const Graficas = () => {
     return (
         <div className="container m-2">
-            <div class="row heading" >
+            <div className="row heading" >
                 <div className="col-md-1 ">
                         <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
                 </div>
-                <div class="col-md-11 d-flex flex-row-reverse">
+                <div className="col-md-11 d-flex flex-row-reverse">
                     <NavLink exact to="/Inicio" id="dash" >
-                        <table className="linkContainerSecondOption" >
+                        <div className="linkContainerSecondOption" >
                             <img src={Volver_img} className="iconosImgSecondOption" />
-                        </table>
+                        </div>
                     </NavLink>
                 </div>
-                <h2 class="col d-flex justify-content-center textosMenuInicial">Graficas</h2>
-                <div class="row textosMenuInicial">
-                    <div class="card col d-flex justify-content-center">
-                        <h3 class="col d-flex justify-content-center divContenido">Almuerzos por mes</h3>
-                        <Bar className="grafica" data={{
+                <h2 className="col d-flex justify-content-center textosMenuInicial">Graficas</h2>
+                <div className="row textosMenuInicial">
+                    <div className="card col d-flex justify-content-center">
+                        <h3 className="col d-flex justify-content-center divContenido">Almuerzos por mes</h3>
+                        <Bar className="grafica divContenido" data={{
                             labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
                             datasets: [
                                 {
@@ -95,18 +95,18 @@ const Graficas = () => {
                                     borderWidth: 1,
                                 },
                             ],
-                        }} options={options} class="divContenido"/>
+                        }} options={options} />
                     </div>
-                    <div class="col d-flex justify-content-center">
-                        <h3 class="col d-flex justify-content-center">Promedio de Almuerzos por mes</h3>
+                    <div className="col d-flex justify-content-center">
+                        <h3 className="col d-flex justify-content-center">Promedio de Almuerzos por mes</h3>
                     </div>
                 </div>
-                <div class="row textosMenuInicial">
-                    <div class="col d-flex justify-content-center">
-                        <h3 class="col d-flex justify-content-center">Pedidos por personas</h3>
+                <div className="row textosMenuInicial">
+                    <div className="col d-flex justify-content-center">
+                        <h3 className="col d-flex justify-content-center">Pedidos por personas</h3>
                     </div>
-                    <div class="col d-flex justify-content-center">
-                        <h3 class="col d-flex justify-content-center">Picos de hora</h3>
+                    <div className="col d-flex justify-content-center">
+                        <h3 className="col d-flex justify-content-center">Picos de hora</h3>
                     </div>
                 </div>
             </div>
