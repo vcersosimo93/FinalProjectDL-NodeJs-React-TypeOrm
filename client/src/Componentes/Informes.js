@@ -1,9 +1,7 @@
 import React from 'react';
 import LogoInicio from '../Images/LogoInicio.jpg';
-import UserImg from '../Images/iconoPerfil.png';
 import { NavLink } from 'react-router-dom';
 import Volver_img from '../Images/Volver.png';
-import Button from 'react-bootstrap/Button';
 
 let menu = [
     { id: 1, nombreMenu: "Bondiola", metodoCantidadSolXSem: 0 },
@@ -59,7 +57,7 @@ const Informes = () => {
                         <div className="col-md-11 d-flex flex-row-reverse">
                         <NavLink exact to="/Inicio" id="dash" >
                             <div className="linkContainerSecondOption" >
-                                <img src={Volver_img} className="iconosImgSecondOption" />
+                                <img src={Volver_img} className="iconosImgSecondOption" alt ="volver"/>
                             </div>
                         </NavLink>
                     </div>
