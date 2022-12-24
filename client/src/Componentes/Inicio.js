@@ -10,7 +10,6 @@ import MenuSemanales from '../Images/pedidoImg.png';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
 const Inicio = () => {
@@ -18,7 +17,7 @@ const Inicio = () => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const usuario = localStorage.getItem("user"); //Quise guardar usuario para ver nombre e imagen una vez logueado.
+    //const usuario = localStorage.getItem("user"); //Quise guardar usuario para ver nombre e imagen una vez logueado.
 
     function cerrarSesion() {
         localStorage.removeItem("user");

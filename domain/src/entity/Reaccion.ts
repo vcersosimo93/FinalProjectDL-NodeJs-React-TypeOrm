@@ -12,6 +12,6 @@ export class Reaccion {
     emoji: string
   
     @OneToMany(() => MenuOpcionesFecha, (menu) => menu.reaccion)
-    @JoinColumn({name: 'reaccionId'})
+    @JoinColumn()
     menus: MenuOpcionesFecha[]
 }

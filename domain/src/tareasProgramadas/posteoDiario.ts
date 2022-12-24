@@ -5,12 +5,12 @@ import { publicarMensaje } from "../slack/apiSlack";
 function menuOpcionesATexto (opciones){
     let retorno;
         for (let opcion of opciones){
-            retorno += opcion.reaccion + " " + opcion.menuNombre
+            retorno += opcion.emoji + " " + opcion.menuNombre
         }
     return retorno;
 }
 exports.initScheduledJobs = () => {
-    const posteoDiario = cron.schedule('27 20 * * 1-5', async ()  =>{
+    const posteoDiario = cron.schedule('01 22 * * 1-5', async ()  =>{
     console.log("Comenzando posteo diario...")
     let fechaActual = new Date()
     let opciones = await findOpcionesPorFecha(fechaActual)
@@ -22,3 +22,4 @@ exports.initScheduledJobs = () => {
 
     posteoDiario.start()  
 }
+

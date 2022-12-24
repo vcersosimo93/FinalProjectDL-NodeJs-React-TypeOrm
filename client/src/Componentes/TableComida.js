@@ -20,7 +20,7 @@ const TableComida = ({ menu }) => {
     const handleCloseDL = () => setShowDL(false);
     const descripcionMenu = menu.descripcion
     const esVegetarianoMenu = menu.esVegetariano
-    let [vege, setveg] = useState("");
+    //let [vege, setveg] = useState("");
 
 
     const _onChangeVegetarianoUP = () => {
@@ -28,7 +28,7 @@ const TableComida = ({ menu }) => {
             ; (async () => {
                 console.log("_onChangeVegetariano");
                 console.log(esVegetariano.current.checked);
-                setveg = esVegetariano
+                //setveg = esVegetariano
 
             })()
         } catch (error) {

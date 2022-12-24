@@ -52,31 +52,31 @@ let feedbacks = [
 const Informes = () => {
     return (
         <div className="container m-2">
-            <div class="row heading" >
+            <div className="row heading" >
                 <div className="col-md-2 align-self-start">
                             <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
                         </div>
-                        <div class="col-md-11 d-flex flex-row-reverse">
+                        <div className="col-md-11 d-flex flex-row-reverse">
                         <NavLink exact to="/Inicio" id="dash" >
-                            <table className="linkContainerSecondOption" >
+                            <div className="linkContainerSecondOption" >
                                 <img src={Volver_img} className="iconosImgSecondOption" />
-                            </table>
+                            </div>
                         </NavLink>
                     </div>
-                    <h2 class="col d-flex justify-content-center textosMenuInicial">Informes</h2>
-                    <div class="row textosMenuInicial">
-                        <div class=" card col d-flex justify-content-center">
-                            <h3 class=" justify-content-center tituloInforme">Platos elaborados por horario por día</h3>
-                            <label for="fecha" class="divContenido">Fecha Elaboración</label>
-                            <input placeholder="Seleccionar fecha" type="date" class="form-control" id="horario"></input><br></br>
-                            <label for="horario" class="divContenido">Horario de Almuerzo</label>
-                            <select class="form-select divContenido" aria-label="Default select example" id="horario">
-                                <option selected>Seleccione Horario</option>
+                    <h2 className="col d-flex justify-content-center textosMenuInicial">Informes</h2>
+                    <div className="row textosMenuInicial">
+                        <div className=" card col d-flex justify-content-center">
+                            <h3 className=" justify-content-center tituloInforme">Platos elaborados por horario por día</h3>
+                            <label className="divContenido">Fecha Elaboración</label>
+                            <input placeholder="Seleccionar fecha" type="date" className="form-control" id="horario"></input><br></br>
+                            <label className="divContenido">Horario de Almuerzo</label>
+                            <select className="form-select divContenido" aria-label="Default select example" id="horario">
+                                <option value>Seleccione Horario</option>
                                 {horarios.map(h => <option key={h.id} value={h.id}>{h.horaDesde}</option>)}
                             </select><br></br>
-                            <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off"> Filtrar</button><br></br>
-                            <table class="table table-striped table-dark table-hover borderTable">
-                                <thead class="thead-ligth">
+                            <button type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                            <table className="table table-striped table-dark table-hover borderTable">
+                                <thead className="thead-ligth">
                                     <tr>
                                         <th scope="col">Menu</th>
                                         <th scope="col">Empleado</th>
@@ -89,20 +89,20 @@ const Informes = () => {
                                     {pedidos.map(p => <tr key={p.id}><td key={p.id + "nombre"}>{p.nombreMenu}</td><td key={p.id + "nombreEmpleado"}>{p.nombreEmpleado}</td><td key={p.id + "horario"}>{p.horario}</td><td key={p.id + "dia"}>{p.diaAlmuerzo}</td><td key={p.id + "esVeg"}>{p.esVegetariano}</td></tr>)}
                                 </tbody>
                             </table>
-                            <h3 class="divContenido">Cantidad</h3>
-                            <p class="divTexto">La cantidad de platos elaborados en el filtro establecido es de 3.</p>
+                            <h3 className="divContenido">Cantidad</h3>
+                            <p className="divTexto">La cantidad de platos elaborados en el filtro establecido es de 3.</p>
                         </div>
                     </div>
 
-                    <div class="row textosMenuInicial">
-                        <div class="card col d-flex justify-content-center">
-                            <h3 class="col d-flex justify-content-center tituloInforme">Asistencia de personas por mes</h3>
-                            <label for="month" class="divContenido">Mes</label>
-                            <input type="month" id="month" name="week" class="form-control"></input><br></br>
-                            <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off"> Filtrar</button><br></br>
-                            <h3 class="divContenido">Bondiola</h3>
-                            <table class="table table-striped table-dark table-hover borderTable">
-                                <thead class="thead-ligth">
+                    <div className="row textosMenuInicial">
+                        <div className="card col d-flex justify-content-center">
+                            <h3 className="col d-flex justify-content-center tituloInforme">Asistencia de personas por mes</h3>
+                            <label className="divContenido">Mes</label>
+                            <input type="month" id="month" name="week" className="form-control"></input><br></br>
+                            <button type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                            <h3 className="divContenido">Bondiola</h3>
+                            <table className="table table-striped table-dark table-hover borderTable">
+                                <thead className="thead-ligth">
                                     <tr>
                                         <th scope="col">Id Empleado</th>
                                         <th scope="col">Nombre Empleado</th>
@@ -113,9 +113,9 @@ const Informes = () => {
                                     {empleados.map(e => <tr key={e.id}><td key={e.id + "id"}>{e.id}</td><td key={e.id + "nombre"}>{e.nombre}</td><td key={e.id + "cantidad"}>{e.cantidadSolicitudes}</td></tr>)}
                                 </tbody>
                             </table>
-                            <h3 class="divContenido">Gramajo</h3>
-                            <table class="table table-striped table-dark table-hover borderTable">
-                                <thead class="thead-ligth">
+                            <h3 className="divContenido">Gramajo</h3>
+                            <table className="table table-striped table-dark table-hover borderTable">
+                                <thead className="thead-ligth">
                                     <tr>
                                         <th scope="col">Id Empleado</th>
                                         <th scope="col">Nombre Empleado</th>
@@ -126,20 +126,20 @@ const Informes = () => {
                                     {empleados.map(e => <tr key={e.id}><td key={e.id + "id"}>{e.id}</td><td key={e.id + "nombre"}>{e.nombre}</td><td key={e.id + "cantidad"}>{e.cantidadSolicitudes}</td></tr>)}
                                 </tbody>
                             </table>
-                            <h3 class="divContenido">Otros</h3>
-                            <p class="divTexto">No se registraron pedidos del resto de los menús en el mes seleccionado.</p>
+                            <h3 className="divContenido">Otros</h3>
+                            <p className="divTexto">No se registraron pedidos del resto de los menús en el mes seleccionado.</p>
 
                         </div>
 
                     </div>
-                    <div class="row textosMenuInicial">
-                            <div class="card col d-flex justify-content-center">
-                            <h3 class="col d-flex justify-content-center tituloInforme">Platos más pedidos del mes</h3>
-                            <label for="month" class="divContenido">Mes</label>
-                            <input type="month" id="month" name="week" class="form-control"></input><br></br>
-                            <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off"> Filtrar</button><br></br>
-                            <table class="table table-striped table-dark table-hover borderTable">
-                                <thead class="thead-ligth">
+                    <div className="row textosMenuInicial">
+                            <div className="card col d-flex justify-content-center">
+                            <h3 className="col d-flex justify-content-center tituloInforme">Platos más pedidos del mes</h3>
+                            <label className="divContenido">Mes</label>
+                            <input type="month" id="month" name="week" className="form-control"></input><br></br>
+                            <button type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                            <table className="table table-striped table-dark table-hover borderTable">
+                                <thead className="thead-ligth">
                                     <tr>
                                         <th scope="col">Id</th>
                                         <th scope="col">Menu</th>
@@ -151,13 +151,13 @@ const Informes = () => {
                                 </tbody>
                             </table>
                         </div>
-                        <div class="card col d-flex justify-content-center">
-                            <h3 class="col d-flex justify-content-center tituloInforme">Cantidad de platos elaborados por semana</h3>
-                            <label for="week" class="divContenido">Semana</label>
-                            <input type="week" id="week" name="week" class="form-control"></input><br></br>
-                            <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off"> Filtrar</button><br></br>
-                            <table class="table table-striped table-dark table-hover borderTable">
-                                <thead class="thead-ligth">
+                        <div className="card col d-flex justify-content-center">
+                            <h3 className="col d-flex justify-content-center tituloInforme">Cantidad de platos elaborados por semana</h3>
+                            <label className="divContenido">Semana</label>
+                            <input type="week" id="week" name="week" className="form-control"></input><br></br>
+                            <button type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                            <table className="table table-striped table-dark table-hover borderTable">
+                                <thead className="thead-ligth">
                                     <tr>
                                         <th scope="col">Id</th>
                                         <th scope="col">Menu</th>
@@ -170,16 +170,16 @@ const Informes = () => {
                             </table>
                         </div>
                     </div>
-                    <div class="row textosMenuInicial">
-                        <div class="card col d-flex justify-content-center">
-                            <h3 class="col d-flex justify-content-center tituloInforme">Tabla de Feedbacks</h3>
-                            <label for="fechaDesde" class="divContenido">Fecha Desde</label>
-                            <input placeholder="Seleccionar fecha" type="date" class="form-control" id="horario"></input>
-                            <label for="fechaHasta" class="divContenido">Fecha Hasta</label>
-                            <input placeholder="Seleccionar fecha" type="date" class="form-control" id="horario"></input><br></br>
-                            <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off"> Filtrar</button><br></br>
-                            <table class="table table-striped table-dark table-hover borderTable">
-                                <thead class="thead-ligth">
+                    <div className="row textosMenuInicial">
+                        <div className="card col d-flex justify-content-center">
+                            <h3 className="col d-flex justify-content-center tituloInforme">Tabla de Feedbacks</h3>
+                            <label className="divContenido">Fecha Desde</label>
+                            <input placeholder="Seleccionar fecha" type="date" className="form-control" id="horario"></input>
+                            <label className="divContenido">Fecha Hasta</label>
+                            <input placeholder="Seleccionar fecha" type="date" className="form-control" id="horario"></input><br></br>
+                            <button type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                            <table className="table table-striped table-dark table-hover borderTable">
+                                <thead className="thead-ligth">
                                     <tr>
                                         <th scope="col">id Empleado</th>
                                         <th scope="col">Empleado</th>

@@ -11,7 +11,6 @@ import LogoInicio from '../Images/LogoInicio.jpg';
 import Volver_img from '../Images/Volver.png';
 import { NavLink } from 'react-router-dom';
 
-
 const Timeline = () => {
     let ordenes = [];
     let ordenesAmostrar = [];

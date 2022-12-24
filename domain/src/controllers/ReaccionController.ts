@@ -6,24 +6,25 @@ const manager = AppDataSource.manager
 export const insertReaccion = async (emoji) => {
     const horario = new Reaccion()
     horario.emoji = emoji;
-    try{
-    await AppDataSource.manager.save(horario)}
-    catch{
+    try {
+        await manager.save(horario)
+    }
+    catch {
         console.log("Error al intentar añadir una racción.")
     }
 };
 
-export const getEmoji = async (idReaccion) => {
-    try{
-    const reaccionEncontrada =  await AppDataSource.manager.findOneBy(Reaccion, {id: idReaccion})
-    return reaccionEncontrada.emoji
-    }
-    catch(error){
-    console.log("Error al buscar el nombre de un menú.")
-    }
+export const getEmoji = async (ReaccionId) =>{
+try{
+    const ReaccionEncontrada = await manager.findOneBy(Reaccion, {id: ReaccionId})
+    return ReaccionEncontrada.emoji
+}
+catch(error){
+    console.log(error)
+}
 }
 
-export const precargaReacciones = async ()=>{
+export const precargaReacciones = async () => {
     insertReaccion(":letra-a:");
     insertReaccion(":letra-b:");
     insertReaccion(":letra-c:");
@@ -31,4 +32,5 @@ export const precargaReacciones = async ()=>{
     insertReaccion(":letra-e:");
     insertReaccion(":letra-f:");
     insertReaccion(":letra-g:");
- }
+    console.log("Se insertó correctamente la precarga de reacciones.")
+}

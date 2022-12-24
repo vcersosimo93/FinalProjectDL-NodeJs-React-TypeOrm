@@ -75,25 +75,25 @@ const Horario = () => {
 
     return (
         <div className="container m-2">
-            <div class="row heading" >
+            <div className="row heading" >
                 <div className="col-md-2 align-self-start">
                         <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
                     </div>
-                    <div class="col-md-9 d-flex flex-row-reverse">
-                        <table className="linkContainerSecondOption" >
+                    <div className="col-md-9 d-flex flex-row-reverse">
+                        <div className="linkContainerSecondOption" >
                             <Button variant="default" onClick={handleShow}>
                                 <img src={Agregar_Menu_img} className="iconosImgThirdOption" />
                             </Button>
-                        </table>
+                        </div>
                     </div>
-                    <div class="col-md-1 d-flex flex-row-reverse">
+                    <div className="col-md-1 d-flex flex-row-reverse">
                         <NavLink exact to="/Inicio" id="dash" >
-                            <table className="linkContainerSecondOption" >
+                            <div className="linkContainerSecondOption" >
                                 <img src={Volver_img} className="iconosImgSecondOption" />
-                            </table>
+                            </div>
                         </NavLink>
                     </div>
-                    <div class="col-md-1" >
+                    <div className="col-md-1" >
 
                         <Modal show={show} className="my-modal" onHide={handleClose}>
                             <Modal.Header closeButton>
@@ -131,7 +131,7 @@ const Horario = () => {
                     </div>
                 </div>
                 <div className="container">
-                    <table class="table table-striped table-dark table-hover borderTable new" style={{ "paddingTop": "20%" }}>
+                    <table className="table table-striped table-dark table-hover borderTable new" style={{ "paddingTop": "20%" }}>
                         <thead>
                             <tr>
                                 <th scope="col">Hora</th>
@@ -141,9 +141,9 @@ const Horario = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {horarios.map((h) =>
+                            {horarios.map((h,index) =>
                             (
-                                <TableHorario horario={h} />
+                                <TableHorario key={index} horario={h} />
                             ))}
                         </tbody>
                     </table>

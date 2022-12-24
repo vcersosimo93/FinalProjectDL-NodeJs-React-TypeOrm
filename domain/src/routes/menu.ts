@@ -7,23 +7,20 @@ const router = express.Router();
 // POST /menu/post
 router.post('/post', menuController.createMenu);
 
-// GET /menu/post
+// GET /menu/getAll
 router.get('/getAll', menuController.getMenus);
 
-// GET /menu/post
+// GET /menu/getById
 router.get('/getById', menuController.getMenuById);
 
-// PUT /menu/post
+// PUT /menu/update
 router.put('/update', menuController.updateMenu);
 
-// PUT /menu/post
+// DELETE /menu/delete
 router.delete('/delete', menuController.deleteMenu);
 
+// GET /menu/delete
+router.get('/getNombre', menuController.getMenuNombre);
 
-// POST /menu/post
-//router1.post('/post2', menuController.createPost);
-
-// GET /menu/posts
-//router1.get('/menus', menuController.getMenus);
 
 module.exports = router;

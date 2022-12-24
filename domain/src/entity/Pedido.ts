@@ -37,9 +37,7 @@ export class Pedido {
     menuNombre: string
 
     @BeforeInsert()
-    async HandleBeforeInsert() {
-        let res;
-        res = await getMenuNombre(this.menuId)
-        this.menuNombre = res
+    async BeforeInsert() {
+        this.menuNombre = await getMenuNombre(this.menuId)
     }
 }

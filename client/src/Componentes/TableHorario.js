@@ -136,7 +136,7 @@ const TableHorario = ({ horario }) => {
 
             <Modal show={showDL} className="my-modal" onHide={handleCloseDL}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Borrar Menú</Modal.Title>
+                    <Modal.Title>Borrar Horario</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form className="my-modal-form"  >

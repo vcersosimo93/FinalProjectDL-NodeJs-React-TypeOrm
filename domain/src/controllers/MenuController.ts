@@ -4,165 +4,130 @@ const express = require('express');
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 
+const manager = AppDataSource.manager
 
 export const createMenu = async (req, res, next) => {
 
     const esVegetariano = req.body.esVegetariano;
     const descripcion = req.body.descripcion;
 
-    try{
+    try {
         const menu = new Menu();
         menu.esVegetariano = esVegetariano
         menu.descripcion = descripcion
-        await AppDataSource.manager.save(menu)
+        await manager.save(menu)
         res.status(201).json({
             message: 'Menu creado exitosamente.',
             post: { esVegetariano: esVegetariano, descripcion: descripcion }
         });
     }
-    catch (error){
-        return res.status(500).json({message: error.message})
+    catch (error) {
+        return res.status(500).json({ message: error.message })
     }
 };
 
-export const getMenuNombre = async (idMenu) => {
-    try{
-    const menuEncontrado =  await AppDataSource.manager.findOneBy(Menu, {id: idMenu})
-    return menuEncontrado.descripcion
+export const getMenus = async (req, res) => {
+
+    try {
+        const menus = await manager.find(Menu);
+        return res.status(200).json({
+            menus: menus
+        });
     }
-    catch(error){
-    console.log("Error al buscar el nombre de un menú.")
+    catch (error) {
+        return res.status(500)
     }
 }
 
+export const getMenuById = async (req, res, next) => {
 
-export const getMenus = (req, res, next) => {
-
-    const menus = AppDataSource.manager.find(Menu)
-        .then(menus => {
-            res
-                .status(200)
-                .json({
-                    message: 'Fetched posts successfully.',
-                    menus: menus
-                });
-        })
-        .catch(err => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
+    try {
+        const idMenu = req.body.id;
+        const menuEncontrado = await manager.findOneBy(Menu, {
+            id: idMenu
         });
+        return res.json({
+            message: 'Menu encontrado exitosamente.',
+            menuEncontrado: menuEncontrado
+        });
+    }
+    catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
 };
 
-export const getMenuById = (req, res, next) => {
+export const updateMenu = async (req, res, next) => {
 
-    const idMenu = req.body.id;
+    try {
+        const idMenu = req.body.id;
+        const esVeg = req.body.esVegetariano;
+        const desc = req.body.descripcion;
 
-    const menuEncontrado = AppDataSource.manager.findOneBy(Menu, {
-        id: idMenu
-    }).then(menuEncontrado => {
-        res
-            .status(200)
-            .json({
-                message: 'Fetched posts successfully.',
-                menuEncontrado: menuEncontrado
-            });
-    })
-        .catch(err => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
+        const menuEncontrado = await manager.findOneBy(Menu, {
+            id: idMenu
+        }).then(menuEncontrado => {
+            if (!menuEncontrado) {
+                const error = new Error('No se encuentra el menu.');
+                throw error;
             }
-            next(err);
-        });
-
-    console.log(menuEncontrado);
-};
-
-
-export const updateMenu = (req, res, next) => {
-
-    const idMenu = req.body.id;
-    const esVeg = req.body.esVegetariano;
-    const desc = req.body.descripcion;
-
-    const menuEncontrado = AppDataSource.manager.findOneBy(Menu, {
-        id: idMenu
-    }).then(menuEncontrado => {
-        if (!menuEncontrado) {
-            const error = new Error('Could not find menu.');
-            throw error;
-        }
-
-        menuEncontrado.esVegetariano = esVeg;
-        menuEncontrado.descripcion = desc;
-
-        AppDataSource.manager.save(menuEncontrado);
-    })
-        .then(result => {
-            res.status(200).json({ message: 'Menu updated!', menuEncontrado: result });
+            menuEncontrado.esVegetariano = esVeg;
+            menuEncontrado.descripcion = desc;
+            manager.save(menuEncontrado);
+        }).then(result => {
+            res.status(200).json({ message: 'Menu actualizado.', menuEncontrado: result });
         })
-        .catch(err => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
-        });
+    }
+    catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
 };
 
 export const deleteMenu = (req, res, next) => {
 
-    const idMenu = req.body.id;
-
-    const menuEncontrado = AppDataSource.manager.findOneBy(Menu, {
-        id: idMenu
-    }).then(menuEncontrado => {
-        if (!menuEncontrado) {
-            const error = new Error('Could not find menu.');
-            throw error;
-        }
-        AppDataSource.manager.remove(menuEncontrado);
-    })
-        .then(result => {
-            res.status(200).json({ message: 'Menu removed!'});
-        })
-        .catch(err => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
+    try {
+        const idMenu = req.body.id;
+        const menuEncontrado = manager.findOneBy(Menu, {
+            id: idMenu
+        }).then(menuEncontrado => {
+            if (!menuEncontrado) {
+                const error = new Error('No se encontró el menú.');
+                throw error;
             }
-            next(err);
-        });
+            manager.remove(menuEncontrado);
+        })
+            .then(result => {
+                res.status(200).json({ message: 'Menu removed!' });
+            })
+    }
+    catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
 };
 
-//PRECARGA
-export const precarga =async()=>{
-    precargaMenus();
+export const getMenuNombre = async (Id) => {
+    try {
+        const menuEncontrado = await manager.findOneBy(Menu, {id: Id})
+        return menuEncontrado.descripcion
+    }
+    catch (error) {
+        console.log("Error al intentar encontrar un menu.")
+    }
 }
 
-export const precargaMenus = async ()=>{
-    insertMenuManager(" Bondiola confitada a la cerveza acompañada por puré mixto con parmesano y ciboulette.",false);
-    //insertMenuManager(" Bondiola confitada a la cerveza acompañada por puré mixto con parmesano y ciboulette.",true);
-    insertMenuManager(" Bondiola confitada a la cerveza acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.",false);
-   // insertMenuManager(" Bondiola confitada a la cerveza acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.",true);
-    insertMenuManager(" Tortilla de papa con criollita acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.",false); 
-   // insertMenuManager(" Tortilla de papa con criollita acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.",true); 
-    insertMenuManager(" Tortilla de papa con criollita acompañada por puré mixto con parmesano y ciboulette.",false); 
-   // insertMenuManager(" Tortilla de papa con criollita acompañada por puré mixto con parmesano y ciboulette.",true); 
-    insertMenuManager(" Ensalada de la semana: Tomates cherry, champiñones a la provenzal, rúcula, zanahoria, pollo, lascas de parmesano, nuez y huevo duro.",true); 
-   // insertMenuManager(" Ensalada de la semana: Tomates cherry, champiñones a la provenzal, rúcula, zanahoria, pollo, lascas de parmesano, nuez y huevo duro.",true); 
+export const precargaMenus = async () => {
+    insertMenuManager(" Bondiola confitada a la cerveza acompañada por puré mixto con parmesano y ciboulette.", false);
+    insertMenuManager(" Bondiola confitada a la cerveza acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.", false);
+    insertMenuManager(" Tortilla de papa con criollita acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.", false);
+    insertMenuManager(" Tortilla de papa con criollita acompañada por puré mixto con parmesano y ciboulette.", false);
+    insertMenuManager(" Ensalada de la semana: Tomates cherry, champiñones a la provenzal, rúcula, zanahoria, pollo, lascas de parmesano, nuez y huevo duro.", true);
+    console.log("Se insertó correctamente la precarga de menus.")
 }
 
-export const insertMenuManager = async (descrip,esVeget) => {
-    console.log("Se procede a insertar un menu.")
+export const insertMenuManager = async (descrip, esVeget) => {
     const menu = new Menu()
     menu.esVegetariano = esVeget;
     menu.descripcion = descrip;
     await AppDataSource.manager.save(menu)
-    console.log("Se guardo el menú con el Id: " + menu.id)
-
-    console.log("Cargando menus desde la base de datos...")
-    const menus = await AppDataSource.manager.find(Menu)
-    console.log("Los menus son: ", menus)
 };
 
 
