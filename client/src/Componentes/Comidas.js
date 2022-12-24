@@ -1,5 +1,4 @@
 import React from 'react';
-import Filtro_Comidas_img from '../Images/Filtro_Comidas.png';
 import Agregar_Menu_img from '../Images/Agregar_Menu.png';
 import Volver_img from '../Images/Volver.png';
 import { NavLink } from 'react-router-dom';
@@ -20,7 +19,6 @@ const Comidas = () => {
     const id = useRef()
     const [menues, setmenues] = useState([{}]);
 
-    let [vege, setveg] = useState("");
 
     useEffect(() => {
         fetch('http://localhost:8080/menu/getAll').then(
@@ -37,7 +35,6 @@ const Comidas = () => {
             ; (async () => {
                 console.log("_onChangeVegetariano");
                 console.log(esVegetariano.current.checked);
-                setveg = esVegetariano
 
             })()
         } catch (error) {
@@ -50,7 +47,6 @@ const Comidas = () => {
             ; (async () => {
                 console.log("_onChangeVegetariano");
                 console.log(esVegetariano.current.checked);
-                setveg = esVegetariano
 
             })()
         } catch (error) {
@@ -87,10 +83,6 @@ const Comidas = () => {
             })
             .then(resData => {
                 console.log(resData);
-                const post = {
-                    esVegetariano: resData.post.esVegetariano,
-                    descipcion: resData.post.descipcion
-                };
                 handleClose();
             })
             .catch(err => {
@@ -129,10 +121,6 @@ const Comidas = () => {
             })
             .then(resData => {
                 console.log(resData);
-                const post = {
-                    esVegetariano: resData.post.esVegetariano,
-                    descipcion: resData.post.descipcion
-                };
             })
             .catch(err => {
                 console.log(err);
@@ -141,7 +129,6 @@ const Comidas = () => {
 
     const [show, setShow] = useState(false);
     const [showUP, setShowUP] = useState(false);
-    const [showDL, setShowDL] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const handleCloseUP = () => setShowUP(false);
@@ -155,14 +142,14 @@ const Comidas = () => {
                 <div className="col-md-9 d-flex flex-row-reverse">
                     <div className="linkContainerSecondOption" >
                         <Button variant="default" onClick={handleShow}>
-                            <img src={Agregar_Menu_img} className="iconosImgThirdOption" />
+                            <img src={Agregar_Menu_img} className="iconosImgThirdOption" alt ="agregar" />
                         </Button>
                     </div>
                 </div>
                 <div className="col-md-1 d-flex flex-row-reverse">
                     <NavLink exact to="/Inicio" id="dash" >
                         <div className="linkContainerSecondOption" >
-                            <img src={Volver_img} className="iconosImgSecondOption" />
+                            <img src={Volver_img} className="iconosImgSecondOption" alt = "volver"/>
                         </div>
                     </NavLink>
                 </div>

@@ -95,8 +95,8 @@ const TableHorario = ({ horario }) => {
         <tr key={horario.id} >
             <td >{horario.hora}</td>
             <td >{horario.limitePersonas}</td>
-            <td ><Button variant="default" onClick={handleShowDL}><img src={Volver_img} className="iconosOtherOption" /></Button></td>
-            <td ><Button variant="default" onClick={handleShow}><img src={Lapiz_Comidas_Menu_img} className="iconosOtherOption" /></Button></td>
+            <td ><Button variant="default" onClick={handleShowDL}><img src={Volver_img} className="iconosOtherOption" alt="volver"/></Button></td>
+            <td ><Button variant="default" onClick={handleShow}><img src={Lapiz_Comidas_Menu_img} className="iconosOtherOption" alt="modificar"/></Button></td>
 
             <Modal show={show} className="my-modal" onHide={handleClose}>
                 <Modal.Header closeButton>

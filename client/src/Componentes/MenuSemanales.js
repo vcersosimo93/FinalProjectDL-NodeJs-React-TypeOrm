@@ -78,11 +78,11 @@ const MenuSemanales = () => {
 
     return (
         <div className="container m-2">
-            <div className="row heading" >
+            <div classNameName="row heading" >
             <div className="col-md-1 ">
                     <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
                 </div>
-                <div className="col-md-11 d-flex flex-row-reverse">
+                <div classNameName="col-md-11 d-flex flex-row-reverse">
                     <NavLink exact to="/Inicio" id="dash" >
                         <div className="linkContainerSecondOption" >
                             <img src={Volver_img} className="iconosImgSecondOption" />

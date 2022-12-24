@@ -1,5 +1,4 @@
 import React from 'react';
-import Filtro_Comidas_img from '../Images/Filtro_Comidas.png';
 import Agregar_Menu_img from '../Images/Agregar_Menu.png';
 import Volver_img from '../Images/Volver.png';
 import { NavLink } from 'react-router-dom';
@@ -60,10 +59,6 @@ const Horario = () => {
             })
             .then(resData => {
                 console.log(resData);
-                const post = {
-                    hora: resData.post.hora,
-                    limitePersonas: resData.post.limitePersonas
-                };
                 handleClose();
             })
             .catch(err => {
@@ -82,14 +77,14 @@ const Horario = () => {
                     <div className="col-md-9 d-flex flex-row-reverse">
                         <div className="linkContainerSecondOption" >
                             <Button variant="default" onClick={handleShow}>
-                                <img src={Agregar_Menu_img} className="iconosImgThirdOption" />
+                                <img src={Agregar_Menu_img} className="iconosImgThirdOption" alt="agregar"/>
                             </Button>
                         </div>
                     </div>
                     <div className="col-md-1 d-flex flex-row-reverse">
                         <NavLink exact to="/Inicio" id="dash" >
                             <div className="linkContainerSecondOption" >
-                                <img src={Volver_img} className="iconosImgSecondOption" />
+                                <img src={Volver_img} className="iconosImgSecondOption" alt="volver" />
                             </div>
                         </NavLink>
                     </div>

@@ -36,10 +36,11 @@ AppDataSource.initialize().then(async () => {
   precargaReacciones().catch((err) => {
     console.log(err);
   })
-  /*
+
   precargaEmpleados().catch((err) => {
     console.log(err);
   })
+  /*
   precargaPedidos().catch((err) => {
     console.log(err);
   })*/

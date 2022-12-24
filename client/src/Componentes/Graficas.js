@@ -66,7 +66,7 @@ const Graficas = () => {
                 <div className="col-md-11 d-flex flex-row-reverse">
                     <NavLink exact to="/Inicio" id="dash" >
                         <div className="linkContainerSecondOption" >
-                            <img src={Volver_img} className="iconosImgSecondOption" />
+                            <img src={Volver_img} className="iconosImgSecondOption" alt ="volver" />
                         </div>
                     </NavLink>
                 </div>
