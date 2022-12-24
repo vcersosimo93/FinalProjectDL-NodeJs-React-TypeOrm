@@ -26,7 +26,7 @@ const MenuSemanales = () => {
                     setmenuesGet(data.menus);
                 }
             )
-    },[])
+    }, [menuesGet])
 
     const _onHandleSeleccionMenus = (e) =>{
        
@@ -78,11 +78,11 @@ const MenuSemanales = () => {
 
     return (
         <div className="container m-2">
-            <div classNameName="row heading" >
+            <div className="row heading" >
             <div className="col-md-1 ">
                     <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
                 </div>
-                <div classNameName="col-md-11 d-flex flex-row-reverse">
+                <div className="col-md-11 d-flex flex-row-reverse">
                     <NavLink exact to="/Inicio" id="dash" >
                         <div className="linkContainerSecondOption" >
                             <img src={Volver_img} className="iconosImgSecondOption" />

@@ -25,12 +25,12 @@ catch(error){
 }
 
 export const precargaReacciones = async () => {
-    insertReaccion(":letra-a:");
-    insertReaccion(":letra-b:");
-    insertReaccion(":letra-c:");
-    insertReaccion(":letra-d:");
-    insertReaccion(":letra-e:");
-    insertReaccion(":letra-f:");
-    insertReaccion(":letra-g:");
+    await insertReaccion(":letra-a:");
+    await insertReaccion(":letra-b:");
+    await insertReaccion(":letra-c:");
+    await insertReaccion(":letra-d:");
+    await insertReaccion(":letra-e:");
+    await insertReaccion(":letra-f:");
+    await insertReaccion(":letra-g:");
     console.log("Se insertó correctamente la precarga de reacciones.")
 }

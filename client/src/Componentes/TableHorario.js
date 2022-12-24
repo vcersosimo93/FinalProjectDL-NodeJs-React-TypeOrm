@@ -56,6 +56,7 @@ const TableHorario = ({ horario }) => {
                 console.log(err);
                 alert("No se pudo modificar el horario seleccionado.");
             });
+            
     }
 
 
