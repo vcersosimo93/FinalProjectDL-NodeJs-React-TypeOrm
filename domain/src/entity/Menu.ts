@@ -12,7 +12,7 @@ export class Menu {
     @Column({nullable :false})
     esVegetariano: boolean
 
-    @Column({nullable :false})
+    @Column({unique : true, nullable :false})
     descripcion: string
 
     @OneToMany(() => Pedido, (pedido) => pedido.menu)

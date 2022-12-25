@@ -15,6 +15,9 @@ export class Empleado {
     @Column({nullable :true})
     foto: string
 
+    @Column({nullable :true})
+    idSlack : string
+
     @OneToMany(() => Feedback, (feedback) => feedback.empleado)
     @JoinColumn({name: 'empleado_id_Feedbacks'})
     feedbacks: Feedback[]

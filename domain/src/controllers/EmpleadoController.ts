@@ -1,33 +1,49 @@
 import { AppDataSource } from "../data-source"
 import { Empleado } from "../entity/Empleado"
+import { getUsuario } from "../slack/apiSlack"
 
 const manager = AppDataSource.manager
 
-export const createEmpleado = async (req, res, next) => {
-    const nombre = req.body.nombre;
-    try {
-        const empleado = new Empleado();
-        empleado.nombre = nombre
-        await manager.save(empleado)
-        return res.status(201)
+export const findOrCreateUsuario = async (idSlack) => {
+    let usuarioSlack = await getUsuario(idSlack);
+    if(usuarioSlack !== 500){
+        let empleadoEncontrado;
+        empleadoEncontrado = await findEmpleado(idSlack);
+        if (empleadoEncontrado !== null){
+            return empleadoEncontrado.id
+        }
+        else{
+            return await createEmpleado(usuarioSlack, idSlack)
+        }
     }
-    catch (error) {
-        return res.status(500).json({ message: error.message })
+    else{
+        return 500;
     }
-};
-
-export const precargaEmpleados = async () => {
-    insertEmpleadoManager("Nicolás Rodríguez.");
-    insertEmpleadoManager("Vicente Cersosimo.");
-    insertEmpleadoManager("Carlos Berutti.");
-    insertEmpleadoManager("Mauro Cela.");
-    insertEmpleadoManager("Gabriel Vidal.");
-    insertEmpleadoManager("María Noel Novoa.");
-    console.log("Se insertó correctamente la precarga de empleados.")
 }
 
-export const insertEmpleadoManager = async (nom) => {
-    const empleado = new Empleado()
-    empleado.nombre = nom;
-    await manager.save(empleado)
+const findEmpleado = async (idSlack) => {
+    try{
+        const empleado = await manager.findOneBy(Empleado, {idSlack: idSlack})
+        return empleado;
+    }
+    catch(error){
+        console.log(error);
+        return 500;
+    }
+}
+
+export const createEmpleado = async (usuarioSlack, idSlack) => {
+    try {
+        usuarioSlack = JSON.parse(usuarioSlack)
+        const empleado = new Empleado();
+        empleado.nombre = usuarioSlack.profile.real_name
+        empleado.idSlack = idSlack
+        await manager.save(empleado);
+        return findEmpleado(idSlack);
+    }
+    catch (error) {
+        console.log(error)
+        return 500;
+    }
 };
+

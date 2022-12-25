@@ -36,10 +36,7 @@ export const getMenusOpciones = async (req, res) => {
 
 export const findOpcionesDelDia = async () => {
     let fecha = new Date()
-    fecha.setHours(0)
-    fecha.setMinutes(0)
-    fecha.setSeconds(0)
-    fecha.setMilliseconds(0)
+    fecha.setHours(0, 0, 0, 0)
     const repoMO = AppDataSource.getRepository(MenuOpcionesFecha)
     const opciones = await repoMO.findBy({fechaAPublicar : fecha})
     return opciones

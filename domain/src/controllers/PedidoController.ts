@@ -13,28 +13,19 @@ export const getPedidos = async (req, res) => {
     }
 }
 
-export const precargaPedidos = async () => {
-    insertPedidoManager(4, 1,"2022-12-31",false,"Tortilla de papa con criollita acompañada por puré mixto con parmesano y ciboulette.",1);
-    insertPedidoManager(1, 1,"2022-12-31",false,"Bondiola confitada a la cerveza acompañada por puré mixto con parmesano y ciboulette.",2);
-    insertPedidoManager(2, 1,"2022-12-31",false,"Bondiola confitada a la cerveza acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.",3);
-    insertPedidoManager(3, 2,"2022-12-31",false,"Tortilla de papa con criollita acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.",4);
-    insertPedidoManager(3, 2,"2022-12-31",false,"Tortilla de papa con criollita acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.",5);
-    insertPedidoManager(1, 2,"2023-01-01",false,"Bondiola confitada a la cerveza acompañada por puré mixto con parmesano y ciboulette.",3);
-    insertPedidoManager(1, 2,"2023-01-01",false,"Bondiola confitada a la cerveza acompañada por puré mixto con parmesano y ciboulette.",2);
-    insertPedidoManager(2, 2,"2023-01-01",false,"Bondiola confitada a la cerveza acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.",1);
-    insertPedidoManager(3, 3,"2023-01-01",false,"Tortilla de papa con criollita acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.",4);
-    insertPedidoManager(4, 3,"2023-01-01",false,"Tortilla de papa con criollita acompañada por puré mixto con parmesano y ciboulette.",5);
-    console.log("Se insertó correctamente la precarga de pedidos.")
-}
-
-export const insertPedidoManager = async (idMenu, idHorario,fecha,procesado,menuNombre,empleadoId) => {
-    const pedido = new Pedido()
-    pedido.menuId = idMenu;
-    pedido.horarioId = idHorario;
-    pedido.fechaSolicitud = fecha;
-    pedido.estaProcesado = procesado;
-    pedido.menuNombre = menuNombre;
-    pedido.empleado = empleadoId;
-    await AppDataSource.manager.save(pedido)
+export const insertPedido = async (req) => {
+    try{const pedido = new Pedido()
+        pedido.menuId = req.menu;
+        pedido.horarioId = Math.floor(Math.random() * (5 - 1 + 1) + 1); //CAMBIAR
+        pedido.fechaSolicitud = req.fecha;
+        pedido.estaProcesado = false;
+        pedido.empleado = req.user;
+        await AppDataSource.manager.save(pedido)
+        return 201;
+    }
+    catch(error){
+        console.log(error);
+        return 500;
+    }
 };
 

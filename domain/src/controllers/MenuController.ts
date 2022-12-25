@@ -6,6 +6,17 @@ app.use(express.urlencoded({ extended: true }));
 
 const manager = AppDataSource.manager
 
+export const getMenuIdByNombre = async (nombre) => {
+    try{
+        const m = await manager.findOneBy(Menu, {descripcion: nombre})
+        return m.id;
+    }
+    catch(error){
+        console.log(error);
+        return 500;
+    }
+}
+
 export const createMenu = async (req, res, next) => {
 
     const esVegetariano = req.body.esVegetariano;

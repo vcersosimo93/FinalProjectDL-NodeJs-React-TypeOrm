@@ -9,8 +9,6 @@ import "reflect-metadata";
 import { precargaMenus } from "./controllers/MenuController"
 import { precargaHorarios } from "./controllers/HorarioController"
 import { precargaReacciones } from "./controllers/ReaccionController"
-import { precargaEmpleados } from "./controllers/EmpleadoController"
-import { precargaPedidos } from "./controllers/PedidoController"
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -20,6 +18,7 @@ const menuRoutes = require('./routes/menu');
 const menuOpcionesFechaRoutes = require('./routes/menuOpcionesFecha');
 const empleadoRoutes = require('./routes/empleado');
 const posteoDiario = require('./tareasProgramadas/posteoDiario')
+const pedidosDiarios = require('./tareasProgramadas/pedidosDiarios')
 const app = express();
 
 
@@ -36,14 +35,6 @@ AppDataSource.initialize().then(async () => {
   precargaReacciones().catch((err) => {
     console.log(err);
   })
-
-  precargaEmpleados().catch((err) => {
-    console.log(err);
-  })
-  /*
-  precargaPedidos().catch((err) => {
-    console.log(err);
-  })*/
 })
   .catch(error => console.log(error))
 
@@ -54,6 +45,7 @@ app.use('/menuOpcionesFecha', menuOpcionesFechaRoutes);
 app.use('/empleado', empleadoRoutes);
 
 posteoDiario.initScheduledJobs();
+pedidosDiarios.initScheduledJobs();
 
 app.listen(8080);
 
