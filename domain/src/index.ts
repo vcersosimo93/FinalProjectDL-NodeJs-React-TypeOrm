@@ -9,6 +9,7 @@ import "reflect-metadata";
 import { precargaMenus } from "./controllers/MenuController"
 import { precargaHorarios } from "./controllers/HorarioController"
 import { precargaReacciones } from "./controllers/ReaccionController"
+import { precargaReaccionesHorarios } from "./controllers/ReaccionHorarioController"
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -29,12 +30,16 @@ AppDataSource.initialize().then(async () => {
   precargaMenus().catch((err) => {
     console.log(err);
   })
-  precargaHorarios().catch((err) => {
-    console.log(err);
-  })
+
   precargaReacciones().catch((err) => {
     console.log(err);
   })
+
+  precargaReaccionesHorarios();
+    
+  precargaHorarios().catch((err) => {
+    console.log(err);
+  });
 })
   .catch(error => console.log(error))
 

@@ -37,6 +37,11 @@ const Horario = () => {
         postData.preventDefault();
         const horaHorario = hora.current.value
         const limitePersonasHorario = limitePersonas.current.value
+        let reaccionHorarioId=1
+        console.log(horarios)
+        if(horarios!=null){
+            reaccionHorarioId=horarios.length+1;
+        }
 
         let url = 'http://localhost:8080/horario/post';
         let method = 'POST';
@@ -48,7 +53,8 @@ const Horario = () => {
             },
             body: JSON.stringify({
                 "hora": horaHorario,
-                "limitePersonas": limitePersonasHorario
+                "limitePersonas": limitePersonasHorario,
+                "reaccionHorario": reaccionHorarioId
             })
         })
             .then(res => {
@@ -59,13 +65,18 @@ const Horario = () => {
             })
             .then(resData => {
                 console.log(resData);
+                reaccionHorarioId++;
                 handleClose();
             })
             .catch(err => {
                 console.log(err);
-                alert("No Se pudo Ingresar el horario. Complete todos los campos.");
+                if(reaccionHorarioId>9){
+                    alert("No se puede añadir un horario superior a id 9.");
+                }
+                else{
+                    alert("No Se pudo Ingresar el horario. Complete todos los campos.");
+                }
             });
-
     }
 
     return (
