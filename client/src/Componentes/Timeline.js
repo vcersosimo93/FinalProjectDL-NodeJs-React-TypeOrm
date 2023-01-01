@@ -112,10 +112,10 @@ const Timeline = () => {
     return (
         <div className="container m-2">
             <div class="row heading" >
-                <div className="col-md-1 align-self-start">
+                <div className="col d-flex">
                     <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
                 </div>
-                <div class="col-md-11 d-flex flex-row-reverse">
+                <div class="col d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
                     <NavLink exact to="/Inicio" id="dash" >
                         <table className="linkContainerSecondOption" >
                             <img src={Volver_img} className="iconosImgSecondOption" />
