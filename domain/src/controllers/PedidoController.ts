@@ -3,6 +3,18 @@ import { Pedido } from "../entity/Pedido"
 
 const manager = AppDataSource.manager
 
+export const getPedidosDelDia = async (req, res) => {
+    try {let fecha = new Date()
+    fecha.setHours(0, 0, 0, 0)
+    const repoP = AppDataSource.getRepository(Pedido)
+    const pedidos = await repoP.findBy({fechaSolicitud : fecha})
+    return res.json(pedidos);
+    }
+    catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+};
+
 export const getPedidos = async (req, res) => {
     try {
         const pedidos = await manager.find(Pedido);
@@ -18,7 +30,6 @@ export const insertPedido = async (req) => {
         pedido.menuId = req.menu;
         pedido.horarioId = Math.floor(Math.random() * (5 - 1 + 1) + 1); //CAMBIAR
         pedido.fechaSolicitud = req.fecha;
-        pedido.estaProcesado = false;
         pedido.empleado = req.user;
         await AppDataSource.manager.save(pedido)
         return 201;

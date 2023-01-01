@@ -3,6 +3,7 @@ import { Horario } from "./Horario"
 import { Empleado } from "./Empleado"
 import { Menu } from "./Menu"
 import { getMenuNombre } from "../controllers/MenuController"
+import { getEmpleadoNombre } from "../controllers/EmpleadoController"
 
 @Entity()
 export class Pedido {
@@ -10,7 +11,14 @@ export class Pedido {
     @PrimaryGeneratedColumn()
     id: number
 
+    @Column({nullable :true})
+    empleadoNombre: string
+
+    @Column({name : 'empleadoId'})
+    empleadoId : number
+
     @ManyToOne(() => Empleado, (empleado) => empleado.pedidos)
+    @JoinColumn({ name : 'empleadoId'})
     empleado: Empleado
 
     @Column({name : 'menuId'})
@@ -30,14 +38,12 @@ export class Pedido {
     @Column({nullable :false})
     fechaSolicitud: Date
 
-    @Column({nullable :false})
-    estaProcesado: Boolean
-
     @Column({nullable :true})
     menuNombre: string
 
     @BeforeInsert()
     async BeforeInsert() {
         this.menuNombre = await getMenuNombre(this.menuId)
+        this.empleadoNombre = await getEmpleadoNombre(this.empleadoId)
     }
 }

@@ -47,3 +47,13 @@ export const createEmpleado = async (usuarioSlack, idSlack) => {
     }
 };
 
+export const getEmpleadoNombre = async (Id) => {
+    try {
+        const empleadoEncontrado = await manager.findOneBy(Empleado, {id: Id})
+        return empleadoEncontrado.nombre
+    }
+    catch (error) {
+        console.log("Error al intentar encontrar un empleado.")
+    }
+}
+
