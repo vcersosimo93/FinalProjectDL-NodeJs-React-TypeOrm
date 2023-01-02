@@ -105,7 +105,21 @@ height: 100%;
   margin-top: 12%;
   border-radius: 25px;
 }
+.login{
+  background-color: white;
+  color: black;
+  width: 40%;
+  height: 60%;
+  align-items: center;
+  align-self: center;
+  display: block;
+  margin-left: 30%;
+  border-radius: 5%;
+}
 
+.login *{
+  background-color: transparent;  
+}
 .textosMenuInicial{
   color: white;
   padding-top: 3%;

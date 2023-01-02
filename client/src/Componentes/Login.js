@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
-import UserImg from '../Images/iconoPerfil.png';
 import LogoInicio from '../Images/LogoInicio.jpg';
 import { useHistory } from 'react-router-dom';
 
-
 function Login() {
 
+  const google = window.google;
   const history = useHistory();
 
   let [user, setUser] = useState({});
@@ -38,15 +37,15 @@ function Login() {
         <div className="col align-self-start">
           <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
         </div>
-        <div className="col d-flex align-self-center justify-content-end">
-          <img src={UserImg} className="UserImg" alt="User" />
-        </div>
       </div>
-      <div className="row"> <h2 className="col d-flex justify-content-center textosMenuInicial">Login</h2></div>
-      <div style={{ "paddingLeft": "40%", "paddingTop": "5%", }} id="signInDiv"></div>
-      {userLS &&
-        history.push('/Inicio')
-      }
+      <div className="card-body p-5 text-center login" >
+        <h2 className="mb-md-5">Iniciar sesión</h2>
+        <div style={{ "padding-left" : "20%" }} id="signInDiv">
+        {userLS &&
+          history.push('/Inicio')
+        }
+        </div>
+      </div >
     </div >
   );
 }
