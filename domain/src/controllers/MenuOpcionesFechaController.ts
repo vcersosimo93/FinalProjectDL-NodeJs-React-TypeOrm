@@ -14,7 +14,9 @@ export const createMenuOpciones = async (req, res, next) => {
         menuOpciones.reaccion = req.body.reaccion;
         await manager.save(menuOpciones)
 
-        res.status(201)
+        res.status(201).json({
+            message: 'Post created successfully!'
+        });
     }
     catch (error) {
         return res.status(500).json({ message: error.message })

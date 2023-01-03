@@ -28,14 +28,14 @@ const MenuSemanales = () => {
             )
     }, [menuesGet])
 
-    const _onHandleSeleccionMenus = (e) =>{
-       
+    const _onHandleSeleccionMenus = (e) => {
+
         let value = Array.from(e.target.selectedOptions, option => option.value);
         //console.log(value)
         setmenues(value);
 
         console.log(menues)
-        
+
     }
 
 
@@ -44,7 +44,7 @@ const MenuSemanales = () => {
         menuOpcionData.preventDefault();
         const menuSelecc = menues
         const fechaAPublicar = fechaSeleccionada.current.value
-        let reaccionId=1;
+        let reaccionId = 1;
         let url = 'http://localhost:8080/menuOpcionesFecha/post'
         let method = 'POST'
 
@@ -54,73 +54,77 @@ const MenuSemanales = () => {
             fetch(url, {
                 method: method,
                 headers: {
-                    'Content-Type': 'application/json'},
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({
                     "menu": menu,
                     "fechaAPublicar": fechaAPublicar,
                     "reaccion": reaccionId
                 })
             }).then(res => {
-                    if (res.status !== 200 && res.status !== 201) {
-                        throw new Error('Creating or editing a post failed!');
-                    }}).then(resData => {
-                    handleShow();})
+                if (res.status !== 200 && res.status !== 201) {
+                    throw new Error('Creating or editing a post failed!');
+                }
+            }).then(resData => {
+                console.log("Prueba");
+                handleShow();
+            })
                 .catch(err => {
                     console.log(err);
                 });
-                reaccionId++;
+            reaccionId++;
         }
     }
 
-    const cerrarModal= ()=>{
+    const cerrarModal = () => {
         handleClose();
     }
 
     return (
         <div className="container m-2">
             <div className="row heading" >
-            <div className="col-md-1 ">
+                <div className="col d-flex">
                     <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
                 </div>
-                <div className="col-md-11 d-flex flex-row-reverse">
+                <div class="col d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
                     <NavLink exact to="/Inicio" id="dash" >
-                        <div className="linkContainerSecondOption" >
+                        <table className="linkContainerSecondOption" >
                             <img src={Volver_img} className="iconosImgSecondOption" />
-                        </div>
+                        </table>
                     </NavLink>
                 </div>
-                <h2 className="col d-flex justify-content-center textosMenuInicial">Menu Programados</h2>
+                <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Menu Programados</h2>
                 <div className="row textosMenuInicial">
                     <form action="/button-submit" method="POST" className="card col d-flex justify-content-center">
                         <label className="divContenido">Seleccionar Las opciones de Pedidos a elaborar.</label>
                         <br></br>
-                        <label  className="divContenido">Fecha Publicación. Día habil previo a la elaboración</label>
+                        <label className="divContenido">Fecha Publicación. Día habil previo a la elaboración</label>
                         <input placeholder="Seleccionar fecha" type="date" className="form-control" id="fechaAlmuerzo" ref={fechaSeleccionada}></input>
                         <br></br>
                         <select aria-label="Default select example" id="pedido" className="selectpicker" name="Menu" multiple data-live-search="true" ref={menu} onChange={_onHandleSeleccionMenus}>
-                            {menuesGet.map((h,index) => <option key={index} value={h.id} >{h.descripcion} </option>)}
+                            {menuesGet.map((h, index) => <option key={index} value={h.id} >{h.descripcion} </option>)}
                         </select><br></br>
                         <button type="submit" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off" onClick={postearOpcionMenu}> Enviar Opciones</button><br></br>
                     </form>
                 </div>
                 <Modal show={show} className="my-modal" onHide={handleClose}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Guardado de Opciones Menu</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Form className="my-modal-form"  >
-                                <Form.Group className="mb-3" controlId="Confirmar Guardado." >
-                                    <Form.Label>Se ha guardado correctamente las opciones de menus seleccionados para publicar en la app de mensajería en la fecha seleccionada.</Form.Label>
-                                    <Form.Label>Siga eligiendo los menú para completar todos los días de la semana.</Form.Label>
-                                </Form.Group>
-                            </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button type="submit" variant="outline-primary" onClick={cerrarModal}  >
-                                Ok, continuar Eligiendo.
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Guardado de Opciones Menu</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form className="my-modal-form"  >
+                            <Form.Group className="mb-3" controlId="Confirmar Guardado." >
+                                <Form.Label>Se ha guardado correctamente las opciones de menus seleccionados para publicar en la app de mensajería en la fecha seleccionada.</Form.Label>
+                                <Form.Label>Siga eligiendo los menú para completar todos los días de la semana.</Form.Label>
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button type="submit" variant="outline-primary" onClick={cerrarModal}  >
+                            Ok, continuar Eligiendo.
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         </div>
     )

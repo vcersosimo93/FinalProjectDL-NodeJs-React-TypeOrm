@@ -136,23 +136,24 @@ const Comidas = () => {
     return (
         <div className="container m-2">
             <div className="row heading" >
-            <div className="col-md-2 align-self-start">
+                <div className="col-md-2 d-flex">
                     <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
                 </div>
-                <div className="col-md-9 d-flex flex-row-reverse">
+                <div className="col-md-9 d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
                     <div className="linkContainerSecondOption" >
                         <Button variant="default" onClick={handleShow}>
-                            <img src={Agregar_Menu_img} className="iconosImgThirdOption" alt ="agregar" />
+                            <img src={Agregar_Menu_img} className="iconosImgThirdOption" alt="agregar" />
                         </Button>
                     </div>
                 </div>
-                <div className="col-md-1 d-flex flex-row-reverse">
+                <div class="col-md-1 d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
                     <NavLink exact to="/Inicio" id="dash" >
-                        <div className="linkContainerSecondOption" >
-                            <img src={Volver_img} className="iconosImgSecondOption" alt = "volver"/>
-                        </div>
+                        <table className="linkContainerSecondOption" >
+                            <img src={Volver_img} className="iconosImgSecondOption" alt="volver" />
+                        </table>
                     </NavLink>
                 </div>
+                <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Comidas</h2>
                 <div className="col-md-1" >
 
                     <Modal show={show} className="my-modal" onHide={handleClose}>
@@ -255,7 +256,7 @@ const Comidas = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {menues.map((m,index) =>
+                        {menues.map((m, index) =>
                         (
                             <TableComida key={index} menu={m} />
                         ))}

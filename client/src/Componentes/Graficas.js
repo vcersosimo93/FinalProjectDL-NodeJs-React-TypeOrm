@@ -37,7 +37,7 @@ const options = {
         },
         title: {
             display: true,
-           //text: 'Chart.js Horizontal Bar Chart',
+            //text: 'Chart.js Horizontal Bar Chart',
         },
     },
 };
@@ -60,17 +60,17 @@ const Graficas = () => {
     return (
         <div className="container m-2">
             <div className="row heading" >
-                <div className="col-md-1 ">
-                        <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
+                <div className="col d-flex">
+                    <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
                 </div>
-                <div className="col-md-11 d-flex flex-row-reverse">
+                <div class="col d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
                     <NavLink exact to="/Inicio" id="dash" >
-                        <div className="linkContainerSecondOption" >
-                            <img src={Volver_img} className="iconosImgSecondOption" alt ="volver" />
-                        </div>
+                        <table className="linkContainerSecondOption" >
+                            <img src={Volver_img} className="iconosImgSecondOption" />
+                        </table>
                     </NavLink>
                 </div>
-                <h2 className="col d-flex justify-content-center textosMenuInicial">Graficas</h2>
+                <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Gráficas</h2>
                 <div className="row textosMenuInicial">
                     <div className="card col d-flex justify-content-center">
                         <h3 className="col d-flex justify-content-center divContenido">Almuerzos por mes</h3>
