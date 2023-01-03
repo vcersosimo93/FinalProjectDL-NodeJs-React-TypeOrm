@@ -27,7 +27,10 @@ app.use(bodyParser.json());
 app.use(cors({ origin: '*' }));
 
 AppDataSource.initialize().then(async () => {
- /* precargaMenus().catch((err) => {
+
+  precargaReaccionesHorarios();
+
+  precargaMenus().catch((err) => {
     console.log(err);
   })
 
@@ -35,11 +38,9 @@ AppDataSource.initialize().then(async () => {
     console.log(err);
   })
 
-  precargaReaccionesHorarios();
-    
   precargaHorarios().catch((err) => {
     console.log(err);
-  });*/
+  });
 })
   .catch(error => console.log(error))
 

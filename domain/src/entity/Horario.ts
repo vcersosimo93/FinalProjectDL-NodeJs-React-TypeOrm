@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn, Timestamp,ManyToOne,BeforeInsert} from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn, Timestamp,ManyToOne,BeforeInsert,BeforeUpdate} from "typeorm"
 import { Pedido } from "./Pedido"
 import { ReaccionHorario } from "./ReaccionHorario"
 import { getEmojiHorario } from '../controllers/ReaccionHorarioController';
@@ -28,6 +28,11 @@ export class Horario{
 
     @BeforeInsert()
     async BeforeInsert() {
+        this.emojiHorario =  await getEmojiHorario(this.reaccionHorario)
+    }
+
+    @BeforeUpdate()
+    async BeforeUpdate() {
         this.emojiHorario =  await getEmojiHorario(this.reaccionHorario)
     }
 

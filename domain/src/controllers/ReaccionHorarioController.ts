@@ -3,11 +3,11 @@ import { ReaccionHorario } from "../entity/ReaccionHorario"
 
 const manager = AppDataSource.manager
 
-export const insertReaccion =  (emoji) => {
+export const insertReaccion = async (emoji) => {
     const horario = new ReaccionHorario()
     horario.emojiHorario = emoji;
     try {
-         manager.save(horario)
+         await manager.save(horario)
     }
     catch {
         console.log("Error al intentar añadir una racción.")
@@ -24,7 +24,7 @@ catch(error){
 }
 }
 
-export const precargaReaccionesHorarios =  () => {
+export const precargaReaccionesHorarios = async () => {
      insertReaccion(":one:");
      insertReaccion(":two:");
      insertReaccion(":three:");

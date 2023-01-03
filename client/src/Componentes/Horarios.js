@@ -31,7 +31,46 @@ const Horario = () => {
             )
     }, [horarios])
 
+    const updateIdReaccionHorarios = ()=>{     
+
+        let idReaccionHorario = 1
+
+        for(let unHorario of horarios){
+
+            const idHorario = unHorario.id
+
+            let url = 'http://localhost:8080/horario/updateIdReaccionHorario'
+            let method = 'PUT'
     
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "id": idHorario,
+                    "reaccionHorario": idReaccionHorario,
+                })
+            })
+                .then(res => {
+                    if (res.status !== 200 && res.status !== 201) {
+                        throw new Error('Error al actualizar horario.');
+                    }
+                    return res.json();
+                })
+                .then(resData => {
+                    console.log(resData);
+                    handleClose();
+                })
+                .catch(err => {
+                    console.log(err);
+                    alert("No se pudo modificar el horario seleccionado.");
+                });
+
+                idReaccionHorario++;
+        }
+    }; 
+
     const handleSubmit = postData => {
 
         postData.preventDefault();
@@ -39,6 +78,7 @@ const Horario = () => {
         const limitePersonasHorario = limitePersonas.current.value
         let reaccionHorarioId=1
         console.log(horarios)
+
         if(horarios!=null){
             reaccionHorarioId=horarios.length+1;
         }
@@ -66,9 +106,9 @@ const Horario = () => {
             .then(resData => {
                 console.log(resData);
                 reaccionHorarioId++;
+                //updateIdReaccionHorarios(); 
                 handleClose();
-            })
-            .catch(err => {
+            }).catch(err => {
                 console.log(err);
                 if(reaccionHorarioId>9){
                     alert("No se puede añadir un horario superior a id 9.");
@@ -76,7 +116,8 @@ const Horario = () => {
                 else{
                     alert("No Se pudo Ingresar el horario. Complete todos los campos.");
                 }
-            });
+            }).then(()=> {updateIdReaccionHorarios()});       
+            console.log(horarios);     
     }
 
     return (
@@ -147,7 +188,8 @@ const Horario = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {horarios.map((h,index) =>
+                            {horarios.sort((a,b)=> a.hora > b.hora ? 1 : -1)
+                            .map((h,index) =>
                             (
                                 <TableHorario key={index} horario={h} />
                             ))}
