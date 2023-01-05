@@ -14,7 +14,4 @@ routerHorario.put('/update', horarioController.updateHorario);
 // DELETE /horario/delete
 routerHorario.delete('/delete', horarioController.deleteHorario);
 
-// UPDATE /horario/updateIdReacciones
-routerHorario.put('/updateIdReaccionHorario', horarioController.updateIdHorarios);
-
 module.exports = routerHorario;

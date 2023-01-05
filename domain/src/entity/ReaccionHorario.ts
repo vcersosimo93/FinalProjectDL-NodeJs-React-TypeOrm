@@ -9,9 +9,6 @@ export class ReaccionHorario {
     id: number
 
     @Column({nullable :false})
-    emojiHorario: string
+    emoji: string
   
-    @OneToMany(() => Horario, (horario) => horario.reaccionHorario)
-    @JoinColumn()
-    horarios: Horario[]
 }

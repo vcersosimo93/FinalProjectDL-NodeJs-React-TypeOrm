@@ -3,9 +3,18 @@ import { ReaccionHorario } from "../entity/ReaccionHorario"
 
 const manager = AppDataSource.manager
 
+export const getReaccionesHorarios = async () => {
+    try {
+        return manager.find(ReaccionHorario);
+    }
+    catch (error) {
+        console.log(error)
+        return 500;
+    }
+}
 export const insertReaccion = async (emoji) => {
     const horario = new ReaccionHorario()
-    horario.emojiHorario = emoji;
+    horario.emoji = emoji;
     try {
          await manager.save(horario)
     }
@@ -14,25 +23,17 @@ export const insertReaccion = async (emoji) => {
     }
 };
 
-export const getEmojiHorario = async (ReaccionId) =>{
-try{
-    const ReaccionEncontrada = await manager.findOneBy(ReaccionHorario, {id: ReaccionId})
-    return ReaccionEncontrada.emojiHorario
-}
-catch(error){
-    console.log(error)
-}
-}
+
 
 export const precargaReaccionesHorarios = async () => {
-     insertReaccion(":one:");
-     insertReaccion(":two:");
-     insertReaccion(":three:");
-     insertReaccion(":four:");
-     insertReaccion(":five:");
-     insertReaccion(":six:");
-     insertReaccion(":seven:");
-     insertReaccion(":eight:");
-     insertReaccion(":nine:");
+     await insertReaccion(":one:");
+     await insertReaccion(":two:");
+     await insertReaccion(":three:");
+     await insertReaccion(":four:");
+     await insertReaccion(":five:");
+     await insertReaccion(":six:");
+     await insertReaccion(":seven:");
+     await insertReaccion(":eight:");
+     await insertReaccion(":nine:");
     console.log("Se insertó correctamente la precarga de reacciones horarios.")
 }

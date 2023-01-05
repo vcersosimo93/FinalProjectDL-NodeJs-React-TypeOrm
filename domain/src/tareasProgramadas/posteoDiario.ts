@@ -1,30 +1,41 @@
 const cron = require('node-cron');
 import { findOpcionesDelDia } from "../controllers/MenuOpcionesFechaController";
-import { getHorariosBase } from "../controllers/HorarioController";
 import { publicarMensaje } from "../slack/apiSlack";
 import { createPosteo } from "../controllers/PosteoDiarioController";
+import { getHorariosOrdenados } from "../controllers/HorarioController";
+import { getReaccionesHorarios } from "../controllers/ReaccionHorarioController";
 
 // Opciones de menu del día
 let opciones;
+let horas;
+let reaccionesHoras;
 
 async function guardarPosteo(){
 
-    let JSONposteoDiario = "[";
+    let JSONposteoDiario = '[{"opciones": [';
     for (let opcion of opciones){
         JSONposteoDiario += '{"emoji" : "' +  opcion.emoji + '", "menu" : "' + opcion.menuNombre + '"},'
     } 
     //Saco el , sobrante
     JSONposteoDiario = JSONposteoDiario.substring(0, JSONposteoDiario.length - 1);
-    JSONposteoDiario += "]"
+    JSONposteoDiario += ']},{"horarios":['
+    for (let i = 0; i < horas.length; i++){
+        JSONposteoDiario += '{"emoji" : "' +  reaccionesHoras[i].emoji + '", "hora" : "' + horas[i].hora + '"},'   
+    }
+    //Saco el , sobrante
+    JSONposteoDiario = JSONposteoDiario.substring(0, JSONposteoDiario.length - 1);
+    JSONposteoDiario += "]}]"
     let ErrorCode = await createPosteo(JSONposteoDiario)
 }
 
 async function obtenerHorarios (){
     let retorno = "Los horarios disponibles son: \n"
-    let horarios = await getHorariosBase()
-    for (let horario of horarios){
-        retorno += horario.hora + "\n"
+    horas = await getHorariosOrdenados()
+    reaccionesHoras = await getReaccionesHorarios()
+    for (let i = 0; i < horas.length; i++){
+        retorno += reaccionesHoras[i].emoji + " " + horas[i].hora.slice(0, 5) + "\n"
     }
+    console.log("retorno" + retorno);
     return retorno;
 }
 

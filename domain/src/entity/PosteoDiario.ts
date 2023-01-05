@@ -7,7 +7,7 @@ export class PosteoDiario {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({length: 400, nullable :false})
+    @Column({length: 1000, nullable :false})
     posteo: string
   
 }

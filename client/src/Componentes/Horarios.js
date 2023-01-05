@@ -31,46 +31,6 @@ const Horario = () => {
             )
     }, [horarios])
 
-    const updateIdReaccionHorarios = () => {
-
-        let idReaccionHorario = 1
-
-        for (let unHorario of horarios) {
-
-            const idHorario = unHorario.id
-
-            let url = 'http://localhost:8080/horario/updateIdReaccionHorario'
-            let method = 'PUT'
-
-            fetch(url, {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "id": idHorario,
-                    "reaccionHorario": idReaccionHorario,
-                })
-            })
-                .then(res => {
-                    if (res.status !== 200 && res.status !== 201) {
-                        throw new Error('Error al actualizar horario.');
-                    }
-                    return res.json();
-                })
-                .then(resData => {
-                    console.log(resData);
-                    handleClose();
-                })
-                .catch(err => {
-                    console.log(err);
-                    alert("No se pudo modificar el horario seleccionado.");
-                });
-
-            idReaccionHorario++;
-        }
-    };
-
     const handleSubmit = postData => {
 
         postData.preventDefault();
@@ -106,7 +66,6 @@ const Horario = () => {
             .then(resData => {
                 console.log(resData);
                 reaccionHorarioId++;
-                //updateIdReaccionHorarios(); 
                 handleClose();
             }).catch(err => {
                 console.log(err);
@@ -116,8 +75,7 @@ const Horario = () => {
                 else {
                     alert("No Se pudo Ingresar el horario. Complete todos los campos.");
                 }
-            }).then(() => { updateIdReaccionHorarios() });
-        console.log(horarios);
+            })
     }
 
     return (

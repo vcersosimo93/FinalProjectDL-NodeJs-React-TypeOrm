@@ -41,5 +41,5 @@ export const findOpcionesDelDia = async () => {
     fecha.setHours(0, 0, 0, 0)
     const repoMO = AppDataSource.getRepository(MenuOpcionesFecha)
     const opciones = await repoMO.findBy({fechaAPublicar : fecha})
-    return opciones
+    return opciones;
 };

@@ -28,9 +28,9 @@ export const getPedidos = async (req, res) => {
 export const insertPedido = async (req) => {
     try{const pedido = new Pedido()
         pedido.menuId = req.menu;
-        pedido.horarioId = Math.floor(Math.random() * (5 - 1 + 1) + 1); //CAMBIAR
+        pedido.horarioId = req.horario
         pedido.fechaSolicitud = req.fecha;
-        pedido.empleado = req.user;
+        pedido.empleadoId = req.user;
         await AppDataSource.manager.save(pedido)
         return 201;
     }
