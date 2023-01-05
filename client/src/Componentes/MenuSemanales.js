@@ -18,6 +18,10 @@ const MenuSemanales = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const [showError, setShowError] = useState(false);
+    const handleCloseError = () => setShowError(false);
+    const handleShowError = () => setShowError(true);
+
     useEffect(() => {
         fetch('http://localhost:8080/menu/getAll').then(
             response => response.json())
@@ -63,13 +67,12 @@ const MenuSemanales = () => {
                 })
             }).then(res => {
                 if (res.status !== 200 && res.status !== 201) {
-                    throw new Error('Creating or editing a post failed!');
+                    handleShowError();
+                    //throw new Error('Creating or editing a post failed!');
+                }else{
+                    handleShow();
                 }
-            }).then(resData => {
-                console.log("Prueba");
-                handleShow();
-            })
-                .catch(err => {
+            }).catch(err => {
                     console.log(err);
                 });
             reaccionId++;
@@ -78,6 +81,10 @@ const MenuSemanales = () => {
 
     const cerrarModal = () => {
         handleClose();
+    }
+
+    const cerrarModalError = () => {
+        handleCloseError();
     }
 
     return (
@@ -122,6 +129,24 @@ const MenuSemanales = () => {
                     <Modal.Footer>
                         <Button type="submit" variant="outline-primary" onClick={cerrarModal}  >
                             Ok, continuar Eligiendo.
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                <Modal show={showError} className="my-modal" onHide={handleCloseError}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Error</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form className="my-modal-form"  >
+                            <Form.Group className="mb-3" controlId="Confirmar Guardado." >
+                                <Form.Label>Ya se agregaron menues para la fecha seleccionada.</Form.Label>
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button type="submit" variant="outline-primary" onClick={cerrarModalError}  >
+                            Ok
                         </Button>
                     </Modal.Footer>
                 </Modal>
