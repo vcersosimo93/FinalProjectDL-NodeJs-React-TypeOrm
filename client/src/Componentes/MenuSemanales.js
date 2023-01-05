@@ -35,7 +35,6 @@ const MenuSemanales = () => {
     const _onHandleSeleccionMenus = (e) => {
 
         let value = Array.from(e.target.selectedOptions, option => option.value);
-        //console.log(value)
         setmenues(value);
 
         console.log(menues)
