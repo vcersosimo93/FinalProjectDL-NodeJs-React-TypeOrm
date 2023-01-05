@@ -12,13 +12,9 @@ export const createMenuOpciones = async (req, res, next) => {
         menuOpciones.menuId = req.body.menu;
         menuOpciones.fechaAPublicar = req.body.fechaAPublicar;
         menuOpciones.reaccion = req.body.reaccion;
-        //console.log("prueba1")
         const menuOpcionesFechaEncontrado = await manager.findOneBy(MenuOpcionesFecha, {
             fechaAPublicar: menuOpciones.fechaAPublicar
         });
-
-        //console.log("prueba1")
-        //console.log("El menu es " + menuOpcionesFechaEncontrado)
 
         if(menuOpcionesFechaEncontrado==null){
             await manager.save(menuOpciones)
