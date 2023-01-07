@@ -50,7 +50,7 @@ const Inicio = () => {
                 </Modal.Footer>
             </Modal>
 
-            <div className="row " style={{ "paddingTop": "10%" }}>
+            <div className="row " style={{ "paddingTop": "6%" }}>
                 <div className="col d-flex justify-content-center">
                     <NavLink exact to="/Comidas" id="dash" >
                         <div className="linkContainer" >
@@ -74,9 +74,9 @@ const Inicio = () => {
                 </div>
                 <div className="row textosMenuInicial">
                 <h2 className="col d-flex justify-content-center">Comidas</h2>
-                <h2 className="col d-flex justify-content-center">Iniciar servicio</h2>
-                <h2 className="col d-flex justify-content-center">Menu Programados</h2>
-            </div>
+                <h2 className="col d-flex justify-content-center">Servicio</h2>
+                <h2 className="col d-flex justify-content-center">Programar menús</h2>
+                </div>
             </div>
             <div className="row " style={{ "paddingTop": "5%" }}>
                 <div className="col d-flex justify-content-center">

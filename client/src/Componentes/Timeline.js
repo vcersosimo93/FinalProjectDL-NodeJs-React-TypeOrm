@@ -3,39 +3,38 @@ import flechaDer from '../Images/flechaDer.png';
 import flechaIzq from '../Images/flechaIzq.png';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 import { useState, useEffect } from 'react';
 import LogoInicio from '../Images/LogoInicio.jpg';
 import Volver_img from '../Images/Volver.png';
 import { NavLink } from 'react-router-dom';
+import Finalizar_img from '../Images/TimelineLiquidar.png'
 
 const Timeline = () => {
     let ordenes = [];
     let ordenesAmostrar = [];
+    const [UE, callUE] = useState(0);
     const [horas, setHoras] = useState([{}]);
     const [cntHoras, setCntHora] = useState(0);
     const [pedidos, setPedidos] = useState([{}]);
     const [show, setShow] = useState(false);
+    const [ModalFinalizar, mostrarMF] = useState(false);
     const [indexPedido, setIndex] = useState(0);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const MFClose = () => mostrarMF(false);
+    const MFShow = () => mostrarMF(true);
 
     useEffect(() => {
         fetch('http://localhost:8080/horario/get').then(
             response => response.json()
-        ).then(
-            data => {
-                setHoras(data)
-            }
-        ).then(
+        ).then(data => {setHoras(data)}).
+        then(
             fetch('http://localhost:8080/pedido/getTimeline').then(
                 response => response.json()
-            ).then(
-                data => {
-                    setPedidos(data)
-                }
-            )
+            ).then(data => {setPedidos(data)})
         )
-    }, [])
+    }, [UE])
 
     const horaProx = () => {
         if (horas[cntHoras + 1] != undefined){
@@ -106,6 +105,24 @@ const Timeline = () => {
         }
     }
 
+    const finalizarPedidos = async () =>{
+       await fetch('http://localhost:8080/pedido/finalizar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "menuId": ordenesAmostrar[indexPedido].id,
+                "horarioId": ordenesAmostrar[indexPedido].horarioId,
+            })
+        }).then(
+             await callUE(UE + 1),
+             cargarMenus(),
+             actualizarMenus(0),
+             MFClose()
+        )
+    }
+
     cargarMenus();
     actualizarMenus(0);
 
@@ -125,34 +142,52 @@ const Timeline = () => {
                 <div className="row" style={{ "paddingTop": "2%" }} ></div>
                 <div className="row tableRedonda">
                     <div className="col d-flex justify-content-center transparent">
-                        <img src={flechaIzq} className="flechasTimeline" alt="flechaIzq" onClick={() => horaAnt()} />
+                        <img src={flechaIzq} className="transparent" alt="flechaIzq" onClick={() => horaAnt()} />
                     </div>
                     <div className="col d-flex justify-content-center transparent">
                         <h2 className='transparent'>{(horas[cntHoras].hora != undefined ? horas[cntHoras].hora.slice(0, 5) : "")}</h2>
                     </div>
                     <div className="col d-flex justify-content-center transparent">
-                        <img src={flechaDer} className="flechasTimeline" alt="flechaDer" onClick={() => horaProx()} />
+                        <img src={flechaDer} className="transparent" alt="flechaDer" onClick={() => horaProx()} />
                     </div>
                 </div>
             </div>
-            <table className="table table-striped table-dark table-hover borderTable new" style={{ "paddingTop": "20%" }}>
+            <table className="table table-striped table-dark table-hover borderTable " style={{ "paddingTop": "20%" }}>
                     <thead>
                         <tr>
                             <th scope="col">Menu</th>
                             <th scope="col">Cantidad</th>
+                            <th scope="col">Finalizar pedido</th>
                         </tr>
                     </thead>
                     <tbody>
                         {ordenesAmostrar.map((o, index) =>
                         (
-                            <tr key={o.id} onClick={ () => setIndex(index)}>
+                            <tr  key={o.id} onClick={ () => setIndex(index)}>
                                 <td onClick={handleShow}>{o.nombre}</td>
-                                <td >{o.cantidad}</td>
+                                <td className= "text-center">{o.cantidad}</td>
+                                <td onClick={MFShow}><img src={Finalizar_img} className = "iconoGeneral"  alt="finalizar"/></td>
                             </tr>        
                         ))}
                     </tbody>
                 </table>
                 
+                <Modal show={ModalFinalizar} className="my-modal" onHide={MFClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>¿Finalizar pedido?</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Button variant="outline-primary" onClick={finalizarPedidos}>
+                            Si
+                        </Button>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="outline-primary" onClick={MFClose}>
+                        Cancelar
+                    </Button>
+                </Modal.Footer>
+                </Modal>
+
                 <Modal show={show} className="my-modal" onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Comensales:</Modal.Title>

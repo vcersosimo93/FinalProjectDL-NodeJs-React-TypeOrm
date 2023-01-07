@@ -14,7 +14,9 @@ async function guardarPosteo(){
 
     let JSONposteoDiario = '[{"opciones": [';
     for (let opcion of opciones){
-        JSONposteoDiario += '{"emoji" : "' +  opcion.emoji + '", "menu" : "' + opcion.menuNombre + '"},'
+        JSONposteoDiario += '{"emoji" : "' +  opcion.emoji + '", "menu" : "' + opcion.menuNombre + '"},' 
+        //agregar menuid  = opcion.id 
+        //agregar esvegetariano = opcion.EsVegetariano
     } 
     //Saco el , sobrante
     JSONposteoDiario = JSONposteoDiario.substring(0, JSONposteoDiario.length - 1);

@@ -2,12 +2,28 @@ import { AppDataSource } from "../data-source"
 import { Pedido } from "../entity/Pedido"
 
 const manager = AppDataSource.manager
+const repoP = AppDataSource.getRepository(Pedido)
+
+export const finalizarPedidos = async (req, res) => {
+    try{
+        await manager.createQueryBuilder()
+        .update(Pedido)
+        .set({procesado : true})
+        .where("menuId =" + req.body.menuId + " and horarioId =" + req.body.horarioId)
+        .execute()
+        return 200;
+    }
+    catch(error)
+    {
+        throw new Error(error)
+    }
+};
+
 
 export const getPedidosDelDia = async (req, res) => {
     try {let fecha = new Date()
     fecha.setHours(0, 0, 0, 0)
-    const repoP = AppDataSource.getRepository(Pedido)
-    const pedidos = await repoP.findBy({fechaSolicitud : fecha})
+    const pedidos = await repoP.findBy({fechaSolicitud : fecha, procesado : false})
     return res.json(pedidos);
     }
     catch (error) {
@@ -31,6 +47,7 @@ export const insertPedido = async (req) => {
         pedido.horarioId = req.horario
         pedido.fechaSolicitud = req.fecha;
         pedido.empleadoId = req.user;
+        pedido.procesado = false;
         await AppDataSource.manager.save(pedido)
         return 201;
     }

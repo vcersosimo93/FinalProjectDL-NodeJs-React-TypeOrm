@@ -33,11 +33,6 @@
   }
 }
 
-.divBasico {
-background-color: #3B95F5; 
-height: 100%; 
-}
-
 
 .linkContainer{
   background-color: white;
@@ -97,6 +92,14 @@ height: 100%;
   margin-top: 12%;
 }
 
+.iconoGeneral {
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  display: block;
+  margin: auto;
+}
+
 .iconosOtherOption{
   width: 45px;
   height: 45px;
@@ -132,10 +135,6 @@ height: 100%;
   align-items: center;
 }
 
-.flechasTimeline{
-background-color: transparent;
-}
-
 .transparent{
   background-color: transparent;
 }
@@ -145,25 +144,6 @@ background-color: transparent;
   border-radius: 25px;
   height: 60%;
   padding: 5px 0 5px 0;
-}
-
-.itemTimeline{
-  background-color: #282c34;
-  color: white;
-  border-radius: 25px;
-  margin: 30px 10px 30px 10px;
-  height: 50px;
-}
-
-.itemTimeline p {
-  background-color: transparent;
-  
-}
-
-.itemTimeline img {
-  width: 50px;
-  height: 50px;
-  background-color: transparent;
 }
 
 .my-modal .modal-content {
@@ -247,7 +227,6 @@ background-color: transparent;
   font-size: 20px;
 }
 
-
 .paraCard{
   background-color: white;
   color: #3B95F5; 
@@ -256,8 +235,6 @@ background-color: transparent;
   padding: 0
   ;
 }
-
-
 
 .divContenido{
   background-color: white;
