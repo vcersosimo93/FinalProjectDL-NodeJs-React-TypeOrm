@@ -20,6 +20,16 @@ export const findOrCreateUsuario = async (idSlack) => {
         return 500;
     }
 }
+export const getIdSlackEmpleadoById = async (id) => {
+    try{
+        const empleado = await manager.findOneBy(Empleado, {id: id})
+        return empleado.idSlack;
+    }
+    catch(error){
+        console.log(error);
+        return 500;
+    }
+}
 
 const findEmpleado = async (idSlack) => {
     try{

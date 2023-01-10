@@ -1,4 +1,4 @@
-import { Console } from "console";
+import { getIdSlackEmpleadoById } from "../controllers/EmpleadoController"
 
 let tokenBot = process.env.SLACK_TOKEN
 const { WebClient, LogLevel } = require("@slack/web-api");
@@ -34,7 +34,24 @@ export async function getUsuario(user){
     console.log(error)
     return 500;
   }
+}
 
+export async function usuarioExcedePedido (usuario){ 
+  try {
+      let empleado = await getIdSlackEmpleadoById(usuario)
+      const userConversation = await client.conversations.open({
+      token: tokenBot,
+      users : empleado
+      });
+      await client.chat.postMessage({
+        token: tokenBot,
+        channel: userConversation.channel.id,
+        text: "El horario seleccionado para almorzar se encuentra completo, para lograr coordinar correctamente la disponibilidad contactarse con Felipe o Sofia."
+      });
+  }
+  catch (error) {
+    throw new Error(error);
+  }
 }
 
 async function obtenerUltimoMensajeBot(canal, bot){

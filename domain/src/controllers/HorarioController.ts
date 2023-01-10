@@ -5,13 +5,28 @@ import { Horario } from "../entity/Horario"
 const manager = AppDataSource.manager
 const repoH = manager.getRepository(Horario)
 
+export const pedidoExcedeHorario = async (id, cantidad) => {
+    try {
+        let horario = await repoH.findOne({where: {id : id}});
+        if (cantidad > horario.limitePersonas){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    catch (error) {
+        throw new Error(error);
+    }
+
+}
+
 export const getHorarioByHora = async (hora) => {
     try {
         return await repoH.findOne({where: {hora : hora}});
     }
     catch (error) {
-        console.log(error)
-        return 500
+        throw new Error(error);
     }
 }
 
@@ -20,8 +35,7 @@ export const getHorariosOrdenados = async () => {
         return await repoH.find({where: {},order: { hora : 'ASC' }});
     }
     catch (error) {
-        console.log(error)
-        return 500
+        throw new Error(error);
     }
 }
 

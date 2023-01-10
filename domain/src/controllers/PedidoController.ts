@@ -1,5 +1,7 @@
 import { AppDataSource } from "../data-source"
 import { Pedido } from "../entity/Pedido"
+import { pedidoExcedeHorario } from "../controllers/HorarioController"
+import { usuarioExcedePedido } from "../slack/apiSlack"
 
 const manager = AppDataSource.manager
 const repoP = AppDataSource.getRepository(Pedido)
@@ -49,11 +51,33 @@ export const insertPedido = async (req) => {
         pedido.empleadoId = req.user;
         pedido.procesado = false;
         await AppDataSource.manager.save(pedido)
+        let pedidosHechos = await countPedidosByHorarioAndFecha(req.horario.id, req.fecha)
+        let informarUsuario = await pedidoExcedeHorario(req.horario.id, pedidosHechos)
+        if (informarUsuario == true)
+        {
+           await usuarioExcedePedido(req.user);
+        }
         return 201;
     }
     catch(error){
         console.log(error);
         return 500;
     }
-};
+}
 
+const countPedidosByHorarioAndFecha = async (horario, fecha) => {
+    try{
+        let pedidos = await manager.find(Pedido)
+        let contador = 0
+        for (let i = 0; i < pedidos.length ; i++){
+            if ((pedidos[i].horarioId == horario) && (pedidos[i].fechaSolicitud.getTime() == fecha.getTime())){
+                contador += 1;
+            }
+        }
+        return contador;
+    }
+    catch(error)
+    {
+        throw new Error(error)
+    }
+}
