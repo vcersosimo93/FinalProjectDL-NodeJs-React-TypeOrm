@@ -14,9 +14,7 @@ async function guardarPosteo(){
 
     let JSONposteoDiario = '[{"opciones": [';
     for (let opcion of opciones){
-        JSONposteoDiario += '{"emoji" : "' +  opcion.emoji + '", "menu" : "' + opcion.menuNombre + '"},' 
-        //agregar menuid  = opcion.id 
-        //agregar esvegetariano = opcion.EsVegetariano
+        JSONposteoDiario += '{"emoji" : "' +  opcion.emoji + '", "menu" : "' + opcion.menuId + '"},' 
     } 
     //Saco el , sobrante
     JSONposteoDiario = JSONposteoDiario.substring(0, JSONposteoDiario.length - 1);
@@ -45,7 +43,11 @@ async function obtenerMenus (){
     let retorno = "Buen día, aquí están las opciones para el almuerzo de mañana: \n" ;
     opciones = await findOpcionesDelDia()
     for (let opcion of opciones){
-        retorno += opcion.emoji + " " + opcion.menuNombre + "\n"
+        let emojiHoja = "";
+        if (opcion.esVegetariano) {
+           emojiHoja = " :herb:" 
+        }
+        retorno += opcion.emoji + " " + opcion.menuNombre + emojiHoja + "\n"
     } 
     return retorno;
 }

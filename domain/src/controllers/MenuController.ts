@@ -115,6 +115,16 @@ export const deleteMenu = (req, res, next) => {
     }
 };
 
+export const getEsVegetariano = async (Id) => {
+    try {
+        const menuEncontrado = await manager.findOneBy(Menu, {id: Id})
+        return menuEncontrado.esVegetariano
+    }
+    catch (error) {
+        console.log("Error al intentar encontrar un menu.")
+    }
+}
+
 export const getMenuNombre = async (Id) => {
     try {
         const menuEncontrado = await manager.findOneBy(Menu, {id: Id})
