@@ -11,9 +11,6 @@ export class Horario{
     @Column('time',{nullable :false, unique : true})
     hora: Date
 
-    @Column({nullable :false})
-    limitePersonas : number
-
     @OneToMany(() => Pedido, (pedido) => pedido.horario)
     @JoinColumn({name: 'horario_id'})
     pedidos: Pedido[]

@@ -10,7 +10,6 @@ import { useRef } from 'react';
 const TableHorario = ({ horario }) => {
 
     const hora = useRef()
-    const limitePersonas = useRef()
 
     const [show, setShow] = useState(false);
     const [showDL, setShowDL] = useState(false);
@@ -19,14 +18,12 @@ const TableHorario = ({ horario }) => {
     const handleShowDL = () => setShowDL(true);
     const handleCloseDL = () => setShowDL(false);
     const horaHorario = horario.hora
-    const limitePersonasHorario = horario.limitePersonas
 
     const handleSubmitUP = updateData => {
 
         updateData.preventDefault();
         const idHorario = horario.id
         const horaHorario = hora.current.value
-        const limitePers = limitePersonas.current.value
 
         let url = 'http://localhost:8080/horario/update'
         let method = 'PUT'
@@ -39,7 +36,6 @@ const TableHorario = ({ horario }) => {
             body: JSON.stringify({
                 "id": idHorario,
                 "hora": horaHorario,
-                "limitePersonas": limitePers
             })
         })
             .then(res => {
@@ -94,8 +90,7 @@ const TableHorario = ({ horario }) => {
 
     return (
         <tr key={horario.id} >
-            <td >{horario.hora}</td>
-            <td >{horario.limitePersonas}</td>
+            <td >{horario.hora != undefined ? horario.hora.slice(0, 5) : ""}</td>
             <td ><Button variant="default" onClick={handleShowDL}><img src={Volver_img} className="iconosOtherOption" alt="volver"/></Button></td>
             <td ><Button variant="default" onClick={handleShow}><img src={Lapiz_Comidas_Menu_img} className="iconosOtherOption" alt="modificar"/></Button></td>
 
@@ -114,16 +109,6 @@ const TableHorario = ({ horario }) => {
                                 name="hora"
                                 ref={hora}
                                 defaultValue={horaHorario}
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="limitePersonas" >
-                            <Form.Label>Limite Personas</Form.Label>
-                            <Form.Control
-                                type="number"
-                                label="Limite Personas"
-                                name='limitePersonas'
-                                ref={limitePersonas}
-                                defaultValue={limitePersonasHorario}
                             />
                         </Form.Group>
                     </Form>

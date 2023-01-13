@@ -15,7 +15,6 @@ import LogoInicio from '../Images/LogoInicio.jpg';
 const Horario = () => {
 
     const hora = useRef()
-    const limitePersonas = useRef()
     const [horarios, setHorarios] = useState([{}]);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -35,7 +34,6 @@ const Horario = () => {
 
         postData.preventDefault();
         const horaHorario = hora.current.value
-        const limitePersonasHorario = limitePersonas.current.value
         let reaccionHorarioId = 1
         console.log(horarios)
 
@@ -53,7 +51,6 @@ const Horario = () => {
             },
             body: JSON.stringify({
                 "hora": horaHorario,
-                "limitePersonas": limitePersonasHorario,
                 "reaccionHorario": reaccionHorarioId
             })
         })
@@ -117,15 +114,6 @@ const Horario = () => {
                                         ref={hora}
                                     />
                                 </Form.Group>
-                                <Form.Group className="mb-3" controlId="limitePersonas" >
-                                    <Form.Label>Limite Personas</Form.Label>
-                                    <Form.Control
-                                        type="number"
-                                        label="Limite Personas"
-                                        name='limitePersonas'
-                                        ref={limitePersonas}
-                                    />
-                                </Form.Group>
                             </Form>
                         </Modal.Body>
                         <Modal.Footer>
@@ -141,7 +129,6 @@ const Horario = () => {
                     <thead>
                         <tr>
                             <th scope="col">Hora</th>
-                            <th scope="col">Limite Personas</th>
                             <th scope="col">Eliminar</th>
                             <th scope="col">Modificar</th>
                         </tr>

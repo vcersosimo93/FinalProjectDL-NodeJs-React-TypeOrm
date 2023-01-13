@@ -51,7 +51,7 @@ async function procesarPedidosPT2(reacciones, userId, menuId){
 
 exports.initScheduledJobs = () => {
     //Corre (antes que el posteo diario) a las 00:30 de lunes a viernes (1-5)
-    const pedidosDiarios = cron.schedule('30 0 * * 1-5', async ()  =>{
+    const pedidosDiarios = cron.schedule('50 20 * * 1-5', async ()  =>{
     let mensaje;
     mensaje = await mensajeDelDia();
     UltimoPost = await ultimoPosteo();

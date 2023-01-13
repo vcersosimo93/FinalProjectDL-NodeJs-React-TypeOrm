@@ -1,6 +1,5 @@
 import { AppDataSource } from "../data-source"
 import { Pedido } from "../entity/Pedido"
-import { pedidoExcedeHorario } from "../controllers/HorarioController"
 import { usuarioExcedePedido } from "../slack/apiSlack"
 
 const manager = AppDataSource.manager
@@ -52,8 +51,8 @@ export const insertPedido = async (req) => {
         pedido.procesado = false;
         await AppDataSource.manager.save(pedido)
         let pedidosHechos = await countPedidosByHorarioAndFecha(req.horario.id, req.fecha)
-        let informarUsuario = await pedidoExcedeHorario(req.horario.id, pedidosHechos)
-        if (informarUsuario == true)
+        let cantidadPedidosXHorario = process.env.LIMITE_HORARIOS
+        if (cantidadPedidosXHorario != undefined && pedidosHechos > parseInt(cantidadPedidosXHorario))
         {
            await usuarioExcedePedido(req.user);
         }

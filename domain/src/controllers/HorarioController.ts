@@ -5,22 +5,6 @@ import { Horario } from "../entity/Horario"
 const manager = AppDataSource.manager
 const repoH = manager.getRepository(Horario)
 
-export const pedidoExcedeHorario = async (id, cantidad) => {
-    try {
-        let horario = await repoH.findOne({where: {id : id}});
-        if (cantidad > horario.limitePersonas){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-    catch (error) {
-        throw new Error(error);
-    }
-
-}
-
 export const getHorarioByHora = async (hora) => {
     try {
         return await repoH.findOne({where: {hora : hora}});
@@ -63,15 +47,13 @@ export const getHorariosBase = async () => {
 export const createHorario = async (req, res, next) => {
     try {
         const hora = req.body.hora;
-        const limitePersonas = req.body.limitePersonas;
         const reaccionHorario = req.body.reaccionHorario;
         const horario = new Horario();
         horario.hora = hora
-        horario.limitePersonas = limitePersonas
         await manager.save(horario)
         res.status(201).json({
             message: 'Horario creado exitosamente.',
-            post: { hora: hora, limitePersonas: limitePersonas, reaccionHorario: reaccionHorario}
+            post: { hora: hora, reaccionHorario: reaccionHorario}
         })
     }
     catch (error) {
@@ -84,7 +66,6 @@ export const updateHorario = async(req, res, next) => {
     try {
         const idHorario = req.body.id;
         const hora = req.body.hora;
-        const lim = req.body.limitePersonas;
 
         const horarioEncontrado = await manager.findOneBy(Horario, {
             id: idHorario
@@ -95,7 +76,6 @@ export const updateHorario = async(req, res, next) => {
             }
 
             horarioEncontrado.hora = hora;
-            horarioEncontrado.limitePersonas = lim;
             AppDataSource.manager.save(horarioEncontrado);
         }).then(result => {
             res.status(200).json({ message: 'Horario actualizado correctamente.', horarioEncontrado: result });
@@ -127,20 +107,19 @@ export const deleteHorario = async (req, res, next) => {
 };
 
 export const precargaHorarios = async () => {
-    await insertHorario('12:30', 30);
-    await insertHorario('12:45', 30);
-    await insertHorario('13:00', 30);
-    await insertHorario('13:15', 30);
-    await insertHorario('13:30', 30);
-    await insertHorario('13:45', 30);
-    await insertHorario('14:00', 30);
+    await insertHorario('12:30');
+    await insertHorario('12:45');
+    await insertHorario('13:00');
+    await insertHorario('13:15');
+    await insertHorario('13:30');
+    await insertHorario('13:45');
+    await insertHorario('14:00');
     console.log("Se insertó correctamente la precarga de horarios.")
 }
 
-export const insertHorario = async (hra, limPers) => {
+export const insertHorario = async (hra) => {
     const horario = new Horario()
     horario.hora = hra;
-    horario.limitePersonas = limPers;
     await AppDataSource.manager.save(horario)
 };
 
