@@ -102,15 +102,15 @@ const MenuSemanales = () => {
                 <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Menu Programados</h2>
                 <div className="row textosMenuInicial">
                     <form action="/button-submit" method="POST" className="card col d-flex justify-content-center">
-                        <label className="divContenido">Seleccionar Las opciones de Pedidos a elaborar.</label>
+                        <label className="divContenido">Programar un pedido</label>
                         <br></br>
-                        <label className="divContenido">Fecha Publicación. Día habil previo a la elaboración</label>
+                        <label className="textoNegro">Fecha de publicación</label>
                         <input placeholder="Seleccionar fecha" type="date" className="form-control" id="fechaAlmuerzo" ref={fechaSeleccionada}></input>
                         <br></br>
                         <select aria-label="Default select example" id="pedido" className="selectpicker" name="Menu" multiple data-live-search="true" ref={menu} onChange={_onHandleSeleccionMenus}>
-                            {menuesGet.map((h, index) => <option key={index} value={h.id} >{h.descripcion} </option>)}
+                            {menuesGet.map((h, index) => <option className="itemMenuSemanales" key={index} value={h.id} >{h.descripcion} </option>)}
                         </select><br></br>
-                        <button type="submit" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off" onClick={postearOpcionMenu}> Enviar Opciones</button><br></br>
+                        <button type="submit" style={{"backgroundColor": "#212529"}} className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off" onClick={postearOpcionMenu}> Enviar Opciones</button><br></br>
                     </form>
                 </div>
                 <Modal show={show} className="my-modal" onHide={handleClose}>
