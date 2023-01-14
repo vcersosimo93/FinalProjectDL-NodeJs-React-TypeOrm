@@ -31,7 +31,7 @@ AppDataSource.initialize().then(async () => {
   precargaReaccionesHorarios().catch((err) => {
     console.log(err);
   })
-  /*precargaMenus().catch((err) => {
+  precargaMenus().catch((err) => {
     console.log(err);
   })
   precargaReacciones().catch((err) => {
@@ -39,7 +39,7 @@ AppDataSource.initialize().then(async () => {
   })
   precargaHorarios().catch((err) => {
     console.log(err);
-  });*/
+  });
 })
   .catch(error => console.log(error))
 

@@ -1,5 +1,7 @@
 import { AppDataSource } from "../data-source"
 import { Horario } from "../entity/Horario"
+import { Pedido } from "../entity/Pedido"
+
 
 
 const manager = AppDataSource.manager
@@ -67,18 +69,32 @@ export const updateHorario = async(req, res, next) => {
         const idHorario = req.body.id;
         const hora = req.body.hora;
 
-        const horarioEncontrado = await manager.findOneBy(Horario, {
-            id: idHorario
-        }).then(horarioEncontrado => {
-            if (!horarioEncontrado) {
-                const error = new Error('No se encontro el horario.');
+        const pedidoEncontrado = await manager.findOneBy(Pedido, {
+            horarioId: idHorario
+        }).then(pedidoEncontrado => {
+            if (pedidoEncontrado) {
+                const error = new Error('Hay pedidos para este horario, no se puede modificar.');
                 throw error;
             }
 
-            horarioEncontrado.hora = hora;
-            AppDataSource.manager.save(horarioEncontrado);
-        }).then(result => {
-            res.status(200).json({ message: 'Horario actualizado correctamente.', horarioEncontrado: result });
+            try{
+                const horarioEncontrado = manager.findOneBy(Horario, {
+                    id: idHorario
+                }).then(horarioEncontrado => {
+                    if (!horarioEncontrado) {
+                        const error2 = new Error('No se encontro el horario.');
+                        throw error2;
+                    }
+        
+                    horarioEncontrado.hora = hora;
+                    AppDataSource.manager.save(horarioEncontrado);
+                }) 
+                .then(result => {
+                    res.status(200).json({ message: 'Horario actualizado correctamente.', horarioEncontrado: result });
+                })
+            }catch (error2) {
+                return res.status(500).json({ message: error2.message })
+            }
         })
     }
     catch (error) {
@@ -89,16 +105,30 @@ export const updateHorario = async(req, res, next) => {
 export const deleteHorario = async (req, res, next) => {
     try {
         const idHorario = req.body.id;
-        const horarioEncontrado = await manager.findOneBy(Horario, {
-            id: idHorario
-        }).then(horarioEncontrado => {
-            if (!horarioEncontrado) {
-                const error = new Error('No se encontro el horario.');
+
+        const pedidoEncontrado = await manager.findOneBy(Pedido, {
+            horarioId: idHorario
+        }).then(pedidoEncontrado => {
+            if (pedidoEncontrado) {
+                const error = new Error('Hay pedidos para este horario, no se puede eliminar.');
                 throw error;
             }
-            AppDataSource.manager.remove(horarioEncontrado);
-        }).then(result => {
-            res.status(200).json({ message: 'Horario eliminado!' });
+
+            try{
+                const horarioEncontrado = manager.findOneBy(Horario, {
+                    id: idHorario
+                }).then(horarioEncontrado => {
+                    if (!horarioEncontrado) {
+                        const error2 = new Error('No se encontro el horario.');
+                        throw error2;
+                    }
+                    AppDataSource.manager.remove(horarioEncontrado);
+                }).then(result => {
+                    res.status(200).json({ message: 'Horario eliminado!' });
+                })
+            }    catch (error2) {
+                return res.status(500).json({ message: error2.message })
+            }
         })
     }
     catch (error) {

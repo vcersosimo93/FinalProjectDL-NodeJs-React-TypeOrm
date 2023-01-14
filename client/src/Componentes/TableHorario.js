@@ -50,7 +50,7 @@ const TableHorario = ({ horario }) => {
             })
             .catch(err => {
                 console.log(err);
-                alert("No se pudo modificar el horario seleccionado.");
+                alert("No se pudo modificar el horario seleccionado. Existen pedidos solicitados para este horario.");
             });
 
     }
@@ -85,6 +85,7 @@ const TableHorario = ({ horario }) => {
             })
             .catch(err => {
                 console.log(err);
+                alert("No se pudo borrar el horario seleccionado. Existen pedidos solicitados para este horario.");
             });
     }
 
