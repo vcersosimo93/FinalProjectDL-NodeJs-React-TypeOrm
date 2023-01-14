@@ -2,6 +2,8 @@ import React from 'react';
 import LogoInicio from '../Images/LogoInicio.jpg';
 import { NavLink } from 'react-router-dom';
 import Volver_img from '../Images/Volver.png';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 let menu = [
     { id: 1, nombreMenu: "Bondiola", metodoCantidadSolXSem: 0 },
@@ -48,6 +50,30 @@ let feedbacks = [
 ]
 
 const Informes = () => {
+
+    const [pedidosTodos, setPedidosTodos] = useState([{}]);
+    const [horariosTodos, setHorariosTodos] = useState([{}]);
+
+    useEffect(() => {
+        fetch('http://localhost:8080/pedido/get').then(
+            response => response.json()
+        ).then(
+            data => {
+                setPedidosTodos(data)
+            }
+        )
+    }, [pedidosTodos])
+
+    useEffect(() => {
+        fetch('http://localhost:8080/horario/get').then(
+            response => response.json())
+            .then(
+                data => {
+                    setHorariosTodos(data);
+                }
+            )
+    }, [horariosTodos])
+
     return (
         <div className="container m-2">
             <div className="row heading" >
@@ -66,11 +92,11 @@ const Informes = () => {
                     <div className=" card col d-flex justify-content-center">
                         <h3 className=" justify-content-center tituloInforme">Platos elaborados por horario por día</h3>
                         <label className="divContenido">Fecha Elaboración</label>
-                        <input placeholder="Seleccionar fecha" type="date" className="form-control" id="horario"></input><br></br>
+                        <input placeholder="Seleccionar fecha" type="date" className="form-control" id="fechaId" name="fecha"></input><br></br>
                         <label className="divContenido">Horario de Almuerzo</label>
-                        <select className="form-select divContenido" aria-label="Default select example" id="horario">
+                        <select className="form-select divContenido" aria-label="Default select example" id="horario" name="hora">
                             <option value>Seleccione Horario</option>
-                            {horarios.map(h => <option key={h.id} value={h.id}>{h.horaDesde}</option>)}
+                            {horariosTodos.map(h => <option key={h.id} value={h.id}>{h.hora}</option>)}
                         </select><br></br>
                         <button type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
                         <table className="table table-striped table-dark table-hover borderTable">
@@ -84,7 +110,7 @@ const Informes = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {pedidos.map(p => <tr key={p.id}><td key={p.id + "nombre"}>{p.nombreMenu}</td><td key={p.id + "nombreEmpleado"}>{p.nombreEmpleado}</td><td key={p.id + "horario"}>{p.horario}</td><td key={p.id + "dia"}>{p.diaAlmuerzo}</td><td key={p.id + "esVeg"}>{p.esVegetariano}</td></tr>)}
+                                {pedidosTodos.map(p => <tr key={p.id}><td key={p.id + "nombre"}>{p.menuNombre}</td><td key={p.id + "nombreEmpleado"}>{p.empleadoNombre}</td><td key={p.id + "horario"}>{p.horarioId}</td><td key={p.id + "dia"}>{p.fechaSolicitud}</td><td key={p.id + "esVeg"}>{p.menuId}</td></tr>)}
                             </tbody>
                         </table>
                         <h3 className="divContenido">Cantidad</h3>
