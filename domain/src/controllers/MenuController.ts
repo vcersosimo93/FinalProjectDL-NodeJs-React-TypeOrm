@@ -1,5 +1,7 @@
 import { AppDataSource } from "../data-source";
 import { Menu } from '../entity/Menu';
+import { MenuOpcionesFecha } from '../entity/MenuOpcionesFecha';
+import { Pedido } from "../entity/Pedido"
 const express = require('express');
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -7,11 +9,11 @@ app.use(express.urlencoded({ extended: true }));
 const manager = AppDataSource.manager
 
 export const getMenuIdByNombre = async (nombre) => {
-    try{
-        const m = await manager.findOneBy(Menu, {descripcion: nombre})
+    try {
+        const m = await manager.findOneBy(Menu, { descripcion: nombre })
         return m.id;
     }
-    catch(error){
+    catch (error) {
         console.log(error);
         return 500;
     }
@@ -74,50 +76,109 @@ export const updateMenu = async (req, res, next) => {
         const esVeg = req.body.esVegetariano;
         const desc = req.body.descripcion;
 
-        const menuEncontrado = await manager.findOneBy(Menu, {
-            id: idMenu
-        }).then(menuEncontrado => {
-            if (!menuEncontrado) {
-                const error = new Error('No se encuentra el menu.');
-                throw error;
+        const opcionMenuEncontrada = await manager.findOneBy(MenuOpcionesFecha, {
+            menuId: idMenu
+        }).then(async (opcionMenuEncontrada) => {
+            console.log(opcionMenuEncontrada)
+            if (opcionMenuEncontrada) {
+                const error3 = new Error('Ya hay opciones menu fecha del menu a actualizar. No se puede actualizar.');
+                throw error3;
             }
-            menuEncontrado.esVegetariano = esVeg;
-            menuEncontrado.descripcion = desc;
-            manager.save(menuEncontrado);
-        }).then(result => {
-            res.status(200).json({ message: 'Menu actualizado.', menuEncontrado: result });
+
+            try {
+                const pedidoEncontrado = await manager.findOneBy(Pedido, {
+                    menuId: idMenu
+                }).then(async (pedidoEncontrado) => {
+                    console.log(pedidoEncontrado)
+                    if (pedidoEncontrado) {
+                        const error2 = new Error('Hay pedidos para este menu. No se puede actualizar.');
+                        throw error2;
+                    }
+
+                    try {
+                        const menuEncontrado = await manager.findOneBy(Menu, {
+                            id: idMenu
+                        }).then((menuEncontrado) => {
+                            console.log(menuEncontrado)
+                            if (!menuEncontrado) {
+                                const error1 = new Error('No se encuentra el menu. No se puede actualizar.');
+                                throw error1;
+                            }
+                            menuEncontrado.esVegetariano = esVeg;
+                            menuEncontrado.descripcion = desc;
+                            manager.save(menuEncontrado);
+                        })
+                        .then(result => {
+                            res.status(200).json({ message: 'Menu actualizado.', menuEncontrado: result });
+                        })
+                    } catch (error1) {
+                        return res.status(500).json({ message: error1.message })
+                    }
+                })
+            } catch (error2) {
+                return res.status(500).json({ message: error2.message })
+            }
         })
     }
-    catch (error) {
-        return res.status(500).json({ message: error.message })
+    catch (error3) {
+        return res.status(500).json({ message: error3.message })
     }
 };
 
-export const deleteMenu = (req, res, next) => {
+export const deleteMenu = async (req, res, next) => {
 
     try {
         const idMenu = req.body.id;
-        const menuEncontrado = manager.findOneBy(Menu, {
-            id: idMenu
-        }).then(menuEncontrado => {
-            if (!menuEncontrado) {
-                const error = new Error('No se encontró el menú.');
-                throw error;
+
+        const opcionMenuEncontrada = await manager.findOneBy(MenuOpcionesFecha, {
+            menuId: idMenu
+        }).then(async (opcionMenuEncontrada) => {
+            console.log(opcionMenuEncontrada)
+            if (opcionMenuEncontrada) {
+                const error3 = new Error('Ya hay opciones menu fecha del menu a eliminar. No se puede eliminar.');
+                throw error3;
             }
-            manager.remove(menuEncontrado);
+
+            try {
+                const pedidoEncontrado = await manager.findOneBy(Pedido, {
+                    menuId: idMenu
+                }).then(async pedidoEncontrado => {
+                    console.log(pedidoEncontrado)
+                    if (pedidoEncontrado) {
+                        const error2 = new Error('Hay pedidos para este menu. No se puede eliminar.');
+                        throw error2;
+                    }
+
+                    try {
+                        const menuEncontrado = await manager.findOneBy(Menu, {
+                            id: idMenu
+                        }).then(menuEncontrado => {
+                            if (!menuEncontrado) {
+                                const error1 = new Error('No se encontró el menú. No se puede eliminar.');
+                                throw error1;
+                            }
+                            manager.remove(menuEncontrado);
+                        })
+                        .then(result => {
+                            res.status(200).json({ message: 'Menu eliminado.' });
+                        })
+                    } catch (error1) {
+                        return res.status(500).json({ message: error1.message })
+                    }
+                })
+            } catch (error2) {
+                return res.status(500).json({ message: error2.message })
+            }
         })
-            .then(result => {
-                res.status(200).json({ message: 'Menu removed!' });
-            })
     }
-    catch (error) {
-        return res.status(500).json({ message: error.message })
+    catch (error3) {
+        return res.status(500).json({ message: error3.message })
     }
 };
 
 export const getEsVegetariano = async (Id) => {
     try {
-        const menuEncontrado = await manager.findOneBy(Menu, {id: Id})
+        const menuEncontrado = await manager.findOneBy(Menu, { id: Id })
         return menuEncontrado.esVegetariano
     }
     catch (error) {
@@ -127,7 +188,7 @@ export const getEsVegetariano = async (Id) => {
 
 export const getMenuNombre = async (Id) => {
     try {
-        const menuEncontrado = await manager.findOneBy(Menu, {id: Id})
+        const menuEncontrado = await manager.findOneBy(Menu, { id: Id })
         return menuEncontrado.descripcion
     }
     catch (error) {

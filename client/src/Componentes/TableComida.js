@@ -59,7 +59,8 @@ const TableComida = ({ menu }) => {
         })
             .then(res => {
                 if (res.status !== 200 && res.status !== 201) {
-                    throw new Error('Creating or editing a post failed!');
+                    console.log(res)
+                    throw new Error('Fallo la modificación del menú.');
                 }
                 return res.json();
             })
@@ -69,7 +70,7 @@ const TableComida = ({ menu }) => {
             })
             .catch(err => {
                 console.log(err);
-                alert("No se pudo modificar el menu seleccionado.");
+                alert("No se pudo modificar el menu seleccionado. Ya esta creada alguna opcion menu por fecha a publicar, o hay pedidos asociados a este menu. ");
             });
     }
 
@@ -105,6 +106,7 @@ const TableComida = ({ menu }) => {
             })
             .catch(err => {
                 console.log(err);
+                alert("No se pudo eliminar el menu seleccionado. Ya esta creada alguna opcion menu por fecha a publicar, o hay pedidos asociados a este menu. ");
             });
     }
 
