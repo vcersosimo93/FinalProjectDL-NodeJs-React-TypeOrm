@@ -20,6 +20,7 @@ const menuOpcionesFechaRoutes = require('./routes/menuOpcionesFecha');
 const empleadoRoutes = require('./routes/empleado');
 const posteoDiario = require('./tareasProgramadas/posteoDiario')
 const pedidosDiarios = require('./tareasProgramadas/pedidosDiarios')
+const feedbackRoutes = require('./routes/feedback');
 const app = express();
 
 
@@ -48,6 +49,7 @@ app.use('/menu', menuRoutes);
 app.use('/pedido', pedidoRoutes);
 app.use('/menuOpcionesFecha', menuOpcionesFechaRoutes);
 app.use('/empleado', empleadoRoutes);
+app.use('/feedback', feedbackRoutes);
 
 posteoDiario.initScheduledJobs();
 pedidosDiarios.initScheduledJobs();

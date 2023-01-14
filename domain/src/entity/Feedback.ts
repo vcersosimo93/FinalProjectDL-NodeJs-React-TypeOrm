@@ -11,7 +11,11 @@ export class Feedback {
     @Column({nullable :false})
     comentario: string
 
+    @Column('date',{nullable :false})
+    fecha: Date
+
     @ManyToOne(() => Empleado, (empleado) => empleado.feedbacks)
+    @JoinColumn({ name : 'empleadoId'})
     empleado: Empleado
 
 }
