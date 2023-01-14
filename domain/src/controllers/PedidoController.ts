@@ -42,27 +42,48 @@ export const getPedidos = async (req, res) => {
     }
 }
 
+const noExistePedido = async (req) => {
+    const pedido = await repoP.findOneBy({fechaSolicitud : req.fecha, empleadoId : req.user})
+    
+    if (pedido == null || pedido.id == undefined){
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 export const insertPedido = async (req) => {
-    try{const pedido = new Pedido()
+    try{
+        if (await noExistePedido(req)){
+        const pedido = new Pedido()
         pedido.menuId = req.menu;
         pedido.horarioId = req.horario
         pedido.fechaSolicitud = req.fecha;
+        if (req.fueraDeHorario == false){
+            pedido.fechaSolicitud.setDate(pedido.fechaSolicitud.getDate() + 1) 
+        }
         pedido.empleadoId = req.user;
         pedido.procesado = false;
+        pedido.fueraDeHorario = req.fueraDeHorario;
         await AppDataSource.manager.save(pedido)
         let pedidosHechos = await countPedidosByHorarioAndFecha(req.horario.id, req.fecha)
         let cantidadPedidosXHorario = process.env.LIMITE_HORARIOS
+
         if (cantidadPedidosXHorario != undefined && pedidosHechos > parseInt(cantidadPedidosXHorario))
         {
-           await usuarioExcedePedido(req.user);
+            await usuarioExcedePedido(req.user);
         }
         return 201;
+        }
     }
     catch(error){
         console.log(error);
         return 500;
     }
 }
+
+
 
 const countPedidosByHorarioAndFecha = async (horario, fecha) => {
     try{

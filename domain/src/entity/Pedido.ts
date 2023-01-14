@@ -38,6 +38,9 @@ export class Pedido {
     @Column({nullable :false})
     fechaSolicitud: Date
 
+    @Column({nullable :false})
+    fueraDeHorario: boolean
+
     @Column({nullable : true})
     procesado : boolean
 

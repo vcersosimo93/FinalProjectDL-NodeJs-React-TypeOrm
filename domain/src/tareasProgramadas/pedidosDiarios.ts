@@ -6,7 +6,7 @@ import { insertPedido } from "../controllers/PedidoController"
 import { getHorarioByHora } from "../controllers/HorarioController"
 let UltimoPost;
 
-async function procesarPedidos(mensaje){
+async function procesarPedidos(mensaje, tardio){
     mensaje = JSON.parse(mensaje);
     let response = JSON.parse(UltimoPost.posteo)
     for(let r of response[0].opciones){
@@ -18,7 +18,7 @@ async function procesarPedidos(mensaje){
                 for (let i = 0 ; i < reaccion.users.length; i++){
                     let userId = await findOrCreateUsuario(reaccion.users[i])
                     if (userId != 500) {
-                    await procesarPedidosPT2(mensaje.reactions, userId, menuId) 
+                    await procesarPedidosPT2(mensaje.reactions, userId, menuId, tardio) 
                     }
                 }
             }
@@ -27,7 +27,7 @@ async function procesarPedidos(mensaje){
     }  
 }
 
-async function procesarPedidosPT2(reacciones, userId, menuId){
+async function procesarPedidosPT2(reacciones, userId, menuId, tardio){
     let fecha = new Date();
     fecha.setHours(0, 0, 0, 0);
     let response = JSON.parse(UltimoPost.posteo)
@@ -39,7 +39,7 @@ async function procesarPedidosPT2(reacciones, userId, menuId){
                 for(let i = 0 ; i < reaccion.users.length; i++){
                     let userId2 = await findOrCreateUsuario(reaccion.users[i])
                     if (userId2 === userId){
-                    let req = {"user" : userId, "menu" : menuId, "fecha" : fecha, "horario" : horarioId}
+                    let req = {"user" : userId, "menu" : menuId, "fecha" : fecha, "horario" : horarioId, "fueraDeHorario" : tardio}
                     await insertPedido(req);
                     return;
                     }
@@ -49,15 +49,27 @@ async function procesarPedidosPT2(reacciones, userId, menuId){
     }
 }
 
-exports.initScheduledJobs = () => {
-    //Corre (antes que el posteo diario) a las 00:30 de lunes a viernes (1-5)
-    const pedidosDiarios = cron.schedule('50 20 * * 1-5', async ()  =>{
+async function iniciar (tardio) {
     let mensaje;
     mensaje = await mensajeDelDia();
     UltimoPost = await ultimoPosteo();
-    await procesarPedidos(mensaje)
+    await procesarPedidos(mensaje, tardio);
+}
+
+
+exports.initScheduledJobs = () => {
+    //En hora
+    const pedidosDiarios = cron.schedule('00 17 * * 1-5', async ()  =>{
+    await iniciar(false);
+    },{scheduled : true,
+    timezone: "America/Argentina/Buenos_Aires"});
+    
+    //Tardios
+    const pedidosTardios = cron.schedule('30 08 * * 1-5', async ()  =>{
+    await iniciar(true);
     },{scheduled : true,
     timezone: "America/Argentina/Buenos_Aires"});
 
-    pedidosDiarios.start()  
+    pedidosDiarios.start()
+    pedidosTardios.start()  
 }
