@@ -11,7 +11,7 @@ export const finalizarPedidos = async (req, res) => {
         .update(Pedido)
         .set({procesado : true})
         .where("menuId =" + req.body.menuId + " and horarioId =" + req.body.horarioId)
-        .execute()
+        .execute();
         return 200;
     }
     catch(error)

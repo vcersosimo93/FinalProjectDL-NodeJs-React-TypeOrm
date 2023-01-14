@@ -14,10 +14,7 @@ import { BrowserRouter as Router, Switch ,Route } from 'react-router-dom';
 import React from 'react';
 import "reflect-metadata";
 
-const initialState = [
-  {id:0, text:"prueba"}
-]
-
+const initialState = []
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
