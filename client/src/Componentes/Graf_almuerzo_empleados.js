@@ -115,8 +115,8 @@ const Graf_almuerzo_meses = () => {
       },
     };
     return (
-      <div className="">
-      <h3 className="col d-flex justify-content-center divContenido">Almuerzos por empleados</h3>
+      <div className="textosMenuInicial">
+      <h3 className="col d-flex justify-content-center divContenido mt-0">Almuerzos por empleados</h3>
                           
       <Bar className="grafica divContenido" data={{
         labels: empleados.map(p => (p.nombre)),

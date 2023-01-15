@@ -284,3 +284,6 @@
   margin-bottom: 40px;
 }
 
+.mt-0 {
+  margin-top: 40px !important;
+}

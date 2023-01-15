@@ -115,7 +115,7 @@ const Graf_cantidad_almuerzos_hora = () => {
     },
   };
   return (
-    <div className="">
+    <div className="textosMenuInicial">
     <h3 className="col d-flex justify-content-center divContenido">Cantidad almuerzos por hora</h3>
                         
     <Bar className="grafica divContenido" data={{

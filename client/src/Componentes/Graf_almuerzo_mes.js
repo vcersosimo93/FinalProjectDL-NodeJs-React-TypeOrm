@@ -141,8 +141,8 @@ const Graf_almuerzo_meses = () => {
     },
   };
   return (
-    <div className="">
-    <h3 className="col d-flex justify-content-center divContenido">Almuerzos por mes</h3>
+    <div className="textosMenuInicial">
+    <h3 className="col d-flex justify-content-center divContenido ">Almuerzos por mes</h3>
     <Bar className="grafica divContenido" data={{
     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
     datasets: [
