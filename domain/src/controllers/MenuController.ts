@@ -206,10 +206,14 @@ export const precargaMenus = async () => {
 }
 
 export const insertMenuManager = async (descrip, esVeget) => {
-    const menu = new Menu()
+   try { const menu = new Menu()
     menu.esVegetariano = esVeget;
     menu.descripcion = descrip;
     await AppDataSource.manager.save(menu)
+    }
+    catch(error){
+        throw new Error (error)
+    }
 };
 
 

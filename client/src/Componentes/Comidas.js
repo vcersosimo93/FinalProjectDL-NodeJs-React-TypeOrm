@@ -10,10 +10,12 @@ import { useRef } from 'react';
 import { useEffect } from 'react';
 import TableComida from './TableComida';
 import LogoInicio from '../Images/LogoInicio.jpg';
+import { useHistory } from 'react-router-dom';
 
 
 const Comidas = () => {
 
+    const history = useHistory();
     const descripcion = useRef()
     const esVegetariano = useRef()
     const id = useRef()
@@ -133,6 +135,10 @@ const Comidas = () => {
     const handleShow = () => setShow(true);
     const handleCloseUP = () => setShowUP(false);
 
+    if (localStorage.getItem("user") == null){
+        history.push('/Login')
+    }
+    else{
     return (
         <div className="container m-2">
             <div className="row heading" >
@@ -265,6 +271,6 @@ const Comidas = () => {
             </div>
         </div>
     )
-}
+}}
 
 export default Comidas

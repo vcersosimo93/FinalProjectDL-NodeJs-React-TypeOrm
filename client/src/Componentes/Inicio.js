@@ -13,17 +13,21 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 const Inicio = () => {
+
     const history = useHistory();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    //const usuario = localStorage.getItem("user"); //Quise guardar usuario para ver nombre e imagen una vez logueado.
-
+    
     function cerrarSesion() {
         localStorage.removeItem("user");
         history.push("/Login")
     }
 
+    if (localStorage.getItem("user") == null){
+        history.push('/Login')
+    }
+    else{
     return (
         <div className="container">
             <div className="row " >
@@ -108,8 +112,9 @@ const Inicio = () => {
                 <h2 className="col d-flex justify-content-center">Graficas</h2>
             </div>
         </div>
-    )
-}
+        )
+        }
+        }   
 
 export default Inicio
 

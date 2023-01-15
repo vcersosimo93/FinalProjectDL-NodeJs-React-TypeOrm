@@ -9,8 +9,10 @@ import LogoInicio from '../Images/LogoInicio.jpg';
 import Volver_img from '../Images/Volver.png';
 import { NavLink } from 'react-router-dom';
 import Finalizar_img from '../Images/TimelineLiquidar.png'
+import { useHistory } from 'react-router-dom';
 
 const Timeline = () => {
+    const history = useHistory();
     let ordenes = [];
     let ordenesAmostrar = [];
     const [UE, callUE] = useState(0);
@@ -26,15 +28,21 @@ const Timeline = () => {
     const MFShow = () => mostrarMF(true);
 
     useEffect(() => {
-        fetch('http://localhost:8080/horario/get').then(
-            response => response.json()
-        ).then(data => {setHoras(data)}).
-        then(
-            fetch('http://localhost:8080/pedido/getTimeline').then(
-                response => response.json()
-            ).then(data => {setPedidos(data)})
-        )
+        fetchHorario();
+        fetchTimeline();
     }, [UE])
+
+    function fetchHorario() {
+     fetch('http://localhost:8080/horario/get').then(
+        response => response.json()).
+            then(data => {setHoras(data)});
+    }
+
+    function fetchTimeline() {
+     fetch('http://localhost:8080/pedido/getTimeline').then(
+        response => response.json()).
+            then(data => {setPedidos(data)})
+    }
 
     const horaProx = () => {
         if (horas[cntHoras + 1] != undefined){
@@ -106,7 +114,7 @@ const Timeline = () => {
     }
 
     const finalizarPedidos = async () =>{
-       await fetch('http://localhost:8080/pedido/finalizar', {
+        fetch('http://localhost:8080/pedido/finalizar', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -114,18 +122,20 @@ const Timeline = () => {
             body: JSON.stringify({
                 "menuId": ordenesAmostrar[indexPedido].id,
                 "horarioId": ordenesAmostrar[indexPedido].horarioId,
-            })
-        }).then(
-             await callUE(UE + 1),
-             cargarMenus(),
-             actualizarMenus(0),
-             MFClose()
-        )
+            })});
+        await callUE(UE + 1);
+        cargarMenus();
+        actualizarMenus(0);
+        MFClose();
     }
 
     cargarMenus();
     actualizarMenus(0);
 
+    if (localStorage.getItem("user") == null){
+        history.push('/Login')
+    }
+    else{
     return (
         <div className="container m-2">
             <div class="row heading" >
@@ -203,6 +213,6 @@ const Timeline = () => {
                 </Modal>
         </div>
     )
-}
+}}
 
 export default Timeline

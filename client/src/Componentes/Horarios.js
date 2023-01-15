@@ -10,10 +10,12 @@ import { useRef } from 'react';
 import { useEffect } from 'react';
 import TableHorario from './TableHorario';
 import LogoInicio from '../Images/LogoInicio.jpg';
+import { useHistory } from 'react-router-dom';
 
 
 const Horario = () => {
 
+    const history = useHistory();
     const hora = useRef()
     const [horarios, setHorarios] = useState([{}]);
     const [show, setShow] = useState(false);
@@ -75,6 +77,10 @@ const Horario = () => {
             })
     }
 
+    if (localStorage.getItem("user") == null){
+        history.push('/Login')
+    }
+    else{
     return (
         <div className="container m-2">
             <div className="row heading" >
@@ -144,7 +150,7 @@ const Horario = () => {
             </div>
         </div>
     )
-}
+}}
 
 export default Horario;
 

@@ -6,10 +6,11 @@ import Button from 'react-bootstrap/Button';
 import Volver_img from '../Images/Volver.png';
 import LogoInicio from '../Images/LogoInicio.jpg';
 import { NavLink } from 'react-router-dom';
-
+import { useHistory } from 'react-router-dom';
 
 const MenuSemanales = () => {
 
+    const history = useHistory();
     const [menuesGet, setmenuesGet] = useState([{}]);
     const [menues, setmenues] = useState();
     const menu = useRef()
@@ -86,6 +87,10 @@ const MenuSemanales = () => {
         handleCloseError();
     }
 
+    if (localStorage.getItem("user") == null){
+        history.push('/Login')
+    }
+    else{
     return (
         <div className="container m-2">
             <div className="row heading" >
@@ -152,6 +157,6 @@ const MenuSemanales = () => {
             </div>
         </div>
     )
-}
+}}
 
 export default MenuSemanales
