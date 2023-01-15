@@ -67,3 +67,12 @@ export const getEmpleadoNombre = async (Id) => {
     }
 }
 
+export const getEmpleados = async (req,res) => {
+    try {
+        const empleados = await manager.find(Empleado);
+        return res.json(empleados);
+    }
+    catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
