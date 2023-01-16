@@ -3,13 +3,13 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
 } from 'chart.js';
 
 const Graf_almuerzo_meses = () => {
@@ -113,60 +113,62 @@ const Graf_almuerzo_meses = () => {
 
 
 
-  ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
-  );
+    ChartJS.register(
+        CategoryScale,
+        LinearScale,
+        BarElement,
+        Title,
+        Tooltip,
+        Legend
+    );
 
-  const options = {
-    indexAxis: 'x',
-    elements: {
-      bar: {
-        borderWidth: 2,
-      },
-    },
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'right',
-      },
-      title: {
-        display: true,
-        //text: 'Chart.js Horizontal Bar Chart',
-      },
-    },
-  };
-  return (
-    <div className="textosMenuInicial">
-    <h3 className="col d-flex justify-content-center divContenido ">Almuerzos por mes</h3>
-    <Bar className="grafica divContenido" data={{
-    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-    datasets: [
-    {
-    label: 'Cant Almuerzos',
-    data: cantidadMenus.map(p => (p.cantidad)),
-    backgroundColor: [
-    'black',
-    'black',
-    'black',
-    'black',
-    ],
-    borderColor: [
-    'black',
-    'black',
-    'black',
-    'black',
-    ],
-    borderWidth: 1,
-    },
-    ],
-    }} options={options} />
-    </div>
-  )
+    const options = {
+        indexAxis: 'x',
+        elements: {
+            bar: {
+                borderWidth: 2,
+            },
+        },
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'right',
+            },
+            title: {
+                display: true,
+                //text: 'Chart.js Horizontal Bar Chart',
+            },
+        },
+    };
+    return (
+        <div className="textosMenuInicial">
+            <h3 className="col d-flex justify-content-center divContenido ">Almuerzos por mes</h3>
+            {Pedidos.length > 0 &&
+                <Bar className="grafica divContenido" data={{
+                    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    datasets: [
+                        {
+                            label: 'Cant Almuerzos',
+                            data: cantidadMenus.map(p => (p.cantidad)),
+                            backgroundColor: [
+                                'black',
+                                'black',
+                                'black',
+                                'black',
+                            ],
+                            borderColor: [
+                                'black',
+                                'black',
+                                'black',
+                                'black',
+                            ],
+                            borderWidth: 1,
+                        },
+                    ],
+                }} options={options} />
+            }
+        </div>
+    )
 }
 
 export default Graf_almuerzo_meses

@@ -15,7 +15,7 @@ import {
 const Graf_cantidad_almuerzos_hora = () => {
 
 
-  
+
   const [Horarios, setHorarios] = useState([{}]);
   const [Pedidos, setPedidos] = useState([{}]);
   let horarios = []
@@ -32,7 +32,7 @@ const Graf_cantidad_almuerzos_hora = () => {
   }, [Horarios])
 
 
-   
+
   useEffect(() => {
     fetch('http://localhost:8080/pedido/get').then(
       response => response.json())
@@ -44,7 +44,7 @@ const Graf_cantidad_almuerzos_hora = () => {
       )
   }, [Pedidos])
 
-  
+
   let cantidadPedidosPorHorario = () => {
     for (let unHorario of horarios) {
       for (let unPedido of Pedidos) {
@@ -115,31 +115,38 @@ const Graf_cantidad_almuerzos_hora = () => {
     },
   };
   return (
+
     <div className="textosMenuInicial">
-    <h3 className="col d-flex justify-content-center divContenido">Cantidad almuerzos por hora</h3>
-                        
-    <Bar className="grafica divContenido" data={{
-      labels: horarios.map(p => (p.hora)),
-      datasets: [
-        {
-          label: 'Cant Almuerzos',
-          data: horarios.map(p => (p.cantidad)),
-          backgroundColor: [
-            'black',
-            'black',
-            'black',
-            'black',
+      <h3 className="col d-flex justify-content-center divContenido">Cantidad almuerzos por hora</h3>
+      {Pedidos.length > 0 &&
+        <Bar className="grafica divContenido" data={{
+          labels: horarios.map(p => (p.hora)),
+          datasets: [
+            {
+              label: 'Cant Almuerzos',
+              data: horarios.map(p => (p.cantidad)),
+              backgroundColor: [
+                'black',
+                'black',
+                'black',
+                'black',
+              ],
+              borderColor: [
+                'black',
+                'black',
+                'black',
+                'black',
+              ],
+              borderWidth: 1,
+            },
           ],
-          borderColor: [
-            'black',
-            'black',
-            'black',
-            'black',
-          ],
-          borderWidth: 1,
-        },
-      ],
-    }} options={options} />
+        }} options={options} />
+      }
+      {Pedidos.length <= 0 &&
+        
+          <p className="">No hay información para mostrar</p>
+        
+      }
     </div>
   )
 }
