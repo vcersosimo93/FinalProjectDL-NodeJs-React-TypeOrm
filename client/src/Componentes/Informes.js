@@ -5,6 +5,7 @@ import Volver_img from '../Images/Volver.png';
 import { useState } from 'react';
 import { useEffect, useRef } from 'react';
 
+
 let arrayPedidosFiltrado = [];
 let arrayFeedbacksFiltrado = [];
 let arrayEmpleadosFiltrado = [];
@@ -153,6 +154,23 @@ const Informes = () => {
         return [year, month].join('-');
     }
 
+    const formatDateToWeek = (date) => {
+        let d = new Date(date);
+        let year = d.getFullYear();
+        let dayOfMonth = '' + d.getDate();
+        let dayOfWeek = '' + d.getDay();
+        let days = Math.floor((d - year) / (24 * 60 * 60 * 1000));
+        let week = Math.ceil(( dayOfWeek + 1 + days) / 7);
+        if (week.length < 2)
+        week = '0' + week;
+        let weekString = "W"+week
+        console.log(dayOfWeek);
+        console.log(days);
+        console.log(weekString);
+
+        return [year, weekString].join('-');
+    }
+
 
     const menuEsVegetariano = (IdMenu) => {
         let menuEncontrado;
@@ -182,18 +200,18 @@ const Informes = () => {
         return pedidosPorEmpleadoPorMenu;
     }
 
-    const cantidadPedidosPorMenuPorMes = (idMenu,mesFiltrado) => {
+    const cantidadPedidosPorMenuPorMes = (idMenu, mesFiltrado) => {
         let contadorPedidos = 0;
-        if(mesFiltrado==""){
+        if (mesFiltrado == "") {
             for (let unPedido of pedidosTodos) {
                 if (unPedido.menuId == idMenu) {
                     contadorPedidos++;
                 }
             }
         }
-        else{
+        else {
             for (let unPedido of pedidosTodos) {
-                if (unPedido.menuId == idMenu && formatDateToMonth(unPedido.fechaSolicitud)==mesFiltrado) {
+                if (unPedido.menuId == idMenu && formatDateToMonth(unPedido.fechaSolicitud) == mesFiltrado) {
                     contadorPedidos++;
                 }
             }
@@ -202,15 +220,35 @@ const Informes = () => {
         return contadorPedidos;
     }
 
-    const cantidadPedidosPorMenu = (idMenu) => {
+    const cantidadPedidosPorMenuPorSemana = (idMenu, semanaFiltrada) => {
         let contadorPedidos = 0;
-       
+        console.log(semanaFiltrada)
+        if (semanaFiltrada == "") {
             for (let unPedido of pedidosTodos) {
                 if (unPedido.menuId == idMenu) {
                     contadorPedidos++;
                 }
             }
-        
+        }
+        else {
+            for (let unPedido of pedidosTodos) {
+                if (unPedido.menuId == idMenu && formatDateToWeek(unPedido.fechaSolicitud) == semanaFiltrada) {
+                    contadorPedidos++;
+                }
+            }
+        }
+        return contadorPedidos;
+    }
+
+    const cantidadPedidosPorMenu = (idMenu) => {
+        let contadorPedidos = 0;
+
+        for (let unPedido of pedidosTodos) {
+            if (unPedido.menuId == idMenu) {
+                contadorPedidos++;
+            }
+        }
+
 
         return contadorPedidos;
     }
@@ -295,30 +333,36 @@ const Informes = () => {
             arrayMenuesFiltradosPorMes.pop();
         }
 
-        if(mesFiltro==""){
-            for (let unMenu of menuesTodos) {
-                let menuFiltro = {
-                    id: unMenu.id,
-                    descripcion: unMenu.descripcion,
-                    cantidad: cantidadPedidosPorMenuPorMes(unMenu.id,mesFiltro)
-                }
-    
-                arrayMenuesFiltradosPorMes.push(menuFiltro)
+        for (let unMenu of menuesTodos) {
+            let menuFiltro = {
+                id: unMenu.id,
+                descripcion: unMenu.descripcion,
+                cantidad: cantidadPedidosPorMenuPorMes(unMenu.id, mesFiltro)
             }
-        }
-        else{
-            for (let unMenu of menuesTodos) {
-                let menuFiltro = {
-                    id: unMenu.id,
-                    descripcion: unMenu.descripcion,
-                    cantidad: cantidadPedidosPorMenuPorMes(unMenu.id,mesFiltro)
-                }
-    
-                arrayMenuesFiltradosPorMes.push(menuFiltro)
-            }
+
+            arrayMenuesFiltradosPorMes.push(menuFiltro)
         }
 
+    }
 
+    const filtroMenuesPorSemana = postData => {
+        postData.preventDefault();
+        const semanaFiltro = semanaMenu.current.value
+        console.log(semanaFiltro)
+
+        while (arrayMenuesFiltradosPorSemana.length) {
+            arrayMenuesFiltradosPorSemana.pop();
+        }
+
+        for (let unMenu of menuesTodos) {
+            let menuFiltro = {
+                id: unMenu.id,
+                descripcion: unMenu.descripcion,
+                cantidad: cantidadPedidosPorMenuPorSemana(unMenu.id, semanaFiltro)
+            }
+
+            arrayMenuesFiltradosPorSemana.push(menuFiltro)
+        }
     }
 
 
@@ -442,42 +486,42 @@ const Informes = () => {
 
                 <div className="row textosMenuInicial">
                     <div className=" card col d-flex justify-content-center">
-                    <h3 className="col d-flex justify-content-center tituloInforme">Platos más pedidos del mes</h3>
-                    <h1 className="divContenidoTextos">Filtrar por mes para ver la cantidad de pedidos por menu de dicho mes. Si no se elije ningun filtro, se mostrarán la cantidad acumulada de pedidos por menu.</h1>
-                    <label className="divContenido">Mes</label>
-                    <input type="month" id="month" name="mesFiltro" className="form-control" ref={mesMenu}></input><br></br>
-                    <button onClick={filtroMenuesPorMes} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
-                    <table className="table table-striped table-dark table-hover borderTable">
-                        <thead className="thead-ligth">
-                            <tr>
-                                <th scope="col">Menu</th>
-                                <th scope="col">Cantidad de Solicitudes</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {menuesFiltradosPorMes.map(m => <tr key={m.id}><td key={m.id + "nombre"}>{m.descripcion}</td><td key={m.id + "cantidad"}>{m.cantidad}</td></tr>)}
-                        </tbody>
-                    </table>
+                        <h3 className="col d-flex justify-content-center tituloInforme">Platos más pedidos del mes</h3>
+                        <h1 className="divContenidoTextos">Filtrar por mes para ver la cantidad de pedidos por menu de dicho mes. Si no se elije ningun filtro, se mostrarán la cantidad acumulada de pedidos por menu.</h1>
+                        <label className="divContenido">Mes</label>
+                        <input type="month" id="month" name="mesFiltro" className="form-control" ref={mesMenu}></input><br></br>
+                        <button onClick={filtroMenuesPorMes} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                        <table className="table table-striped table-dark table-hover borderTable">
+                            <thead className="thead-ligth">
+                                <tr>
+                                    <th scope="col">Menu</th>
+                                    <th scope="col">Cantidad de Solicitudes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {menuesFiltradosPorMes.map(m => <tr key={m.id}><td key={m.id + "nombre"}>{m.descripcion}</td><td key={m.id + "cantidad"}>{m.cantidad}</td></tr>)}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div className="row textosMenuInicial">
                     <div className=" card col d-flex justify-content-center">
-                    <h3 className="col d-flex justify-content-center tituloInforme">Cantidad de platos elaborados por semana</h3>
-                    <h1 className="divContenidoTextos">Filtrar por semana para ver la cantidad de pedidos por menu de dicha semana. Si no se elije ningun filtro, se mostrarán la cantidad acumulada de pedidos por menu.</h1>
-                    <label className="divContenido">Semana</label>
-                    <input type="week" id="week" name="week" className="form-control"></input><br></br>
-                    <button type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
-                    <table className="table table-striped table-dark table-hover borderTable">
-                        <thead className="thead-ligth">
-                            <tr>
-                                <th scope="col">Menu</th>
-                                <th scope="col">Cantidad de Solicitudes</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {menuesTodos.map(m => <tr key={m.id}><td key={m.id + "nombre"}>{m.descripcion}</td><td key={m.id + "cantidad"}>{cantidadPedidosPorMenu(m.id)}</td></tr>)}
-                        </tbody>
-                    </table>
+                        <h3 className="col d-flex justify-content-center tituloInforme">Cantidad de platos elaborados por semana</h3>
+                        <h1 className="divContenidoTextos">Filtrar por semana para ver la cantidad de pedidos por menu de dicha semana. Si no se elije ningun filtro, se mostrarán la cantidad acumulada de pedidos por menu.</h1>
+                        <label className="divContenido">Semana</label>
+                        <input type="week" id="week" name="semanaMenu" className="form-control" ref={semanaMenu}></input><br></br>
+                        <button onClick={filtroMenuesPorSemana} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                        <table className="table table-striped table-dark table-hover borderTable">
+                            <thead className="thead-ligth">
+                                <tr>
+                                    <th scope="col">Menu</th>
+                                    <th scope="col">Cantidad de Solicitudes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {arrayMenuesFiltradosPorSemana.map(m => <tr key={m.id}><td key={m.id + "nombre"}>{m.descripcion}</td><td key={m.id + "cantidad"}>{m.cantidad}</td></tr>)}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div className="row textosMenuInicial">
