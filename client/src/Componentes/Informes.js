@@ -157,14 +157,14 @@ const Informes = () => {
     const formatDateToWeek = (date) => {
         let d = new Date(date);
         let anio = d.getFullYear();
-        let year = new Date(d.getFullYear(),0,1);
+        let year = new Date(d.getFullYear(), 0, 1);
         let numberOfDays = Math.floor((d - year) / (24 * 60 * 60 * 1000));
-        let week= (Math.ceil(( d.getDay() + 1 + numberOfDays) / 7)-1).toString();
+        let week = (Math.ceil((d.getDay() + 1 + numberOfDays) / 7) - 1).toString();
 
-        if (week.length < 2){
+        if (week.length < 2) {
             week = "0" + week;
         }
-        let weekString ="W"+week;
+        let weekString = "W" + week;
 
         return [anio, weekString].join('-');
     }
@@ -192,6 +192,27 @@ const Informes = () => {
         for (let unPedido of pedidosTodos) {
             if (unPedido.empleadoId == emplId && unPedido.menuId == menId) {
                 pedidosPorEmpleadoPorMenu++;
+            }
+        }
+
+        return pedidosPorEmpleadoPorMenu;
+    }
+
+    const pedidosPorEmpleadoMenuYMes = (emplId, menId, mesSeleccionado) => {
+
+        let pedidosPorEmpleadoPorMenu = 0;
+        if (mes == "") {
+            for (let unPedido of pedidosTodos) {
+                if (unPedido.empleadoId == emplId && unPedido.menuId == menId) {
+                    pedidosPorEmpleadoPorMenu++;
+                }
+            }
+        }
+        else {
+            for (let unPedido of pedidosTodos) {
+                if (unPedido.empleadoId == emplId && unPedido.menuId == menId && formatDateToMonth(unPedido.fechaSolicitud) == mesSeleccionado) {
+                    pedidosPorEmpleadoPorMenu++;
+                }
             }
         }
 
@@ -305,23 +326,31 @@ const Informes = () => {
         postData.preventDefault();
         const mesFiltro = mes.current.value
         console.log(mesFiltro)
-        console.log(mes)
 
         while (arrayEmpleadosFiltrado.length) {
             arrayEmpleadosFiltrado.pop();
         }
 
-        //Se van a mostrar todos los empleados por menu se filtre o no.
         for (let unEmpleado of empleadosTodos) {
-            //Se filtra que al menos haya pedido alguno de los menues para mostrar al empleado.
-            let cantidadMenuesSolicitados = 0;
             for (let unMenu of menuesTodos) {
-                cantidadMenuesSolicitados += pedidosPorEmpleadoYMenu(unEmpleado.id, unMenu.id, mesFiltro)
-            }
-            if (cantidadMenuesSolicitados > 0) {
-                arrayEmpleadosFiltrado.push(unEmpleado)
+                let unEmpleadoAAñadir = {
+                    id: unEmpleado.id,
+                    nombre: unEmpleado.nombre,
+                    idMenu: unMenu.id,
+                    cantidadPedidos: pedidosPorEmpleadoMenuYMes(unEmpleado.id, unMenu.id,mesFiltro)
+                }
+
+                if (unEmpleadoAAñadir.cantidadPedidos > 0) {
+                    arrayEmpleadosFiltrado.push(unEmpleadoAAñadir)
+                }
+
             }
         }
+
+        console.log(arrayEmpleadosFiltrado)
+
+        
+
     }
 
     const filtroMenuesPorMes = postData => {
@@ -364,7 +393,6 @@ const Informes = () => {
             arrayMenuesFiltradosPorSemana.push(menuFiltro)
         }
     }
-
 
     const filtroInformeFeedbacks = postData => {
         postData.preventDefault();
@@ -472,7 +500,7 @@ const Informes = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {arrayEmpleadosFiltrado.map(e => <tr key={e.id}><td key={e.id + "nombre"}>{e.nombre}</td><td key={e.id + "cantidad"}>{pedidosPorEmpleadoYMenu(e.id, mn.id)}</td></tr>)}
+                                        {(arrayEmpleadosFiltrado.filter(em => em.idMenu==mn.id)).map(e => <tr key={e.id}><td key={e.id + "nombre"}>{e.nombre}</td><td key={e.id + "cantidad"}> {e.cantidadPedidos}</td></tr>)}
                                     </tbody>
                                 </table>
                             </div>
