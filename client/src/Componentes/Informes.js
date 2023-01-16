@@ -7,6 +7,9 @@ import { useEffect, useRef } from 'react';
 
 let arrayPedidosFiltrado = [];
 let arrayFeedbacksFiltrado = [];
+let arrayEmpleadosFiltrado = [];
+let arrayMenuesFiltradosPorMes = [];
+let arrayMenuesFiltradosPorSemana = [];
 
 const Informes = () => {
 
@@ -24,6 +27,15 @@ const Informes = () => {
     const fechaDesde = useRef()
     const empleado = useRef()
 
+    const [empleadosFiltrado, setEmpleadosFiltrado] = useState([{}]);
+    const mes = useRef()
+
+    const [menuesFiltradosPorMes, setmenuesFiltradosPorMes] = useState([{}]);
+    const mesMenu = useRef()
+    const [menuesFiltradosPorSemana, setmenuesFiltradosPorSemana] = useState([{}]);
+    const semanaMenu = useRef()
+
+
     useEffect(() => {
         setPedidosFiltrado(arrayPedidosFiltrado)
     }, [pedidosFiltrado])
@@ -31,6 +43,18 @@ const Informes = () => {
     useEffect(() => {
         setFeedbacksFiltrado(arrayFeedbacksFiltrado)
     }, [feedbacksFiltrado])
+
+    useEffect(() => {
+        setEmpleadosFiltrado(arrayEmpleadosFiltrado)
+    }, [empleadosFiltrado])
+
+    useEffect(() => {
+        setmenuesFiltradosPorMes(arrayMenuesFiltradosPorMes)
+    }, [menuesFiltradosPorMes])
+
+    useEffect(() => {
+        setmenuesFiltradosPorSemana(arrayMenuesFiltradosPorSemana)
+    }, [menuesFiltradosPorSemana])
 
     useEffect(() => {
         fetch('http://localhost:8080/pedido/get').then(
@@ -118,6 +142,17 @@ const Informes = () => {
         return [year, month, day].join('-');
     }
 
+    const formatDateToMonth = (date) => {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+
+        return [year, month].join('-');
+    }
+
 
     const menuEsVegetariano = (IdMenu) => {
         let menuEncontrado;
@@ -135,22 +170,48 @@ const Informes = () => {
     }
 
     const pedidosPorEmpleadoYMenu = (emplId, menId) => {
+
         let pedidosPorEmpleadoPorMenu = 0;
+
         for (let unPedido of pedidosTodos) {
             if (unPedido.empleadoId == emplId && unPedido.menuId == menId) {
                 pedidosPorEmpleadoPorMenu++;
             }
         }
+
         return pedidosPorEmpleadoPorMenu;
+    }
+
+    const cantidadPedidosPorMenuPorMes = (idMenu,mesFiltrado) => {
+        let contadorPedidos = 0;
+        if(mesFiltrado==""){
+            for (let unPedido of pedidosTodos) {
+                if (unPedido.menuId == idMenu) {
+                    contadorPedidos++;
+                }
+            }
+        }
+        else{
+            for (let unPedido of pedidosTodos) {
+                if (unPedido.menuId == idMenu && formatDateToMonth(unPedido.fechaSolicitud)==mesFiltrado) {
+                    contadorPedidos++;
+                }
+            }
+        }
+
+        return contadorPedidos;
     }
 
     const cantidadPedidosPorMenu = (idMenu) => {
         let contadorPedidos = 0;
-        for (let unPedido of pedidosTodos) {
-            if (unPedido.menuId == idMenu) {
-                contadorPedidos++;
+       
+            for (let unPedido of pedidosTodos) {
+                if (unPedido.menuId == idMenu) {
+                    contadorPedidos++;
+                }
             }
-        }
+        
+
         return contadorPedidos;
     }
 
@@ -202,6 +263,65 @@ const Informes = () => {
         }
     }
 
+    const filtroInformeEmpleados = postData => {
+        postData.preventDefault();
+        const mesFiltro = mes.current.value
+        console.log(mesFiltro)
+        console.log(mes)
+
+        while (arrayEmpleadosFiltrado.length) {
+            arrayEmpleadosFiltrado.pop();
+        }
+
+        //Se van a mostrar todos los empleados por menu se filtre o no.
+        for (let unEmpleado of empleadosTodos) {
+            //Se filtra que al menos haya pedido alguno de los menues para mostrar al empleado.
+            let cantidadMenuesSolicitados = 0;
+            for (let unMenu of menuesTodos) {
+                cantidadMenuesSolicitados += pedidosPorEmpleadoYMenu(unEmpleado.id, unMenu.id, mesFiltro)
+            }
+            if (cantidadMenuesSolicitados > 0) {
+                arrayEmpleadosFiltrado.push(unEmpleado)
+            }
+        }
+    }
+
+    const filtroMenuesPorMes = postData => {
+        postData.preventDefault();
+        const mesFiltro = mesMenu.current.value
+        console.log(mesFiltro)
+
+        while (arrayMenuesFiltradosPorMes.length) {
+            arrayMenuesFiltradosPorMes.pop();
+        }
+
+        if(mesFiltro==""){
+            for (let unMenu of menuesTodos) {
+                let menuFiltro = {
+                    id: unMenu.id,
+                    descripcion: unMenu.descripcion,
+                    cantidad: cantidadPedidosPorMenuPorMes(unMenu.id,mesFiltro)
+                }
+    
+                arrayMenuesFiltradosPorMes.push(menuFiltro)
+            }
+        }
+        else{
+            for (let unMenu of menuesTodos) {
+                let menuFiltro = {
+                    id: unMenu.id,
+                    descripcion: unMenu.descripcion,
+                    cantidad: cantidadPedidosPorMenuPorMes(unMenu.id,mesFiltro)
+                }
+    
+                arrayMenuesFiltradosPorMes.push(menuFiltro)
+            }
+        }
+
+
+    }
+
+
     const filtroInformeFeedbacks = postData => {
         postData.preventDefault();
         const fechaDesdeSeleccionada = fechaDesde.current.value
@@ -210,10 +330,10 @@ const Informes = () => {
         while (arrayFeedbacksFiltrado.length) {
             arrayFeedbacksFiltrado.pop();
         }
-        
+
         if (fechaDesdeSeleccionada != "" && (idempleadoSeleccionado != "")) {
             for (let unFeedback of feedbackTodos) {
-                if ((formatDateOther(unFeedback.fecha) > fechaDesdeSeleccionada ||formatDateOther(unFeedback.fecha) == fechaDesdeSeleccionada )&& unFeedback.empleadoId== idempleadoSeleccionado) {
+                if ((formatDateOther(unFeedback.fecha) > fechaDesdeSeleccionada || formatDateOther(unFeedback.fecha) == fechaDesdeSeleccionada) && unFeedback.empleadoId == idempleadoSeleccionado) {
                     arrayFeedbacksFiltrado.push(unFeedback)
                 }
             }
@@ -227,7 +347,7 @@ const Informes = () => {
 
         if (fechaDesdeSeleccionada == "" && (idempleadoSeleccionado != "")) {
             for (let unFeedback of feedbackTodos) {
-                if (unFeedback.empleadoId== idempleadoSeleccionado) {
+                if (unFeedback.empleadoId == idempleadoSeleccionado) {
                     arrayFeedbacksFiltrado.push(unFeedback)
                 }
             }
@@ -235,7 +355,7 @@ const Informes = () => {
 
         if (fechaDesdeSeleccionada != "" && (idempleadoSeleccionado == "")) {
             for (let unFeedback of feedbackTodos) {
-                if ((formatDateOther(unFeedback.fecha) > fechaDesdeSeleccionada ||formatDateOther(unFeedback.fecha) == fechaDesdeSeleccionada )) {
+                if ((formatDateOther(unFeedback.fecha) > fechaDesdeSeleccionada || formatDateOther(unFeedback.fecha) == fechaDesdeSeleccionada)) {
                     arrayFeedbacksFiltrado.push(unFeedback)
                 }
             }
@@ -261,7 +381,7 @@ const Informes = () => {
                 <div className="row textosMenuInicial">
                     <div className=" card col d-flex justify-content-center">
                         <h3 className=" justify-content-center tituloInforme">Platos elaborados por horario por día</h3>
-                        <h1 className="divContenidoTextos">Filtrar a continuación por fecha y/o horario para mostrar información de los pedidos solicitados. Si no se elije ningun filtro, se mostrarán todos los pedidos realizados.</h1>
+                        <h1 className="divContenidoTextos">Filtrar por fecha y/o horario para mostrar información de los pedidos solicitados. Si no se elije ningun filtro, se mostrarán todos los pedidos realizados.</h1>
                         <label className="divContenido">Fecha Elaboración</label>
                         <input placeholder="Seleccionar fecha" type="date" className="form-control" id="fechaId" name="fecha" ref={fecha}></input><br></br>
                         <label className="divContenido">Horario de Almuerzo</label>
@@ -292,9 +412,10 @@ const Informes = () => {
                 <div className="row textosMenuInicial">
                     <div className="card col d-flex justify-content-center">
                         <h3 className="col d-flex justify-content-center tituloInforme">Asistencia de personas por mes</h3>
+                        <h1 className="divContenidoTextos">Filtrar por mes para ver la cantidad de pedidos solicitados por empleado en dicho mes agrupados por menu. Si no se elije ningun filtro, se mostrarán la cantidad de pedidos totales acumuladas por empleado agrupados por menu.</h1>
                         <label className="divContenido">Mes</label>
-                        <input type="month" id="month" name="week" className="form-control"></input><br></br>
-                        <button type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                        <input type="month" id="month" name="mes" className="form-control" ref={mes}></input><br></br>
+                        <button onClick={filtroInformeEmpleados} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
 
                         {menuesTodos.map(mn =>
                             <div className="card col d-flex justify-content-center" id={mn.id}>
@@ -307,7 +428,7 @@ const Informes = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {empleadosTodos.map(e => <tr key={e.id}><td key={e.id + "nombre"}>{e.nombre}</td><td key={e.id + "cantidad"}>{pedidosPorEmpleadoYMenu(e.id, mn.id)}</td></tr>)}
+                                        {arrayEmpleadosFiltrado.map(e => <tr key={e.id}><td key={e.id + "nombre"}>{e.nombre}</td><td key={e.id + "cantidad"}>{pedidosPorEmpleadoYMenu(e.id, mn.id)}</td></tr>)}
                                     </tbody>
                                 </table>
                             </div>
@@ -318,53 +439,58 @@ const Informes = () => {
                     </div>
 
                 </div>
+
                 <div className="row textosMenuInicial">
-                    <div className="card col d-flex justify-content-center">
-                        <h3 className="col d-flex justify-content-center tituloInforme">Platos más pedidos del mes</h3>
-                        <label className="divContenido">Mes</label>
-                        <input type="month" id="month" name="week" className="form-control"></input><br></br>
-                        <button type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
-                        <table className="table table-striped table-dark table-hover borderTable">
-                            <thead className="thead-ligth">
-                                <tr>
-                                    <th scope="col">Menu</th>
-                                    <th scope="col">Cantidad de Solicitudes</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {menuesTodos.map(m => <tr key={m.id}><td key={m.id + "nombre"}>{m.descripcion}</td><td key={m.id + "cantidad"}>{cantidadPedidosPorMenu(m.id)}</td></tr>)}
-                            </tbody>
-                        </table>
+                    <div className=" card col d-flex justify-content-center">
+                    <h3 className="col d-flex justify-content-center tituloInforme">Platos más pedidos del mes</h3>
+                    <h1 className="divContenidoTextos">Filtrar por mes para ver la cantidad de pedidos por menu de dicho mes. Si no se elije ningun filtro, se mostrarán la cantidad acumulada de pedidos por menu.</h1>
+                    <label className="divContenido">Mes</label>
+                    <input type="month" id="month" name="mesFiltro" className="form-control" ref={mesMenu}></input><br></br>
+                    <button onClick={filtroMenuesPorMes} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                    <table className="table table-striped table-dark table-hover borderTable">
+                        <thead className="thead-ligth">
+                            <tr>
+                                <th scope="col">Menu</th>
+                                <th scope="col">Cantidad de Solicitudes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {menuesFiltradosPorMes.map(m => <tr key={m.id}><td key={m.id + "nombre"}>{m.descripcion}</td><td key={m.id + "cantidad"}>{m.cantidad}</td></tr>)}
+                        </tbody>
+                    </table>
                     </div>
-                    <div className="card col d-flex justify-content-center">
-                        <h3 className="col d-flex justify-content-center tituloInforme">Cantidad de platos elaborados por semana</h3>
-                        <label className="divContenido">Semana</label>
-                        <input type="week" id="week" name="week" className="form-control"></input><br></br>
-                        <button type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
-                        <table className="table table-striped table-dark table-hover borderTable">
-                            <thead className="thead-ligth">
-                                <tr>
-                                    <th scope="col">Menu</th>
-                                    <th scope="col">Cantidad de Solicitudes</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {menuesTodos.map(m => <tr key={m.id}><td key={m.id + "nombre"}>{m.descripcion}</td><td key={m.id + "cantidad"}>{cantidadPedidosPorMenu(m.id)}</td></tr>)}
-                            </tbody>
-                        </table>
+                </div>
+                <div className="row textosMenuInicial">
+                    <div className=" card col d-flex justify-content-center">
+                    <h3 className="col d-flex justify-content-center tituloInforme">Cantidad de platos elaborados por semana</h3>
+                    <h1 className="divContenidoTextos">Filtrar por semana para ver la cantidad de pedidos por menu de dicha semana. Si no se elije ningun filtro, se mostrarán la cantidad acumulada de pedidos por menu.</h1>
+                    <label className="divContenido">Semana</label>
+                    <input type="week" id="week" name="week" className="form-control"></input><br></br>
+                    <button type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                    <table className="table table-striped table-dark table-hover borderTable">
+                        <thead className="thead-ligth">
+                            <tr>
+                                <th scope="col">Menu</th>
+                                <th scope="col">Cantidad de Solicitudes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {menuesTodos.map(m => <tr key={m.id}><td key={m.id + "nombre"}>{m.descripcion}</td><td key={m.id + "cantidad"}>{cantidadPedidosPorMenu(m.id)}</td></tr>)}
+                        </tbody>
+                    </table>
                     </div>
                 </div>
                 <div className="row textosMenuInicial">
                     <div className="card col d-flex justify-content-center">
                         <h3 className="col d-flex justify-content-center tituloInforme">Tabla de Feedbacks</h3>
-                        <h1 className="divContenidoTextos">Filtrar a continuación por fecha desde o nombre de empleado para mostrar los feedbacks realizados. Si no se elije ninguna fecha ni empleado, se mostrarán todos los feedbacks realizados.</h1>
+                        <h1 className="divContenidoTextos">Filtrar por fecha desde o nombre de empleado para mostrar los feedbacks realizados. Si no se elije ninguna fecha ni empleado, se mostrarán todos los feedbacks realizados.</h1>
                         <label className="divContenido">Fecha Desde</label>
                         <input placeholder="Seleccionar fecha" type="date" className="form-control" id="horario" name="fechaDesde" ref={fechaDesde}></input>
                         <br></br>
                         <label className="divContenido">Empleados</label>
                         <select className="form-select divContenido" aria-label="Default select example" id="empleados" name="empleado" ref={empleado}>
                             <option value="">Seleccione Empleado</option>
-                            {empleadosTodos.map(e=> <option key={e.id} value={e.id}>{e.nombre}</option>)}
+                            {empleadosTodos.map(e => <option key={e.id} value={e.id}>{e.nombre}</option>)}
                         </select><br></br>
                         <button onClick={filtroInformeFeedbacks} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
                         <table className="table table-striped table-dark table-hover borderTable">
