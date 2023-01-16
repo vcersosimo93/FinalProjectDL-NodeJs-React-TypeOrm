@@ -6,9 +6,9 @@ import { useState } from 'react';
 import { useEffect, useRef } from 'react';
 
 let arrayPedidosFiltrado = [];
+let arrayFeedbacksFiltrado = [];
 
 const Informes = () => {
-
 
     const [pedidosTodos, setPedidosTodos] = useState([{}]);
     const [horariosTodos, setHorariosTodos] = useState([{}]);
@@ -16,15 +16,21 @@ const Informes = () => {
     const [empleadosTodos, setempleadosTodos] = useState([{}]);
     const [feedbackTodos, setfeedbackTodos] = useState([{}]);
 
-
     const [pedidosFiltrado, setPedidosFiltrado] = useState([{}]);
     const fecha = useRef()
     const hora = useRef()
 
+    const [feedbacksFiltrado, setFeedbacksFiltrado] = useState([{}]);
+    const fechaDesde = useRef()
+    const empleado = useRef()
 
     useEffect(() => {
         setPedidosFiltrado(arrayPedidosFiltrado)
     }, [pedidosFiltrado])
+
+    useEffect(() => {
+        setFeedbacksFiltrado(arrayFeedbacksFiltrado)
+    }, [feedbacksFiltrado])
 
     useEffect(() => {
         fetch('http://localhost:8080/pedido/get').then(
@@ -196,6 +202,48 @@ const Informes = () => {
         }
     }
 
+    const filtroInformeFeedbacks = postData => {
+        postData.preventDefault();
+        const fechaDesdeSeleccionada = fechaDesde.current.value
+        const idempleadoSeleccionado = empleado.current.value
+
+        while (arrayFeedbacksFiltrado.length) {
+            arrayFeedbacksFiltrado.pop();
+        }
+        
+        if (fechaDesdeSeleccionada != "" && (idempleadoSeleccionado != "")) {
+            for (let unFeedback of feedbackTodos) {
+                if ((formatDateOther(unFeedback.fecha) > fechaDesdeSeleccionada ||formatDateOther(unFeedback.fecha) == fechaDesdeSeleccionada )&& unFeedback.empleadoId== idempleadoSeleccionado) {
+                    arrayFeedbacksFiltrado.push(unFeedback)
+                }
+            }
+        }
+
+        if (fechaDesdeSeleccionada == "" && (idempleadoSeleccionado == "")) {
+            for (let unFeedback of feedbackTodos) {
+                arrayFeedbacksFiltrado.push(unFeedback)
+            }
+        }
+
+        if (fechaDesdeSeleccionada == "" && (idempleadoSeleccionado != "")) {
+            for (let unFeedback of feedbackTodos) {
+                if (unFeedback.empleadoId== idempleadoSeleccionado) {
+                    arrayFeedbacksFiltrado.push(unFeedback)
+                }
+            }
+        }
+
+        if (fechaDesdeSeleccionada != "" && (idempleadoSeleccionado == "")) {
+            for (let unFeedback of feedbackTodos) {
+                if ((formatDateOther(unFeedback.fecha) > fechaDesdeSeleccionada ||formatDateOther(unFeedback.fecha) == fechaDesdeSeleccionada )) {
+                    arrayFeedbacksFiltrado.push(unFeedback)
+                }
+            }
+        }
+
+        console.log(arrayFeedbacksFiltrado)
+    }
+
     return (
         <div className="container m-2">
             <div className="row heading" >
@@ -213,6 +261,7 @@ const Informes = () => {
                 <div className="row textosMenuInicial">
                     <div className=" card col d-flex justify-content-center">
                         <h3 className=" justify-content-center tituloInforme">Platos elaborados por horario por día</h3>
+                        <h1 className="divContenidoTextos">Filtrar a continuación por fecha y/o horario para mostrar información de los pedidos solicitados. Si no se elije ningun filtro, se mostrarán todos los pedidos realizados.</h1>
                         <label className="divContenido">Fecha Elaboración</label>
                         <input placeholder="Seleccionar fecha" type="date" className="form-control" id="fechaId" name="fecha" ref={fecha}></input><br></br>
                         <label className="divContenido">Horario de Almuerzo</label>
@@ -236,7 +285,7 @@ const Informes = () => {
                             </tbody>
                         </table>
                         <h3 className="divContenido">Cantidad</h3>
-                        <p className="divTexto">La cantidad de platos elaborados en el filtro establecido es de {pedidosTodos.length}.</p>
+                        <p className="divTexto">La cantidad de platos elaborados en el filtro establecido es de {pedidosFiltrado.length}.</p>
                     </div>
                 </div>
 
@@ -308,11 +357,16 @@ const Informes = () => {
                 <div className="row textosMenuInicial">
                     <div className="card col d-flex justify-content-center">
                         <h3 className="col d-flex justify-content-center tituloInforme">Tabla de Feedbacks</h3>
+                        <h1 className="divContenidoTextos">Filtrar a continuación por fecha desde o nombre de empleado para mostrar los feedbacks realizados. Si no se elije ninguna fecha ni empleado, se mostrarán todos los feedbacks realizados.</h1>
                         <label className="divContenido">Fecha Desde</label>
-                        <input placeholder="Seleccionar fecha" type="date" className="form-control" id="horario"></input>
-                        <label className="divContenido">Fecha Hasta</label>
-                        <input placeholder="Seleccionar fecha" type="date" className="form-control" id="horario"></input><br></br>
-                        <button type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                        <input placeholder="Seleccionar fecha" type="date" className="form-control" id="horario" name="fechaDesde" ref={fechaDesde}></input>
+                        <br></br>
+                        <label className="divContenido">Empleados</label>
+                        <select className="form-select divContenido" aria-label="Default select example" id="empleados" name="empleado" ref={empleado}>
+                            <option value="">Seleccione Empleado</option>
+                            {empleadosTodos.map(e=> <option key={e.id} value={e.id}>{e.nombre}</option>)}
+                        </select><br></br>
+                        <button onClick={filtroInformeFeedbacks} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
                         <table className="table table-striped table-dark table-hover borderTable">
                             <thead className="thead-ligth">
                                 <tr>
@@ -322,7 +376,7 @@ const Informes = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {feedbackTodos.map(f => <tr key={f.id}><td key={f.id + "nombre"}>{nombreEmpleadoPorId(f.empleadoId)}</td><td key={f.id + "comentario"}>{f.comentario}</td><td key={f.id + "fecha"}>{f.fecha}</td></tr>)}
+                                {arrayFeedbacksFiltrado.map(f => <tr key={f.id}><td key={f.id + "nombre"}>{nombreEmpleadoPorId(f.empleadoId)}</td><td key={f.id + "comentario"}>{f.comentario}</td><td key={f.id + "fecha"}>{f.fecha}</td></tr>)}
                             </tbody>
                         </table>
                     </div>

@@ -287,3 +287,12 @@
 .mt-0 {
   margin-top: 40px !important;
 }
+
+
+.divContenidoTextos{
+  background-color: white;
+  color: black; 
+  font-size: 20px;
+  border-radius: 25px;
+  margin-bottom: 25px;
+}
