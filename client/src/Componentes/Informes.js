@@ -156,19 +156,17 @@ const Informes = () => {
 
     const formatDateToWeek = (date) => {
         let d = new Date(date);
-        let year = d.getFullYear();
-        let dayOfMonth = '' + d.getDate();
-        let dayOfWeek = '' + d.getDay();
-        let days = Math.floor((d - year) / (24 * 60 * 60 * 1000));
-        let week = Math.ceil(( dayOfWeek + 1 + days) / 7);
-        if (week.length < 2)
-        week = '0' + week;
-        let weekString = "W"+week
-        console.log(dayOfWeek);
-        console.log(days);
-        console.log(weekString);
+        let anio = d.getFullYear();
+        let year = new Date(d.getFullYear(),0,1);
+        let numberOfDays = Math.floor((d - year) / (24 * 60 * 60 * 1000));
+        let week= (Math.ceil(( d.getDay() + 1 + numberOfDays) / 7)-1).toString();
 
-        return [year, weekString].join('-');
+        if (week.length < 2){
+            week = "0" + week;
+        }
+        let weekString ="W"+week;
+
+        return [anio, weekString].join('-');
     }
 
 
@@ -232,6 +230,8 @@ const Informes = () => {
         }
         else {
             for (let unPedido of pedidosTodos) {
+                console.log(formatDateToWeek(unPedido.fechaSolicitud))
+                console.log(semanaFiltrada)
                 if (unPedido.menuId == idMenu && formatDateToWeek(unPedido.fechaSolicitud) == semanaFiltrada) {
                     contadorPedidos++;
                 }
@@ -360,7 +360,7 @@ const Informes = () => {
                 descripcion: unMenu.descripcion,
                 cantidad: cantidadPedidosPorMenuPorSemana(unMenu.id, semanaFiltro)
             }
-
+            console.log(menuFiltro.cantidad)
             arrayMenuesFiltradosPorSemana.push(menuFiltro)
         }
     }
