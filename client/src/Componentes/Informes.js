@@ -337,7 +337,7 @@ const Informes = () => {
                     id: unEmpleado.id,
                     nombre: unEmpleado.nombre,
                     idMenu: unMenu.id,
-                    cantidadPedidos: pedidosPorEmpleadoMenuYMes(unEmpleado.id, unMenu.id,mesFiltro)
+                    cantidadPedidos: pedidosPorEmpleadoMenuYMes(unEmpleado.id, unMenu.id, mesFiltro)
                 }
 
                 if (unEmpleadoAAñadir.cantidadPedidos > 0) {
@@ -349,7 +349,7 @@ const Informes = () => {
 
         console.log(arrayEmpleadosFiltrado)
 
-        
+
 
     }
 
@@ -369,7 +369,10 @@ const Informes = () => {
                 cantidad: cantidadPedidosPorMenuPorMes(unMenu.id, mesFiltro)
             }
 
-            arrayMenuesFiltradosPorMes.push(menuFiltro)
+            if (menuFiltro.cantidad > 0) {
+                arrayMenuesFiltradosPorMes.push(menuFiltro)
+            }
+
         }
 
     }
@@ -389,8 +392,10 @@ const Informes = () => {
                 descripcion: unMenu.descripcion,
                 cantidad: cantidadPedidosPorMenuPorSemana(unMenu.id, semanaFiltro)
             }
-            console.log(menuFiltro.cantidad)
-            arrayMenuesFiltradosPorSemana.push(menuFiltro)
+            if (menuFiltro.cantidad > 0) {
+                arrayMenuesFiltradosPorSemana.push(menuFiltro)
+            }
+
         }
     }
 
@@ -462,22 +467,30 @@ const Informes = () => {
                             {horariosTodos.map(h => <option key={h.id} value={h.id}>{h.hora}</option>)}
                         </select><br></br>
                         <button onClick={filtroInformePedidos} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
-                        <table className="table table-striped table-dark table-hover borderTable">
-                            <thead className="thead-ligth">
-                                <tr>
-                                    <th scope="col">Menu</th>
-                                    <th scope="col">Empleado</th>
-                                    <th scope="col">Horario</th>
-                                    <th scope="col">Dia De Almuerzo</th>
-                                    <th scope="col">Es vegetariano</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {pedidosFiltrado.map(p => <tr key={p.id}><td key={p.id + "nombre"}>{p.menuNombre}</td><td key={p.id + "nombreEmpleado"}>{p.empleadoNombre}</td><td key={p.id + "horario"}>{findHorarioPorId(p.horarioId)}</td><td key={p.id + "dia"}>{formatDate(p.fechaSolicitud)}</td><td key={p.id + "esVeg"}>{menuEsVegetariano(p.menuId)}</td></tr>)}
-                            </tbody>
-                        </table>
-                        <h3 className="divContenido">Cantidad</h3>
-                        <p className="divTexto">La cantidad de platos elaborados en el filtro establecido es de {pedidosFiltrado.length}.</p>
+                        {pedidosFiltrado.length > 0 &&
+                            <div className="divContenido">
+
+                                <table className="table table-striped table-dark table-hover borderTable">
+                                    <thead className="thead-ligth">
+                                        <tr>
+                                            <th scope="col">Menu</th>
+                                            <th scope="col">Empleado</th>
+                                            <th scope="col">Horario</th>
+                                            <th scope="col">Dia De Almuerzo</th>
+                                            <th scope="col">Es vegetariano</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {pedidosFiltrado.map(p => <tr key={p.id}><td key={p.id + "nombre"}>{p.menuNombre}</td><td key={p.id + "nombreEmpleado"}>{p.empleadoNombre}</td><td key={p.id + "horario"}>{findHorarioPorId(p.horarioId)}</td><td key={p.id + "dia"}>{formatDate(p.fechaSolicitud)}</td><td key={p.id + "esVeg"}>{menuEsVegetariano(p.menuId)}</td></tr>)}
+                                    </tbody>
+
+                                </table>
+
+                                <h3 className="divContenido">Cantidad</h3>
+                                <p className="divTexto">La cantidad de platos elaborados en el filtro establecido es de {pedidosFiltrado.length}.</p>
+                            </div>
+                        }
                     </div>
                 </div>
 
@@ -488,25 +501,28 @@ const Informes = () => {
                         <label className="divContenido">Mes</label>
                         <input type="month" id="month" name="mes" className="form-control" ref={mes}></input><br></br>
                         <button onClick={filtroInformeEmpleados} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
-
-                        {menuesTodos.map(mn =>
-                            <div className="card col d-flex justify-content-center" id={mn.id}>
-                                <h3 className="divContenido">{mn.descripcion}</h3>
-                                <table className="table table-striped table-dark table-hover borderTable">
-                                    <thead className="thead-ligth">
-                                        <tr>
-                                            <th scope="col">Nombre Empleado</th>
-                                            <th scope="col">Cantidad de Pedidos</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {(arrayEmpleadosFiltrado.filter(em => em.idMenu==mn.id)).map(e => <tr key={e.id}><td key={e.id + "nombre"}>{e.nombre}</td><td key={e.id + "cantidad"}> {e.cantidadPedidos}</td></tr>)}
-                                    </tbody>
-                                </table>
+                        {arrayEmpleadosFiltrado.length > 0 &&
+                            <div className="divContenido">
+                                {menuesTodos.map(mn =>
+                                    <div className="card col d-flex justify-content-center" id={mn.id}>
+                                        <h3 className="divContenido">{mn.descripcion}</h3>
+                                        <table className="table table-striped table-dark table-hover borderTable">
+                                            <thead className="thead-ligth">
+                                                <tr>
+                                                    <th scope="col">Nombre Empleado</th>
+                                                    <th scope="col">Cantidad de Pedidos</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {(arrayEmpleadosFiltrado.filter(em => em.idMenu == mn.id)).map(e => <tr key={e.id}><td key={e.id + "nombre"}>{e.nombre}</td><td key={e.id + "cantidad"}> {e.cantidadPedidos}</td></tr>)}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
+                                <h3 className="divContenido">Otros</h3>
+                                <p className="divTexto">No se registraron pedidos del resto de los menús en el mes seleccionado.</p>
                             </div>
-                        )}
-                        <h3 className="divContenido">Otros</h3>
-                        <p className="divTexto">No se registraron pedidos del resto de los menús en el mes seleccionado.</p>
+                        }
 
                     </div>
 
@@ -519,17 +535,19 @@ const Informes = () => {
                         <label className="divContenido">Mes</label>
                         <input type="month" id="month" name="mesFiltro" className="form-control" ref={mesMenu}></input><br></br>
                         <button onClick={filtroMenuesPorMes} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
-                        <table className="table table-striped table-dark table-hover borderTable">
-                            <thead className="thead-ligth">
-                                <tr>
-                                    <th scope="col">Menu</th>
-                                    <th scope="col">Cantidad de Solicitudes</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {menuesFiltradosPorMes.map(m => <tr key={m.id}><td key={m.id + "nombre"}>{m.descripcion}</td><td key={m.id + "cantidad"}>{m.cantidad}</td></tr>)}
-                            </tbody>
-                        </table>
+                        {menuesFiltradosPorMes.length > 0 &&
+                            <table className="table table-striped table-dark table-hover borderTable">
+                                <thead className="thead-ligth">
+                                    <tr>
+                                        <th scope="col">Menu</th>
+                                        <th scope="col">Cantidad de Solicitudes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {menuesFiltradosPorMes.map(m => <tr key={m.id}><td key={m.id + "nombre"}>{m.descripcion}</td><td key={m.id + "cantidad"}>{m.cantidad}</td></tr>)}
+                                </tbody>
+                            </table>
+                        }
                     </div>
                 </div>
                 <div className="row textosMenuInicial">
@@ -539,17 +557,19 @@ const Informes = () => {
                         <label className="divContenido">Semana</label>
                         <input type="week" id="week" name="semanaMenu" className="form-control" ref={semanaMenu}></input><br></br>
                         <button onClick={filtroMenuesPorSemana} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
-                        <table className="table table-striped table-dark table-hover borderTable">
-                            <thead className="thead-ligth">
-                                <tr>
-                                    <th scope="col">Menu</th>
-                                    <th scope="col">Cantidad de Solicitudes</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {arrayMenuesFiltradosPorSemana.map(m => <tr key={m.id}><td key={m.id + "nombre"}>{m.descripcion}</td><td key={m.id + "cantidad"}>{m.cantidad}</td></tr>)}
-                            </tbody>
-                        </table>
+                        {arrayMenuesFiltradosPorSemana.length > 0 &&
+                            <table className="table table-striped table-dark table-hover borderTable">
+                                <thead className="thead-ligth">
+                                    <tr>
+                                        <th scope="col">Menu</th>
+                                        <th scope="col">Cantidad de Solicitudes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {arrayMenuesFiltradosPorSemana.map(m => <tr key={m.id}><td key={m.id + "nombre"}>{m.descripcion}</td><td key={m.id + "cantidad"}>{m.cantidad}</td></tr>)}
+                                </tbody>
+                            </table>
+                        }
                     </div>
                 </div>
                 <div className="row textosMenuInicial">
@@ -565,18 +585,20 @@ const Informes = () => {
                             {empleadosTodos.map(e => <option key={e.id} value={e.id}>{e.nombre}</option>)}
                         </select><br></br>
                         <button onClick={filtroInformeFeedbacks} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
-                        <table className="table table-striped table-dark table-hover borderTable">
-                            <thead className="thead-ligth">
-                                <tr>
-                                    <th scope="col">Empleado</th>
-                                    <th scope="col">Comentario</th>
-                                    <th scope="col">Fecha</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {arrayFeedbacksFiltrado.map(f => <tr key={f.id}><td key={f.id + "nombre"}>{nombreEmpleadoPorId(f.empleadoId)}</td><td key={f.id + "comentario"}>{f.comentario}</td><td key={f.id + "fecha"}>{f.fecha}</td></tr>)}
-                            </tbody>
-                        </table>
+                        {arrayFeedbacksFiltrado.length > 0 &&
+                            <table className="table table-striped table-dark table-hover borderTable">
+                                <thead className="thead-ligth">
+                                    <tr>
+                                        <th scope="col">Empleado</th>
+                                        <th scope="col">Comentario</th>
+                                        <th scope="col">Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {arrayFeedbacksFiltrado.map(f => <tr key={f.id}><td key={f.id + "nombre"}>{nombreEmpleadoPorId(f.empleadoId)}</td><td key={f.id + "comentario"}>{f.comentario}</td><td key={f.id + "fecha"}>{f.fecha}</td></tr>)}
+                                </tbody>
+                            </table>
+                        }
                     </div>
                 </div>
                 <br></br><br></br><br></br><br></br>
