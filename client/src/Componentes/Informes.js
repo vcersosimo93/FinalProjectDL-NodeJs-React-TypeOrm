@@ -3,21 +3,28 @@ import LogoInicio from '../Images/LogoInicio.jpg';
 import { NavLink } from 'react-router-dom';
 import Volver_img from '../Images/Volver.png';
 import { useState } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
-let feedbacks = [
-    { id: 1, empleadoId: "2", empleadoNombre: "Nico", comentario: "Le falto Sal a la ensalada.", fecha: "02/11/2022" },
-    { id: 2, empleadoId: "1", empleadoNombre: "Noe", comentario: "Muy rica la tortilla.", fecha: "03/11/2022" },
-    { id: 3, empleadoId: "3", empleadoNombre: "Vice", comentario: "Estaba quemada la pizza.", fecha: "01/11/2022" },
-]
+let arrayPedidosFiltrado = [];
 
 const Informes = () => {
+
 
     const [pedidosTodos, setPedidosTodos] = useState([{}]);
     const [horariosTodos, setHorariosTodos] = useState([{}]);
     const [menuesTodos, setmenuesTodos] = useState([{}]);
     const [empleadosTodos, setempleadosTodos] = useState([{}]);
     const [feedbackTodos, setfeedbackTodos] = useState([{}]);
+
+
+    const [pedidosFiltrado, setPedidosFiltrado] = useState([{}]);
+    const fecha = useRef()
+    const hora = useRef()
+
+
+    useEffect(() => {
+        setPedidosFiltrado(arrayPedidosFiltrado)
+    }, [pedidosFiltrado])
 
     useEffect(() => {
         fetch('http://localhost:8080/pedido/get').then(
@@ -72,7 +79,6 @@ const Informes = () => {
     const findHorarioPorId = (IdHorario) => {
         for (let unHorario of horariosTodos) {
             if (unHorario.id == IdHorario) {
-                console.log(unHorario)
                 return unHorario.hora;
             }
         }
@@ -91,6 +97,21 @@ const Informes = () => {
 
         return [day, month, year].join('/');
     }
+
+    const formatDateOther = (date) => {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
+
 
     const menuEsVegetariano = (IdMenu) => {
         let menuEncontrado;
@@ -135,6 +156,46 @@ const Informes = () => {
         }
     }
 
+    const filtroInformePedidos = postData => {
+        postData.preventDefault();
+        const fechaSeleccionada = fecha.current.value
+        const idhorarioSeleccionado = hora.current.value
+
+        while (arrayPedidosFiltrado.length) {
+            arrayPedidosFiltrado.pop();
+        }
+
+        if (fechaSeleccionada != "" && (idhorarioSeleccionado != "")) {
+            for (let unPedido of pedidosTodos) {
+                if (formatDateOther(unPedido.fechaSolicitud) == fechaSeleccionada && unPedido.horarioId == idhorarioSeleccionado) {
+                    arrayPedidosFiltrado.push(unPedido)
+                }
+            }
+        }
+
+        if (fechaSeleccionada == "" && (idhorarioSeleccionado == "")) {
+            for (let unPedido of pedidosTodos) {
+                arrayPedidosFiltrado.push(unPedido)
+            }
+        }
+
+        if (fechaSeleccionada == "" && (idhorarioSeleccionado != "")) {
+            for (let unPedido of pedidosTodos) {
+                if (unPedido.horarioId == idhorarioSeleccionado) {
+                    arrayPedidosFiltrado.push(unPedido)
+                }
+            }
+        }
+
+        if (fechaSeleccionada != "" && (idhorarioSeleccionado == "")) {
+            for (let unPedido of pedidosTodos) {
+                if (formatDateOther(unPedido.fechaSolicitud) == fechaSeleccionada) {
+                    arrayPedidosFiltrado.push(unPedido)
+                }
+            }
+        }
+    }
+
     return (
         <div className="container m-2">
             <div className="row heading" >
@@ -153,13 +214,13 @@ const Informes = () => {
                     <div className=" card col d-flex justify-content-center">
                         <h3 className=" justify-content-center tituloInforme">Platos elaborados por horario por día</h3>
                         <label className="divContenido">Fecha Elaboración</label>
-                        <input placeholder="Seleccionar fecha" type="date" className="form-control" id="fechaId" name="fecha"></input><br></br>
+                        <input placeholder="Seleccionar fecha" type="date" className="form-control" id="fechaId" name="fecha" ref={fecha}></input><br></br>
                         <label className="divContenido">Horario de Almuerzo</label>
-                        <select className="form-select divContenido" aria-label="Default select example" id="horario" name="hora">
-                            <option value>Seleccione Horario</option>
+                        <select className="form-select divContenido" aria-label="Default select example" id="horario" name="hora" ref={hora}>
+                            <option value="">Seleccione Horario</option>
                             {horariosTodos.map(h => <option key={h.id} value={h.id}>{h.hora}</option>)}
                         </select><br></br>
-                        <button type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                        <button onClick={filtroInformePedidos} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
                         <table className="table table-striped table-dark table-hover borderTable">
                             <thead className="thead-ligth">
                                 <tr>
@@ -171,7 +232,7 @@ const Informes = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {pedidosTodos.map(p => <tr key={p.id}><td key={p.id + "nombre"}>{p.menuNombre}</td><td key={p.id + "nombreEmpleado"}>{p.empleadoNombre}</td><td key={p.id + "horario"}>{findHorarioPorId(p.horarioId)}</td><td key={p.id + "dia"}>{formatDate(p.fechaSolicitud)}</td><td key={p.id + "esVeg"}>{menuEsVegetariano(p.menuId)}</td></tr>)}
+                                {pedidosFiltrado.map(p => <tr key={p.id}><td key={p.id + "nombre"}>{p.menuNombre}</td><td key={p.id + "nombreEmpleado"}>{p.empleadoNombre}</td><td key={p.id + "horario"}>{findHorarioPorId(p.horarioId)}</td><td key={p.id + "dia"}>{formatDate(p.fechaSolicitud)}</td><td key={p.id + "esVeg"}>{menuEsVegetariano(p.menuId)}</td></tr>)}
                             </tbody>
                         </table>
                         <h3 className="divContenido">Cantidad</h3>
