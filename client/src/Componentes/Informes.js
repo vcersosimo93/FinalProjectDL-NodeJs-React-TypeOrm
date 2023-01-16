@@ -201,7 +201,7 @@ const Informes = () => {
     const pedidosPorEmpleadoMenuYMes = (emplId, menId, mesSeleccionado) => {
 
         let pedidosPorEmpleadoPorMenu = 0;
-        if (mes == "") {
+        if (mesSeleccionado == "") {
             for (let unPedido of pedidosTodos) {
                 if (unPedido.empleadoId == emplId && unPedido.menuId == menId) {
                     pedidosPorEmpleadoPorMenu++;
