@@ -141,32 +141,39 @@ const Graf_almuerzo_meses = () => {
         },
     };
     return (
-        <div className="textosMenuInicial">
-            <h3 className="col d-flex justify-content-center divContenido ">Almuerzos por mes</h3>
-            {Pedidos.length > 0 &&
-                <Bar className="grafica divContenido" data={{
-                    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    datasets: [
-                        {
-                            label: 'Cant Almuerzos',
-                            data: cantidadMenus.map(p => (p.cantidad)),
-                            backgroundColor: [
-                                'black',
-                                'black',
-                                'black',
-                                'black',
-                            ],
-                            borderColor: [
-                                'black',
-                                'black',
-                                'black',
-                                'black',
-                            ],
-                            borderWidth: 1,
-                        },
-                    ],
-                }} options={options} />
-            }
+        <div className="row textosMenuInicial">
+            <div className=" card col d-flex justify-content-center">
+                <h3 className=" justify-content-center tituloInforme">Cantidad de almuerzos por meses</h3>
+                {Pedidos.length > 0 &&
+                    <Bar className="grafica divContenido" data={{
+                        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        datasets: [
+                            {
+                                label: 'Cant Almuerzos',
+                                data: cantidadMenus.map(p => (p.cantidad)),
+                                backgroundColor: [
+                                    'black',
+                                    'black',
+                                    'black',
+                                    'black',
+                                ],
+                                borderColor: [
+                                    'black',
+                                    'black',
+                                    'black',
+                                    'black',
+                                ],
+                                borderWidth: 1,
+                            },
+                        ],
+                    }} options={options} />
+                }
+                {Pedidos.length <= 0 &&
+
+                    <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar</p>
+
+                }
+            </div>
         </div>
     )
 }

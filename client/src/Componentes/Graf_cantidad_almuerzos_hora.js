@@ -116,37 +116,39 @@ const Graf_cantidad_almuerzos_hora = () => {
   };
   return (
 
-    <div className="textosMenuInicial">
-      <h3 className="col d-flex justify-content-center divContenido">Cantidad almuerzos por hora</h3>
-      {Pedidos.length > 0 &&
-        <Bar className="grafica divContenido" data={{
-          labels: horarios.map(p => (p.hora)),
-          datasets: [
-            {
-              label: 'Cant Almuerzos',
-              data: horarios.map(p => (p.cantidad)),
-              backgroundColor: [
-                'black',
-                'black',
-                'black',
-                'black',
-              ],
-              borderColor: [
-                'black',
-                'black',
-                'black',
-                'black',
-              ],
-              borderWidth: 1,
-            },
-          ],
-        }} options={options} />
-      }
-      {Pedidos.length <= 0 &&
-        
-          <p className="">No hay información para mostrar</p>
-        
-      }
+    <div className="row textosMenuInicial">
+      <div className=" card col d-flex justify-content-center">
+      <h3 className=" justify-content-center tituloInforme">Cantidad almuerzos por hora</h3>
+        {Pedidos.length > 0 &&
+          <Bar className="grafica divContenido" data={{
+            labels: horarios.map(p => (p.hora)),
+            datasets: [
+              {
+                label: 'Cant Almuerzos',
+                data: horarios.map(p => (p.cantidad)),
+                backgroundColor: [
+                  'black',
+                  'black',
+                  'black',
+                  'black',
+                ],
+                borderColor: [
+                  'black',
+                  'black',
+                  'black',
+                  'black',
+                ],
+                borderWidth: 1,
+              },
+            ],
+          }} options={options} />
+        }
+        {Pedidos.length <= 0 &&
+
+          <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar</p>
+
+        }
+      </div>
     </div>
   )
 }

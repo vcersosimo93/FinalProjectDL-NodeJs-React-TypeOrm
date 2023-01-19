@@ -115,32 +115,39 @@ const Graf_almuerzo_meses = () => {
     },
   };
   return (
-    <div className="textosMenuInicial">
-      <h3 className="col d-flex justify-content-center divContenido mt-0">Almuerzos por empleados</h3>
-      {empleados.length > 0 &&
-        <Bar className="grafica divContenido" data={{
-          labels: empleados.map(p => (p.nombre)),
-          datasets: [
-            {
-              label: 'Cant Almuerzos',
-              data: empleados.map(p => (p.cantidad)),
-              backgroundColor: [
-                'black',
-                'black',
-                'black',
-                'black',
-              ],
-              borderColor: [
-                'black',
-                'black',
-                'black',
-                'black',
-              ],
-              borderWidth: 1,
-            },
-          ],
-        }} options={options} />
-      }
+    <div className="row textosMenuInicial">
+      <div className=" card col d-flex justify-content-center">
+        <h3 className=" justify-content-center tituloInforme">Cantidad de almuerzos por empleados</h3>
+        {empleados.length > 0 &&
+          <Bar className="grafica divContenido" data={{
+            labels: empleados.map(p => (p.nombre)),
+            datasets: [
+              {
+                label: 'Cant Almuerzos',
+                data: empleados.map(p => (p.cantidad)),
+                backgroundColor: [
+                  'black',
+                  'black',
+                  'black',
+                  'black',
+                ],
+                borderColor: [
+                  'black',
+                  'black',
+                  'black',
+                  'black',
+                ],
+                borderWidth: 1,
+              },
+            ],
+          }} options={options} />
+        }
+        {empleados.length <= 0 &&
+
+          <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar</p>
+
+        }
+      </div>
     </div>
   )
 }
