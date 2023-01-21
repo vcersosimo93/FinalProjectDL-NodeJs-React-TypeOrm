@@ -23,7 +23,7 @@ const Horario = () => {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        fetch('http://localhost:8080/horario/get').then(
+        fetch(process.env.REACT_APP_LOCALHOST + '/horario/get').then(
             response => response.json())
             .then(
                 data => {
@@ -43,7 +43,7 @@ const Horario = () => {
             reaccionHorarioId = horarios.length + 1;
         }
 
-        let url = 'http://localhost:8080/horario/post';
+        let url = process.env.REACT_APP_LOCALHOST + '/horario/post';
         let method = 'POST';
 
         fetch(url, {

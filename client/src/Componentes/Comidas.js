@@ -23,7 +23,7 @@ const Comidas = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:8080/menu/getAll').then(
+        fetch(process.env.REACT_APP_LOCALHOST + '/menu/getAll').then(
             response => response.json())
             .then(
                 data => {
@@ -64,7 +64,7 @@ const Comidas = () => {
         console.log(esVegetariano.current.checked);
         console.log(desc);
 
-        let url = 'http://localhost:8080/menu/post';
+        let url = process.env.REACT_APP_LOCALHOST + '/menu/post';
         let method = 'POST';
 
         fetch(url, {
@@ -101,7 +101,7 @@ const Comidas = () => {
         const desc = descripcion.current.value
         const esVeget = esVegetariano.current.checked
 
-        let url = 'http://localhost:8080/menu/update'
+        let url = process.env.REACT_APP_LOCALHOST + '/menu/update'
         let method = 'PUT'
 
         fetch(url, {

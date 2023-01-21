@@ -20,15 +20,12 @@ const TableComida = ({ menu }) => {
     const handleCloseDL = () => setShowDL(false);
     const descripcionMenu = menu.descripcion
     const esVegetarianoMenu = menu.esVegetariano
-    //let [vege, setveg] = useState("");
-
 
     const _onChangeVegetarianoUP = () => {
         try {
             ; (async () => {
                 console.log("_onChangeVegetariano");
                 console.log(esVegetariano.current.checked);
-                //setveg = esVegetariano
 
             })()
         } catch (error) {
@@ -43,7 +40,7 @@ const TableComida = ({ menu }) => {
         const desc = descripcion.current.value
         const esVeget = esVegetariano.current.checked
 
-        let url = 'http://localhost:8080/menu/update'
+        let url = process.env.REACT_APP_LOCALHOST + '/menu/update'
         let method = 'PUT'
 
         fetch(url, {
@@ -82,7 +79,7 @@ const TableComida = ({ menu }) => {
         updateData.preventDefault();
         const idMenu = menu.id
 
-        let url = 'http://localhost:8080/menu/delete'
+        let url = process.env.REACT_APP_LOCALHOST + '/menu/delete'
         let method = 'DELETE'
 
         fetch(url, {

@@ -5,6 +5,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 
 const manager = AppDataSource.manager
+const repoMO = AppDataSource.getRepository(MenuOpcionesFecha)
 
 export const createMenuOpciones = async (req, res, next) => {
     try {
@@ -35,20 +36,31 @@ export const createMenuOpciones = async (req, res, next) => {
 export const getMenusOpciones = async (req, res) => {
     try {
         const menusOpciones = await manager.find(MenuOpcionesFecha);
-        return res.json({
-            message: 'Menu Obtenidos Exitosamente.',
-            menusOpciones: menusOpciones
-        });
+        return res.json(menusOpciones);
     }
     catch (error) {
-        return res.status(500).json({ message: error.message })
+        throw new Error (error);
     }
 }
 
 export const findOpcionesDelDia = async () => {
     let fecha = new Date()
     fecha.setHours(0, 0, 0, 0)
-    const repoMO = AppDataSource.getRepository(MenuOpcionesFecha)
     const opciones = await repoMO.findBy({fechaAPublicar : fecha})
     return opciones;
+};
+
+export const deleteMO = async (req, res) => {
+    try {
+    
+      const fecha = new Date(req.body.fecha);
+      const MO = await repoMO.findOneBy({fechaAPublicar : fecha});
+      console.log(MO);
+      await manager.remove(MO);
+      return 200;
+
+    }
+    catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
 };

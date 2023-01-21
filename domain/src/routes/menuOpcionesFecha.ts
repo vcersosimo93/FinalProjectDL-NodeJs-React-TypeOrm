@@ -10,6 +10,8 @@ router.post('/post', menuOpcionesFechaController.createMenuOpciones);
 // GET /menuOpcionesFecha/getAll
 router.get('/getAll', menuOpcionesFechaController.getMenusOpciones);
 
+// DELETE /menuOpcionesFecha/getAll
+router.delete('/delete', menuOpcionesFechaController.deleteMO);
 
 
 

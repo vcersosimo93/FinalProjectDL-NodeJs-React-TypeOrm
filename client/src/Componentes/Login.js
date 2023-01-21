@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom';
 
 function Login() {
 
-  //const google = window.google;
   const history = useHistory();
 
   let [user, setUser] = useState({});

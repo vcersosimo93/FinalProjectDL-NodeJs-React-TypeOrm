@@ -33,13 +33,13 @@ const Timeline = () => {
     }, [UE])
 
     function fetchHorario() {
-     fetch('http://localhost:8080/horario/get').then(
+     fetch(process.env.REACT_APP_LOCALHOST + '/horario/get').then(
         response => response.json()).
             then(data => {setHoras(data)});
     }
 
     function fetchTimeline() {
-     fetch('http://localhost:8080/pedido/getTimeline').then(
+     fetch(process.env.REACT_APP_LOCALHOST + '/pedido/getTimeline').then(
         response => response.json()).
             then(data => {setPedidos(data)})
     }
@@ -114,7 +114,7 @@ const Timeline = () => {
     }
 
     const finalizarPedidos = async () =>{
-        fetch('http://localhost:8080/pedido/finalizar', {
+        fetch(process.env.REACT_APP_LOCALHOST + '/pedido/finalizar', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

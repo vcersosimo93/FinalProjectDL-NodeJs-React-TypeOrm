@@ -25,7 +25,7 @@ const TableHorario = ({ horario }) => {
         const idHorario = horario.id
         const horaHorario = hora.current.value
 
-        let url = 'http://localhost:8080/horario/update'
+        let url = process.env.REACT_APP_LOCALHOST + '/horario/update'
         let method = 'PUT'
 
         fetch(url, {
@@ -61,7 +61,7 @@ const TableHorario = ({ horario }) => {
         updateData.preventDefault();
         const idHorario = horario.id
 
-        let url = 'http://localhost:8080/horario/delete'
+        let url = process.env.REACT_APP_LOCALHOST + '/horario/delete'
         let method = 'DELETE'
 
         fetch(url, {
@@ -128,13 +128,13 @@ const TableHorario = ({ horario }) => {
                 <Modal.Body>
                     <Form className="my-modal-form"  >
                         <Form.Group className="mb-3" controlId="Confirmar Borrado" >
-                            <Form.Label>Confirma borrar el horario seleccionado?</Form.Label>
+                            <Form.Label>¿Confirma borrar el horario seleccionado?</Form.Label>
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button type="submit" variant="outline-primary" onClick={handleSubmitDL}  >
-                        Confirmar
+                        Eliminar
                     </Button>
                 </Modal.Footer>
             </Modal>
