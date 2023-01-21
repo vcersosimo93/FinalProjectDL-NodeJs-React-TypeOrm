@@ -27,9 +27,6 @@ const Graf_almuerzo_meses = () => {
       .then(
         data => {
           setEmpleados(data);
-          //console.log(data)
-          //llenarNombreEmpleados()
-          //console.log(nombreEmpleados)
         }
       )
   }, [Empleados])
@@ -60,7 +57,6 @@ const Graf_almuerzo_meses = () => {
   }
 
 
-  //console.log(empleados)
 
 
 

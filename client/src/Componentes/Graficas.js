@@ -6,6 +6,8 @@ import { NavLink } from 'react-router-dom';
 import Graf_almuerzo_empleados from './Graf_almuerzo_empleados';
 import Graf_almuerzo_mes from './Graf_almuerzo_mes';
 import Graf_cantidad_almuerzos_hora from './Graf_cantidad_almuerzos_hora'
+import Graf_alm_promedio  from './Graf_alm_promedio'
+
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -66,6 +68,7 @@ const Graficas = () => {
                         <Graf_almuerzo_empleados />
                         <Graf_almuerzo_mes/>
                         <Graf_cantidad_almuerzos_hora/>
+                        <Graf_alm_promedio/>
                 </div>
             </div>
         </div>
