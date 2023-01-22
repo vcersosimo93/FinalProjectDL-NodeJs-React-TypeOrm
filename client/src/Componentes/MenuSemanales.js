@@ -40,7 +40,7 @@ const MenuSemanales = () => {
             response => response.json()).then(
                 data => {setmenuesGet(data.menus)});
 
-        fetch(process.env.REACT_APP_LOCALHOST + '/menuOpcionesFecha/getAll').then(
+        fetch(process.env.REACT_APP_LOCALHOST + '/menuOpcionesFecha/getAllPendientes').then(
             response => response.json()).then(
                 data => {setMenuesProgramados(data)});
     }, [UE])
