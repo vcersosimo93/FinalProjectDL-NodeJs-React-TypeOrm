@@ -104,7 +104,6 @@ const Horario = () => {
                     <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Horarios</h2>
                     <p className="col-12 d-flex align-items-center pContenidoSinFondo">A continuación se muestra listado de horarios ingresados en el sistema. En el mismo se permite modificar y eliminar los existentes, y también es posible agregar nuevos (Presionando "+").</p>
                     <div className="col-md-1" >
-
                         <Modal show={show} className="my-modal" onHide={handleClose}>
                             <Modal.Header closeButton>
                                 <Modal.Title>Crear Horario</Modal.Title>
