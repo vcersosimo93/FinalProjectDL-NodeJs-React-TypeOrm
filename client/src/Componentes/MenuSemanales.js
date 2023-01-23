@@ -94,6 +94,7 @@ const MenuSemanales = () => {
     const postearOpcionMenu = menuOpcionData => {
 
         menuOpcionData.preventDefault();
+        if (menues != undefined && menues[0] != undefined){
         const menuSelecc = menues
         const fechaAPublicar = fechaSeleccionada.current.value
         let reaccionId = 1;
@@ -123,7 +124,7 @@ const MenuSemanales = () => {
                     console.log(err);
                 });
             reaccionId++;
-        }
+        }}
     }
 
     const cerrarModal = () => {

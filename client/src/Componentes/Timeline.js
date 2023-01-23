@@ -123,7 +123,7 @@ const Timeline = () => {
                 "menuId": ordenesAmostrar[indexPedido].id,
                 "horarioId": ordenesAmostrar[indexPedido].horarioId,
             })});
-        await callUE(UE + 1);
+        callUE(UE + 1);
         cargarMenus();
         actualizarMenus(0);
         MFClose();
