@@ -1,5 +1,6 @@
 import { AppDataSource } from "../data-source";
 import { MenuOpcionesFecha } from '../entity/MenuOpcionesFecha';
+import { MoreThan } from "typeorm"
 const express = require('express');
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -36,6 +37,18 @@ export const createMenuOpciones = async (req, res, next) => {
 export const getMenusOpciones = async (req, res) => {
     try {
         const menusOpciones = await manager.find(MenuOpcionesFecha);
+        return res.json(menusOpciones);
+    }
+    catch (error) {
+        throw new Error (error);
+    }
+}
+
+export const getMenusOpcionesNoPosteados = async (req, res) => {
+    try {
+        const fecha = new Date()
+        const menusOpciones = await repoMO.findBy({fechaAPublicar :  MoreThan(fecha)})
+        
         return res.json(menusOpciones);
     }
     catch (error) {
