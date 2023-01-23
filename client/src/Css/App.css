@@ -324,3 +324,17 @@
   display: flex;
 }
 
+.selectblack{
+  background-color: black;
+}
+
+.marcaAgua{
+    opacity: 0.5;
+}
+
+.tituloApp{
+  color: white;
+  margin-top: 50px;
+}
+
+

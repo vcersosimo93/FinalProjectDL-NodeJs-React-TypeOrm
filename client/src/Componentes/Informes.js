@@ -456,14 +456,13 @@ const Informes = () => {
                 </div>
                 <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Informes</h2>
                 <p className="col-12 d-flex align-items-center pContenidoSinFondo">A continuación se muestra los informes disponibles para visualizar información acerca de los pedidos realizados en el sistema. Seleccione el informe que desee y el filtrado correspondiente.</p>
-                <div class="list-group">
+                <div class="list-group list-group">
                     <a href="#informeUno" class="list-group-item list-group-item-action list-group-item-primary">Platos elaborados por horario por día</a>
                     <a href="#informeDos" class="list-group-item list-group-item-action list-group-item-primary">Asistencia de personas por mes</a>
                     <a href="#informeTres" class="list-group-item list-group-item-action list-group-item-primary">Platos más pedidos del mes</a>
                     <a href="#informeCuatro" class="list-group-item list-group-item-action list-group-item-primary">Cantidad de platos elaborados por semana</a>
                     <a href="#informeCinco" class="list-group-item list-group-item-action list-group-item-primary">Tabla de Feedbacks</a>
                 </div>
-
                 <div className="row textosMenuInicial">
                     <div className=" card col d-flex justify-content-center" id="informeUno">
                         <h3 className=" justify-content-center tituloInforme">Platos elaborados por horario por día</h3>
@@ -471,11 +470,22 @@ const Informes = () => {
                         <label className="divContenido">Fecha Elaboración</label>
                         <input placeholder="Seleccionar fecha" type="date" className="form-control" id="fechaId" name="fecha" ref={fecha}></input><br></br>
                         <label className="divContenido">Horario de Almuerzo</label>
-                        <select className="form-select divContenido" aria-label="Default select example" id="horario" name="hora" ref={hora}>
-                            <option value="">Seleccione Horario</option>
-                            {horariosTodos.map(h => <option key={h.id} value={h.id}>{h.hora}</option>)}
-                        </select><br></br>
-                        <button onClick={filtroInformePedidos} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                        {horariosTodos.length > 0 &&
+                            <select className="form-select divContenido" aria-label="Default select example" id="horario" name="hora" ref={hora}>
+                                <option value="">Seleccione Horario</option>
+                                {horariosTodos.map(h => <option key={h.id} value={h.id}>{h.hora}</option>)}
+                            </select>
+                        }
+                        {horariosTodos.length <= 0 &&
+                            <select className="form-select divContenido" aria-label="Default select example" id="horario" name="hora" ref={hora} hidden="hidden">
+                                <option value="">Seleccione Horario</option>
+                            </select>}
+                        {horariosTodos.length <= 0 &&
+                            <p className="col-9 d-flex align-items-center pContenido marcaAgua">No hay Horarios ingresados en el sistema para seleccionar. Debe ingresar previamente horarios para emitir el informe filtrado con esta condición.</p>
+                        }
+                        <br></br>
+                        <button onClick={filtroInformePedidos} type="button" className="btn btn-dark" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+
                         {pedidosFiltrado.length > 0 &&
                             <div className="divContenido">
 
@@ -501,7 +511,7 @@ const Informes = () => {
                             </div>
                         }
                         {pedidosFiltrado.length <= 0 &&
-                            <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar.</p>
+                            <p className="col-9 d-flex align-items-center pContenido marcaAgua">No hay información para mostrar.</p>
                         }
                     </div>
                 </div>
@@ -512,7 +522,7 @@ const Informes = () => {
                         <h1 className="divContenidoTextos">Filtrar por mes para ver la cantidad de pedidos solicitados por empleado en dicho mes agrupados por menu. Si no se elije ningun filtro, se mostrarán la cantidad de pedidos totales acumuladas por empleado agrupados por menu.</h1>
                         <label className="divContenido">Mes</label>
                         <input type="month" id="month" name="mes" className="form-control" ref={mes}></input><br></br>
-                        <button onClick={filtroInformeEmpleados} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                        <button onClick={filtroInformeEmpleados} type="button" className="btn btn-dark " data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
                         {arrayEmpleadosFiltrado.length > 0 &&
                             <div className="divContenido">
                                 {menuesTodos.map(mn =>
@@ -536,7 +546,7 @@ const Informes = () => {
                             </div>
                         }
                         {arrayEmpleadosFiltrado.length <= 0 &&
-                            <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar.</p>
+                            <p className="col-9 d-flex align-items-center pContenido marcaAgua">No hay información para mostrar.</p>
                         }
                     </div>
 
@@ -548,7 +558,7 @@ const Informes = () => {
                         <h1 className="divContenidoTextos">Filtrar por mes para ver la cantidad de pedidos por menu de dicho mes. Si no se elije ningun filtro, se mostrarán la cantidad acumulada de pedidos por menu.</h1>
                         <label className="divContenido">Mes</label>
                         <input type="month" id="month" name="mesFiltro" className="form-control" ref={mesMenu}></input><br></br>
-                        <button onClick={filtroMenuesPorMes} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                        <button onClick={filtroMenuesPorMes} type="button" className="btn btn-dark" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
                         {menuesFiltradosPorMes.length > 0 &&
                             <table className="table table-striped table-dark table-hover borderTable">
                                 <thead className="thead-ligth">
@@ -563,7 +573,7 @@ const Informes = () => {
                             </table>
                         }
                         {menuesFiltradosPorMes.length <= 0 &&
-                            <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar.</p>
+                            <p className="col-9 d-flex align-items-center pContenido marcaAgua">No hay información para mostrar.</p>
                         }
                     </div>
                 </div>
@@ -573,7 +583,7 @@ const Informes = () => {
                         <h1 className="divContenidoTextos">Filtrar por semana para ver la cantidad de pedidos por menu de dicha semana. Si no se elije ningun filtro, se mostrarán la cantidad acumulada de pedidos por menu.</h1>
                         <label className="divContenido">Semana</label>
                         <input type="week" id="week" name="semanaMenu" className="form-control" ref={semanaMenu}></input><br></br>
-                        <button onClick={filtroMenuesPorSemana} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                        <button onClick={filtroMenuesPorSemana} type="button" className="btn btn-dark" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
                         {arrayMenuesFiltradosPorSemana.length > 0 &&
                             <table className="table table-striped table-dark table-hover borderTable">
                                 <thead className="thead-ligth">
@@ -588,7 +598,7 @@ const Informes = () => {
                             </table>
                         }
                         {arrayMenuesFiltradosPorSemana.length <= 0 &&
-                            <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar.</p>
+                            <p className="col-9 d-flex align-items-center pContenido marcaAgua">No hay información para mostrar.</p>
                         }
                     </div>
                 </div>
@@ -600,11 +610,21 @@ const Informes = () => {
                         <input placeholder="Seleccionar fecha" type="date" className="form-control" id="horario" name="fechaDesde" ref={fechaDesde}></input>
                         <br></br>
                         <label className="divContenido">Empleados</label>
-                        <select className="form-select divContenido" aria-label="Default select example" id="empleados" name="empleado" ref={empleado}>
-                            <option value="">Seleccione Empleado</option>
-                            {empleadosTodos.map(e => <option key={e.id} value={e.id}>{e.nombre}</option>)}
-                        </select><br></br>
-                        <button onClick={filtroInformeFeedbacks} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                        {empleadosTodos.length > 0 &&
+                            <select className="form-select divContenido" aria-label="Default select example" id="empleados" name="empleado" ref={empleado}>
+                                <option value="">Seleccione Empleado</option>
+                                {empleadosTodos.map(e => <option key={e.id} value={e.id}>{e.nombre}</option>)}
+                            </select>
+                        }
+                        {empleadosTodos.length <= 0 &&
+                            <p className="col-9 d-flex align-items-center pContenido marcaAgua">No hay Empleados ingresados en el sistema para seleccionar.  Debe ingresar previamente empleados para emitir el informe filtrado con esta condición.</p>
+                        }
+                        {empleadosTodos.length <= 0 &&
+                            <select className="form-select divContenido" aria-label="Default select example" id="empleados" name="empleado" ref={empleado} hidden="hidden">
+                                <option value="">Seleccione Empleado</option>
+                            </select>}
+                        <br></br>
+                        <button onClick={filtroInformeFeedbacks} type="button" className="btn btn-dark" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
                         {arrayFeedbacksFiltrado.length > 0 &&
                             <table className="table table-striped table-dark table-hover borderTable">
                                 <thead className="thead-ligth">
@@ -620,7 +640,7 @@ const Informes = () => {
                             </table>
                         }
                         {arrayFeedbacksFiltrado.length <= 0 &&
-                            <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar.</p>
+                            <p className="col-9 d-flex align-items-center pContenido marcaAgua">No hay información para mostrar.</p>
                         }
                     </div>
                 </div>

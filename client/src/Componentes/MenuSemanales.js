@@ -98,6 +98,9 @@ const MenuSemanales = () => {
         let url = process.env.REACT_APP_LOCALHOST + '/menuOpcionesFecha/post'
         let method = 'POST'
 
+        console.log(fechaAPublicar)
+        console.log(menuSelecc)
+
         for (let menu of menuSelecc) {
             fetch(url, {
                 method: method,
@@ -187,6 +190,7 @@ const MenuSemanales = () => {
                         </NavLink>
                     </div>
                     <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Menús Programados</h2>
+                    <p className="col-12 d-flex align-items-center pContenidoSinFondo">A continuación se muestra menús programados que aun no han sido publicados para la selección por parte de los empleados.</p>
                     {menusProgramadosAMostrar.length > 0 &&
                         <table className="table table-striped table-dark table-hover borderTable " >
                             <thead>
@@ -209,19 +213,31 @@ const MenuSemanales = () => {
                             </tbody>
                         </table>}
                     {menusProgramadosAMostrar.length <= 0 &&
-                        <div class="alert alert-primary" role="alert">No hay Menús Programados en el sistema para mostrar.</div>
+                        <div class="alert alert-primary marcaAgua" role="alert">No hay Menús Programados en el sistema para mostrar.</div>
                     }
+                    <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Programar Menús</h2>
+                    <p className="col-12 d-flex align-items-center pContenidoSinFondo">Seleccionar a continuación fecha y opciones de menú/s para preparar el día seleccionado.</p>
+
                     <div className="row textosMenuInicial">
                         <form action="/button-submit" method="POST" className="card col d-flex justify-content-center">
                             <label className="divContenido">Programar un día</label>
                             <br></br>
-                            <label className="textoNegro">Fecha de publicación</label>
+                            <label className="divContenido">Fecha de publicación</label>
                             <input placeholder="Seleccionar fecha" type="date" className="form-control" id="fechaAlmuerzo" ref={fechaSeleccionada}></input>
                             <br></br>
-                            <select aria-label="Default select example" id="pedido" className="selectpicker" name="Menu" multiple data-live-search="true" ref={menu} onChange={_onHandleSeleccionMenus}>
-                                {menuesGet.map((h, index) => <option className="itemMenuSemanales" key={index} value={h.id} >{h.descripcion} </option>)}
-                            </select><br></br>
-                            <button type="submit" style={{ "backgroundColor": "#212529" }} className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off" onClick={postearOpcionMenu}> Enviar Opciones</button><br></br>
+                            <label className="divContenido">Menús a Programar</label>
+                            {menuesGet.length > 0 &&
+                                <select aria-label="Default select example" id="pedido" className="selectpicker selectblack" name="Menu" multiple data-live-search="true" ref={menu} onChange={_onHandleSeleccionMenus}>
+                                    {menuesGet.map((h, index) => <option className="itemMenuSemanales" key={index} value={h.id} >{h.descripcion} </option>)}
+                                </select>}
+                            <br></br>
+                            {menuesGet.length > 0 &&
+                                <button type="submit" className="btn btn-dark" data-toggle="button" aria-pressed="false" autoComplete="off" onClick={postearOpcionMenu}> Enviar Opciones</button>
+                            }<br></br>
+                            {menuesGet.length <= 0 &&
+                                <p className="col-9 d-flex align-items-center pContenido">No hay menús ingresados en el sistema para seleccionar. Ingresar previamente menús en la solapa "Menús".</p>
+                            }
+
                         </form>
                     </div>
                     <Modal show={show} className="my-modal" onHide={handleClose}>

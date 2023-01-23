@@ -150,7 +150,7 @@ const Horario = () => {
                         </table>
                     }
                     {horarios.length <= 0 &&
-                        <div class="alert alert-primary" role="alert">No hay Horarios ingresados en el sistema para mostrar.</div>
+                        <div class="alert alert-primary marcaAgua" role="alert">No hay Horarios ingresados en el sistema para mostrar.</div>
                     }
                 </div>
             </div>

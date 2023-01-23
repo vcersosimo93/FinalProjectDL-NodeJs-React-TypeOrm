@@ -271,7 +271,7 @@ const Comidas = () => {
                         </table>
                     }
                     {menues.length <= 0 &&
-                        <div class="alert alert-primary" role="alert">No hay Menús Ingresados en el sistema para mostrar.</div>
+                        <div class="alert alert-primary marcaAgua" role="alert">No hay Menús Ingresados en el sistema para mostrar.</div>
                     }
                 </div>
             </div>
