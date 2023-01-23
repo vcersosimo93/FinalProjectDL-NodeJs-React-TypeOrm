@@ -135,142 +135,148 @@ const Comidas = () => {
     const handleShow = () => setShow(true);
     const handleCloseUP = () => setShowUP(false);
 
-    if (localStorage.getItem("user") == null){
+    if (localStorage.getItem("user") == null) {
         history.push('/Login')
     }
-    else{
-    return (
-        <div className="container m-2">
-            <div className="row heading" >
-                <div className="col-md-2 d-flex">
-                    <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
-                </div>
-                <div className="col-md-9 d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
-                    <div className="linkContainerSecondOption" >
-                        <Button variant="default" onClick={handleShow}>
-                            <img src={Agregar_Menu_img} className="iconosImgThirdOption" alt="agregar" />
-                        </Button>
+    else {
+        return (
+            <div className="container m-2">
+                <div className="row heading" >
+                    <div className="col-md-2 d-flex">
+                        <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
+                    </div>
+                    <div className="col-md-9 d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
+                        <div className="linkContainerSecondOption" >
+                            <Button variant="default" onClick={handleShow}>
+                                <img src={Agregar_Menu_img} className="iconosImgThirdOption" alt="agregar" />
+                            </Button>
+                        </div>
+                    </div>
+                    <div class="col-md-1 d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
+                        <NavLink exact to="/Inicio" id="dash" >
+                            <table className="linkContainerSecondOption" >
+                                <img src={Volver_img} className="iconosImgSecondOption" alt="volver" />
+                            </table>
+                        </NavLink>
+                    </div>
+                    <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Menús</h2>
+                    <p className="col-12 d-flex align-items-center pContenidoSinFondo">A continuación se muestra listado de menús ingresados en el sistema. En el mismo se permite modificar y eliminar los existentes, y también es posible agregar nuevos (Presionando "+").</p>
+                    <div className="col-md-1" >
+                        <Modal show={show} className="my-modal" onHide={handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Crear Menú</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Form className="my-modal-form"  >
+                                    <Form.Group className="mb-3" controlId="descripcion" >
+                                        <Form.Label>Descripción</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Nuevo menu"
+                                            autoFocus
+                                            name="descripcion"
+                                            ref={descripcion}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group
+                                        className="mb-3"
+                                        controlId="esVegetariano"
+                                    >
+                                        <Form.Check
+                                            type="checkbox"
+
+                                            label="Vegetariano"
+                                            name='esVegetariano'
+                                            ref={esVegetariano}
+                                            onChange={_onChangeVegetariano}
+                                        />
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button type="submit" variant="outline-primary" onClick={handleSubmit}>
+                                    Crear
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
+                    </div>
+                    <div className="col-md-1" >
+                        <Modal show={showUP} className="my-modal" onHide={handleCloseUP}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Modificar Menu</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Form className="my-modal-form"  >
+                                    <Form.Group className="mb-3" controlId="descripcion" >
+                                        <Form.Label>Id</Form.Label>
+                                        <Form.Control
+                                            type="number"
+                                            //value={idMenuSeleccionado}
+                                            autoFocus
+                                            name="id"
+                                            ref={id}
+                                        />
+                                        <Form.Label>Descripción</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Nueva Descripción"
+                                            autoFocus
+                                            name="descripcion"
+                                            ref={descripcion}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group
+                                        className="mb-3"
+                                        controlId="esVegetariano"
+                                    >
+                                        <Form.Check
+                                            type="checkbox"
+
+                                            label="Vegetariano"
+                                            name='esVegetariano'
+                                            ref={esVegetariano}
+                                            onChange={_onChangeVegetarianoUP}
+                                        />
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button type="submit" variant="outline-primary" onClick={handleSubmitUP}>
+                                    Modificar
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
+                    </div>
+                    <div className="col-md-1" >
+
                     </div>
                 </div>
-                <div class="col-md-1 d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
-                    <NavLink exact to="/Inicio" id="dash" >
-                        <table className="linkContainerSecondOption" >
-                            <img src={Volver_img} className="iconosImgSecondOption" alt="volver" />
+                <div className="container">
+                    {menues.length > 0 &&
+                        <table className="table table-striped table-dark table-hover borderTable new" style={{ "paddingTop": "20%" }}>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Descripcion</th>
+                                    <th scope="col">Es Vegetariano</th>
+                                    <th scope="col">Eliminar</th>
+                                    <th scope="col">Modificar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {menues.map((m, index) =>
+                                (
+                                    <TableComida key={index} menu={m} />
+                                ))}
+                            </tbody>
                         </table>
-                    </NavLink>
-                </div>
-                <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Comidas</h2>
-                <div className="col-md-1" >
-
-                    <Modal show={show} className="my-modal" onHide={handleClose}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Crear Menu</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Form className="my-modal-form"  >
-                                <Form.Group className="mb-3" controlId="descripcion" >
-                                    <Form.Label>Descripción</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Nuevo menu"
-                                        autoFocus
-                                        name="descripcion"
-                                        ref={descripcion}
-                                    />
-                                </Form.Group>
-                                <Form.Group
-                                    className="mb-3"
-                                    controlId="esVegetariano"
-                                >
-                                    <Form.Check
-                                        type="checkbox"
-
-                                        label="Vegetariano"
-                                        name='esVegetariano'
-                                        ref={esVegetariano}
-                                        onChange={_onChangeVegetariano}
-                                    />
-                                </Form.Group>
-                            </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button type="submit" variant="outline-primary" onClick={handleSubmit}>
-                                Crear
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
-                </div>
-                <div className="col-md-1" >
-                    <Modal show={showUP} className="my-modal" onHide={handleCloseUP}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Modificar Menu</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Form className="my-modal-form"  >
-                                <Form.Group className="mb-3" controlId="descripcion" >
-                                    <Form.Label>Id</Form.Label>
-                                    <Form.Control
-                                        type="number"
-                                        //value={idMenuSeleccionado}
-                                        autoFocus
-                                        name="id"
-                                        ref={id}
-                                    />
-                                    <Form.Label>Descripción</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Nueva Descripción"
-                                        autoFocus
-                                        name="descripcion"
-                                        ref={descripcion}
-                                    />
-                                </Form.Group>
-                                <Form.Group
-                                    className="mb-3"
-                                    controlId="esVegetariano"
-                                >
-                                    <Form.Check
-                                        type="checkbox"
-
-                                        label="Vegetariano"
-                                        name='esVegetariano'
-                                        ref={esVegetariano}
-                                        onChange={_onChangeVegetarianoUP}
-                                    />
-                                </Form.Group>
-                            </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button type="submit" variant="outline-primary" onClick={handleSubmitUP}>
-                                Modificar
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
-                </div>
-                <div className="col-md-1" >
-
+                    }
+                    {menues.length <= 0 &&
+                        <div class="alert alert-primary" role="alert">No hay Menús Ingresados en el sistema para mostrar.</div>
+                    }
                 </div>
             </div>
-            <div className="container">
-                <table className="table table-striped table-dark table-hover borderTable new" style={{ "paddingTop": "20%" }}>
-                    <thead>
-                        <tr>
-                            <th scope="col">Descripcion</th>
-                            <th scope="col">Es Vegetariano</th>
-                            <th scope="col">Eliminar</th>
-                            <th scope="col">Modificar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {menues.map((m, index) =>
-                        (
-                            <TableComida key={index} menu={m} />
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    )
-}}
+        )
+    }
+}
 
 export default Comidas

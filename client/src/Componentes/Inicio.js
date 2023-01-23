@@ -77,7 +77,7 @@ const Inicio = () => {
                     </NavLink>
                 </div>
                 <div className="row textosMenuInicial">
-                <h2 className="col d-flex justify-content-center">Comidas</h2>
+                <h2 className="col d-flex justify-content-center">Menús</h2>
                 <h2 className="col d-flex justify-content-center">Servicio</h2>
                 <h2 className="col d-flex justify-content-center">Programar menús</h2>
                 </div>

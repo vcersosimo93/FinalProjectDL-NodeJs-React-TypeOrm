@@ -38,50 +38,48 @@ const MenuSemanales = () => {
     useEffect(() => {
         fetch(process.env.REACT_APP_LOCALHOST + '/menu/getAll').then(
             response => response.json()).then(
-                data => {setmenuesGet(data.menus)});
+                data => { setmenuesGet(data.menus) });
 
         fetch(process.env.REACT_APP_LOCALHOST + '/menuOpcionesFecha/getAll').then(
             response => response.json()).then(
-                data => {setMenuesProgramados(data)});
+                data => { setMenuesProgramados(data) });
     }, [UE])
 
 
-    const menuCargado = (fecha) => {    
-        if (menusProgramadosAMostrar.length == 0)
-        {       
-            return false;     
+    const menuCargado = (fecha) => {
+        if (menusProgramadosAMostrar.length == 0) {
+            return false;
         }
-        else{
-            for (let i = 0; i < menusProgramadosAMostrar.length; i++ ) {
+        else {
+            for (let i = 0; i < menusProgramadosAMostrar.length; i++) {
                 let menuFecha = menusProgramadosAMostrar[i].fechaAPublicar;
-                if(menuFecha== fecha){
+                if (menuFecha == fecha) {
                     return true;
                 }
-            }     
+            }
             return false;
         }
     }
 
     const cargarMenusProgramados = () => {
-        for (let i = 0; i < menusProgramados.length; i++ ) {
-            if (!menuCargado(menusProgramados[i].fechaAPublicar)){
+        for (let i = 0; i < menusProgramados.length; i++) {
+            if (!menuCargado(menusProgramados[i].fechaAPublicar)) {
                 let menuProgramado = {
-                      
-                    fechaAPublicar : menusProgramados[i].fechaAPublicar,
-                    menus : []
-                 }
-                 menuProgramado.menus.push(menusProgramados[i].menuNombre)
-                 menusProgramadosAMostrar.push(menuProgramado);
+
+                    fechaAPublicar: menusProgramados[i].fechaAPublicar,
+                    menus: []
+                }
+                menuProgramado.menus.push(menusProgramados[i].menuNombre)
+                menusProgramadosAMostrar.push(menuProgramado);
             }
-            else{
-                for(let j = 0; j < menusProgramadosAMostrar.length; j++){
+            else {
+                for (let j = 0; j < menusProgramadosAMostrar.length; j++) {
                     let menuFecha = menusProgramados[i].fechaAPublicar;
                     let menuFechaPA = menusProgramadosAMostrar[j].fechaAPublicar;
-                    if (menuFecha ==  menuFechaPA)
-                    {
-                     menusProgramadosAMostrar[j].menus.push(menusProgramados[i].menuNombre);
-                    }  
-                }    
+                    if (menuFecha == menuFechaPA) {
+                        menusProgramadosAMostrar[j].menus.push(menusProgramados[i].menuNombre);
+                    }
+                }
             }
         }
     }
@@ -114,14 +112,14 @@ const MenuSemanales = () => {
             }).then(res => {
                 if (res.status !== 200 && res.status !== 201) {
                     handleShowError();
-                }else{
+                } else {
                     callUE(UE + 1);
                     cargarMenusProgramados();
                     handleShow();
                 }
             }).catch(err => {
-                    console.log(err);
-                });
+                console.log(err);
+            });
             reaccionId++;
         }
     }
@@ -137,7 +135,7 @@ const MenuSemanales = () => {
     const eliminarMS = () => {
         let url = process.env.REACT_APP_LOCALHOST + '/menuOpcionesFecha/delete'
         let method = 'DELETE'
-      
+
         fetch(url, {
             method: method,
             headers: {
@@ -146,129 +144,133 @@ const MenuSemanales = () => {
             body: JSON.stringify({
                 "fecha": menusProgramadosAMostrar[indexMS].fechaAPublicar
             })
-        }).then( res => {
+        }).then(res => {
             callUE(UE + 1);
             cargarMenusProgramados();
             cerrarModalEliminar();
-            });
+        });
     }
 
     const ExisteIndex = () => {
-        if (menusProgramadosAMostrar[indexMS] == undefined || menusProgramadosAMostrar[indexMS].menus == undefined || menusProgramadosAMostrar[indexMS].menus[0] == undefined){
-        return false;}
-        else{return true;}
+        if (menusProgramadosAMostrar[indexMS] == undefined || menusProgramadosAMostrar[indexMS].menus == undefined || menusProgramadosAMostrar[indexMS].menus[0] == undefined) {
+            return false;
+        }
+        else { return true; }
     }
 
     const formatearFecha = (fecha) => {
-    if (fecha !== undefined){
-       let fechaFormateada = fecha.substring(8,10) + "/";
-       fechaFormateada += fecha.substring(5,7) + "/";
-       fechaFormateada += fecha.substring(0,4) ;
-       return fechaFormateada;
-    }
+        if (fecha !== undefined) {
+            let fechaFormateada = fecha.substring(8, 10) + "/";
+            fechaFormateada += fecha.substring(5, 7) + "/";
+            fechaFormateada += fecha.substring(0, 4);
+            return fechaFormateada;
+        }
     }
 
-    cargarMenusProgramados(); 
+    cargarMenusProgramados();
 
-    if (localStorage.getItem("user") == null){
+    if (localStorage.getItem("user") == null) {
         history.push('/Login')
     }
-    else{
-    return (
-        <div className="container m-2">
-            <div className="row heading" >
-                <div className="col d-flex">
-                    <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
-                </div>
-                <div class="col d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
-                    <NavLink exact to="/Inicio" id="dash" >
-                        <table className="linkContainerSecondOption" >
-                            <img src={Volver_img} className="iconosImgSecondOption" />
-                        </table>
-                    </NavLink>
-                </div>
-                <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Menús Programados</h2>
+    else {
+        return (
+            <div className="container m-2">
+                <div className="row heading" >
+                    <div className="col d-flex">
+                        <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
+                    </div>
+                    <div class="col d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
+                        <NavLink exact to="/Inicio" id="dash" >
+                            <table className="linkContainerSecondOption" >
+                                <img src={Volver_img} className="iconosImgSecondOption" />
+                            </table>
+                        </NavLink>
+                    </div>
+                    <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Menús Programados</h2>
+                    {menusProgramadosAMostrar.length > 0 &&
+                        <table className="table table-striped table-dark table-hover borderTable " >
+                            <thead>
+                                <tr>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Ver menús</th>
+                                    <th scope="col">Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {menusProgramadosAMostrar.map((m, index) =>
+                                (
+                                    <tr key={m.fechaAPublicar} onClick={() => setIndex(index)}>
+                                        <td >{formatearFecha(m.fechaAPublicar)}</td>
+                                        <td ><Button variant="default" onClick={mostrarModalMenus}><img src={comida_img} className="iconosOtherOption" alt="volver" /></Button></td>
+                                        <td ><Button variant="default" onClick={mostrarModalEliminar}><img src={Volver_img} className="iconosOtherOption" alt="volver" /></Button></td>
+                                    </tr>
+                                ))}
 
-                <table className="table table-striped table-dark table-hover borderTable " >
-                    <thead>
-                        <tr>
-                            <th scope="col">Fecha</th>
-                            <th scope="col">Ver menús</th>
-                            <th scope="col">Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {menusProgramadosAMostrar.map((m, index) =>
-                        (
-                            <tr  key={m.fechaAPublicar} onClick={ () => setIndex(index)}>
-                                <td >{formatearFecha(m.fechaAPublicar)}</td>
-                                <td ><Button variant="default" onClick={mostrarModalMenus}><img src={comida_img} className="iconosOtherOption" alt="volver"/></Button></td>
-                                <td ><Button variant="default" onClick={mostrarModalEliminar}><img src={Volver_img} className="iconosOtherOption" alt="volver"/></Button></td>
-                            </tr>        
-                        ))}
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>}
+                    {menusProgramadosAMostrar.length <= 0 &&
+                        <div class="alert alert-primary" role="alert">No hay Menús Programados en el sistema para mostrar.</div>
+                    }
+                    <div className="row textosMenuInicial">
+                        <form action="/button-submit" method="POST" className="card col d-flex justify-content-center">
+                            <label className="divContenido">Programar un día</label>
+                            <br></br>
+                            <label className="textoNegro">Fecha de publicación</label>
+                            <input placeholder="Seleccionar fecha" type="date" className="form-control" id="fechaAlmuerzo" ref={fechaSeleccionada}></input>
+                            <br></br>
+                            <select aria-label="Default select example" id="pedido" className="selectpicker" name="Menu" multiple data-live-search="true" ref={menu} onChange={_onHandleSeleccionMenus}>
+                                {menuesGet.map((h, index) => <option className="itemMenuSemanales" key={index} value={h.id} >{h.descripcion} </option>)}
+                            </select><br></br>
+                            <button type="submit" style={{ "backgroundColor": "#212529" }} className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off" onClick={postearOpcionMenu}> Enviar Opciones</button><br></br>
+                        </form>
+                    </div>
+                    <Modal show={show} className="my-modal" onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Guardado de Opciones Menu</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form className="my-modal-form"  >
+                                <Form.Group className="mb-3" controlId="Confirmar Guardado." >
+                                    <Form.Label>Se ha guardado correctamente las opciones de menus seleccionados para publicar en la app de mensajería en la fecha seleccionada.</Form.Label>
+                                    <Form.Label>Siga eligiendo los menú para completar todos los días de la semana.</Form.Label>
+                                </Form.Group>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button type="submit" variant="outline-primary" onClick={cerrarModal}  >
+                                Ok, continuar Eligiendo.
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
 
-                <div className="row textosMenuInicial">
-                    <form action="/button-submit" method="POST" className="card col d-flex justify-content-center">
-                        <label className="divContenido">Programar un día</label>
-                        <br></br>
-                        <label className="textoNegro">Fecha de publicación</label>
-                        <input placeholder="Seleccionar fecha" type="date" className="form-control" id="fechaAlmuerzo" ref={fechaSeleccionada}></input>
-                        <br></br>
-                        <select aria-label="Default select example" id="pedido" className="selectpicker" name="Menu" multiple data-live-search="true" ref={menu} onChange={_onHandleSeleccionMenus}>
-                            {menuesGet.map((h, index) => <option className="itemMenuSemanales" key={index} value={h.id} >{h.descripcion} </option>)}
-                        </select><br></br>
-                        <button type="submit" style={{"backgroundColor": "#212529"}} className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off" onClick={postearOpcionMenu}> Enviar Opciones</button><br></br>
-                    </form>
-                </div>
-                <Modal show={show} className="my-modal" onHide={handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Guardado de Opciones Menu</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form className="my-modal-form"  >
-                            <Form.Group className="mb-3" controlId="Confirmar Guardado." >
-                                <Form.Label>Se ha guardado correctamente las opciones de menus seleccionados para publicar en la app de mensajería en la fecha seleccionada.</Form.Label>
-                                <Form.Label>Siga eligiendo los menú para completar todos los días de la semana.</Form.Label>
-                            </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button type="submit" variant="outline-primary" onClick={cerrarModal}  >
-                            Ok, continuar Eligiendo.
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                    <Modal show={showError} className="my-modal" onHide={handleCloseError}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Error</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form className="my-modal-form"  >
+                                <Form.Group className="mb-3" controlId="Confirmar Guardado." >
+                                    <Form.Label>La fecha seleccionada debe ser valida.</Form.Label>
+                                </Form.Group>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button type="submit" variant="outline-primary" onClick={cerrarModalError}  >
+                                Ok
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
 
-                <Modal show={showError} className="my-modal" onHide={handleCloseError}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Error</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form className="my-modal-form"  >
-                            <Form.Group className="mb-3" controlId="Confirmar Guardado." >
-                                <Form.Label>La fecha seleccionada debe ser valida.</Form.Label>
-                            </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button type="submit" variant="outline-primary" onClick={cerrarModalError}  >
-                            Ok
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-
-                <Modal show={modalEliminar} className="my-modal" onHide={cerrarModalEliminar}>
+                    <Modal show={modalEliminar} className="my-modal" onHide={cerrarModalEliminar}>
                         <Modal.Header closeButton>
                             <Modal.Title>Eliminar Menú programado</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <Form className="my-modal-form"  >
-                            <Form.Group className="mb-3" controlId="Confirmar Borrado" >
-                                <Form.Label>¿Confirma borrar el menú programado?</Form.Label>
-                            </Form.Group>
-                            </Form>       
+                                <Form.Group className="mb-3" controlId="Confirmar Borrado" >
+                                    <Form.Label>¿Confirma borrar el menú programado?</Form.Label>
+                                </Form.Group>
+                            </Form>
                         </Modal.Body>
                         <Modal.Footer>
                             <Button type="submit" variant="outline-primary" onClick={eliminarMS}>
@@ -278,21 +280,22 @@ const MenuSemanales = () => {
                     </Modal>
 
                     <Modal show={modalMenus} className="my-modal" onHide={cerrarModalMenus}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Menús:</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form className="my-modal-form"  >       
+                        <Modal.Header closeButton>
+                            <Modal.Title>Menús:</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form className="my-modal-form"  >
                                 {(ExisteIndex() ? menusProgramadosAMostrar[indexMS].menus.map((menu) =>
-                                <Form.Group className="mb-3" controlId={menu} >
-                                <Form.Label>{menu}</Form.Label>
-                                </Form.Group>) : "")}  
-                        </Form>
-                    </Modal.Body>
-                </Modal>
+                                    <Form.Group className="mb-3" controlId={menu} >
+                                        <Form.Label>{menu}</Form.Label>
+                                    </Form.Group>) : "")}
+                            </Form>
+                        </Modal.Body>
+                    </Modal>
+                </div>
             </div>
-        </div>
-    )
-}}
+        )
+    }
+}
 
 export default MenuSemanales

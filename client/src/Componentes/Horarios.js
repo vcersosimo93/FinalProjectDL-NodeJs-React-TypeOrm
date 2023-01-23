@@ -81,76 +81,83 @@ const Horario = () => {
         history.push('/Login')
     }
     else{
-    return (
-        <div className="container m-2">
-            <div className="row heading" >
-                <div className="col-md-2 d-flex">
-                    <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
-                </div>
-                <div className="col-md-9 d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
-                    <div className="linkContainerSecondOption" >
-                        <Button variant="default" onClick={handleShow}>
-                            <img src={Agregar_Menu_img} className="iconosImgThirdOption" alt="agregar" />
-                        </Button>
+        return (
+            <div className="container m-2">
+                <div className="row heading" >
+                    <div className="col-md-2 d-flex">
+                        <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
+                    </div>
+                    <div className="col-md-9 d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
+                        <div className="linkContainerSecondOption" >
+                            <Button variant="default" onClick={handleShow}>
+                                <img src={Agregar_Menu_img} className="iconosImgThirdOption" alt="agregar" />
+                            </Button>
+                        </div>
+                    </div>
+                    <div class="col-md-1 d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
+                        <NavLink exact to="/Inicio" id="dash" >
+                            <table className="linkContainerSecondOption" >
+                                <img src={Volver_img} className="iconosImgSecondOption" alt="volver" />
+                            </table>
+                        </NavLink>
+                    </div>
+                    <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Horarios</h2>
+                    <p className="col-12 d-flex align-items-center pContenidoSinFondo">A continuación se muestra listado de horarios ingresados en el sistema. En el mismo se permite modificar y eliminar los existentes, y también es posible agregar nuevos (Presionando "+").</p>
+                    <div className="col-md-1" >
+
+                        <Modal show={show} className="my-modal" onHide={handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Crear Horario</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Form className="my-modal-form"  >
+                                    <Form.Group className="mb-3" controlId="descripcion" >
+                                        <Form.Label>Hora</Form.Label>
+                                        <Form.Control
+                                            type="time"
+                                            placeholder="Nuevo horario"
+                                            autoFocus
+                                            name="hora"
+                                            ref={hora}
+                                        />
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button type="submit" variant="outline-primary" onClick={handleSubmit}>
+                                    Crear
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
                     </div>
                 </div>
-                <div class="col-md-1 d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
-                    <NavLink exact to="/Inicio" id="dash" >
-                        <table className="linkContainerSecondOption" >
-                            <img src={Volver_img} className="iconosImgSecondOption" alt="volver" />
+                <div className="container">
+                    {horarios.length > 0 &&
+                        <table className="table table-striped table-dark table-hover borderTable new" style={{ "paddingTop": "20%" }}>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Hora</th>
+                                    <th scope="col">Eliminar</th>
+                                    <th scope="col">Modificar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {horarios.sort((a, b) => a.hora > b.hora ? 1 : -1)
+                                    .map((h, index) =>
+                                    (
+                                        <TableHorario key={index} horario={h} />
+                                    ))}
+                            </tbody>
                         </table>
-                    </NavLink>
-                </div>
-                <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Horarios</h2>
-                <div className="col-md-1" >
-
-                    <Modal show={show} className="my-modal" onHide={handleClose}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Crear Horario</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Form className="my-modal-form"  >
-                                <Form.Group className="mb-3" controlId="descripcion" >
-                                    <Form.Label>Hora</Form.Label>
-                                    <Form.Control
-                                        type="time"
-                                        placeholder="Nuevo horario"
-                                        autoFocus
-                                        name="hora"
-                                        ref={hora}
-                                    />
-                                </Form.Group>
-                            </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button type="submit" variant="outline-primary" onClick={handleSubmit}>
-                                Crear
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
+                    }
+                    {horarios.length <= 0 &&
+                        <div class="alert alert-primary" role="alert">No hay Horarios ingresados en el sistema para mostrar.</div>
+                    }
                 </div>
             </div>
-            <div className="container">
-                <table className="table table-striped table-dark table-hover borderTable new" style={{ "paddingTop": "20%" }}>
-                    <thead>
-                        <tr>
-                            <th scope="col">Hora</th>
-                            <th scope="col">Eliminar</th>
-                            <th scope="col">Modificar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {horarios.sort((a, b) => a.hora > b.hora ? 1 : -1)
-                            .map((h, index) =>
-                            (
-                                <TableHorario key={index} horario={h} />
-                            ))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    )
-}}
+        )
+    }
+}
 
 export default Horario;
 

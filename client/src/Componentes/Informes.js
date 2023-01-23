@@ -455,8 +455,17 @@ const Informes = () => {
                     </NavLink>
                 </div>
                 <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Informes</h2>
+                <p className="col-12 d-flex align-items-center pContenidoSinFondo">A continuación se muestra los informes disponibles para visualizar información acerca de los pedidos realizados en el sistema. Seleccione el informe que desee y el filtrado correspondiente.</p>
+                <div class="list-group">
+                    <a href="#informeUno" class="list-group-item list-group-item-action list-group-item-primary">Platos elaborados por horario por día</a>
+                    <a href="#informeDos" class="list-group-item list-group-item-action list-group-item-primary">Asistencia de personas por mes</a>
+                    <a href="#informeTres" class="list-group-item list-group-item-action list-group-item-primary">Platos más pedidos del mes</a>
+                    <a href="#informeCuatro" class="list-group-item list-group-item-action list-group-item-primary">Cantidad de platos elaborados por semana</a>
+                    <a href="#informeCinco" class="list-group-item list-group-item-action list-group-item-primary">Tabla de Feedbacks</a>
+                </div>
+
                 <div className="row textosMenuInicial">
-                    <div className=" card col d-flex justify-content-center">
+                    <div className=" card col d-flex justify-content-center" id="informeUno">
                         <h3 className=" justify-content-center tituloInforme">Platos elaborados por horario por día</h3>
                         <h1 className="divContenidoTextos">Filtrar por fecha y/o horario para mostrar información de los pedidos solicitados. Si no se elije ningun filtro, se mostrarán todos los pedidos realizados.</h1>
                         <label className="divContenido">Fecha Elaboración</label>
@@ -491,11 +500,14 @@ const Informes = () => {
                                 <p className="divTexto">La cantidad de platos elaborados en el filtro establecido es de {pedidosFiltrado.length}.</p>
                             </div>
                         }
+                        {pedidosFiltrado.length <= 0 &&
+                            <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar.</p>
+                        }
                     </div>
                 </div>
 
                 <div className="row textosMenuInicial">
-                    <div className="card col d-flex justify-content-center">
+                    <div className="card col d-flex justify-content-center" id="informeDos">
                         <h3 className="col d-flex justify-content-center tituloInforme">Asistencia de personas por mes</h3>
                         <h1 className="divContenidoTextos">Filtrar por mes para ver la cantidad de pedidos solicitados por empleado en dicho mes agrupados por menu. Si no se elije ningun filtro, se mostrarán la cantidad de pedidos totales acumuladas por empleado agrupados por menu.</h1>
                         <label className="divContenido">Mes</label>
@@ -523,13 +535,15 @@ const Informes = () => {
                                 <p className="divTexto">No se registraron pedidos del resto de los menús en el mes seleccionado.</p>
                             </div>
                         }
-
+                        {arrayEmpleadosFiltrado.length <= 0 &&
+                            <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar.</p>
+                        }
                     </div>
 
                 </div>
 
                 <div className="row textosMenuInicial">
-                    <div className=" card col d-flex justify-content-center">
+                    <div className=" card col d-flex justify-content-center" id="informeTres">
                         <h3 className="col d-flex justify-content-center tituloInforme">Platos más pedidos del mes</h3>
                         <h1 className="divContenidoTextos">Filtrar por mes para ver la cantidad de pedidos por menu de dicho mes. Si no se elije ningun filtro, se mostrarán la cantidad acumulada de pedidos por menu.</h1>
                         <label className="divContenido">Mes</label>
@@ -548,10 +562,13 @@ const Informes = () => {
                                 </tbody>
                             </table>
                         }
+                        {menuesFiltradosPorMes.length <= 0 &&
+                            <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar.</p>
+                        }
                     </div>
                 </div>
                 <div className="row textosMenuInicial">
-                    <div className=" card col d-flex justify-content-center">
+                    <div className=" card col d-flex justify-content-center" id="informeCuatro">
                         <h3 className="col d-flex justify-content-center tituloInforme">Cantidad de platos elaborados por semana</h3>
                         <h1 className="divContenidoTextos">Filtrar por semana para ver la cantidad de pedidos por menu de dicha semana. Si no se elije ningun filtro, se mostrarán la cantidad acumulada de pedidos por menu.</h1>
                         <label className="divContenido">Semana</label>
@@ -570,10 +587,13 @@ const Informes = () => {
                                 </tbody>
                             </table>
                         }
+                        {arrayMenuesFiltradosPorSemana.length <= 0 &&
+                            <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar.</p>
+                        }
                     </div>
                 </div>
                 <div className="row textosMenuInicial">
-                    <div className="card col d-flex justify-content-center">
+                    <div className="card col d-flex justify-content-center" id="informeCinco">
                         <h3 className="col d-flex justify-content-center tituloInforme">Tabla de Feedbacks</h3>
                         <h1 className="divContenidoTextos">Filtrar por fecha desde o nombre de empleado para mostrar los feedbacks realizados. Si no se elije ninguna fecha ni empleado, se mostrarán todos los feedbacks realizados.</h1>
                         <label className="divContenido">Fecha Desde</label>
@@ -598,6 +618,9 @@ const Informes = () => {
                                     {arrayFeedbacksFiltrado.map(f => <tr key={f.id}><td key={f.id + "nombre"}>{nombreEmpleadoPorId(f.empleadoId)}</td><td key={f.id + "comentario"}>{f.comentario}</td><td key={f.id + "fecha"}>{f.fecha}</td></tr>)}
                                 </tbody>
                             </table>
+                        }
+                        {arrayFeedbacksFiltrado.length <= 0 &&
+                            <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar.</p>
                         }
                     </div>
                 </div>
