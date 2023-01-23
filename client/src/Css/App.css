@@ -305,3 +305,36 @@
   align-items: center;
   display: flex;
 }
+
+
+.pContenidoSinFondo{
+  color: white; 
+  font-size: 20px;
+  border-radius: 25px;
+  align-items: center;
+  display: flex;
+  padding-top: 25px;
+}
+
+.pContenidoSinDatos{
+  color: black; 
+  font-weight:bold;
+  font-size: 20px;
+  align-self: center;
+  display: flex;
+}
+
+.selectblack{
+  background-color: black;
+}
+
+.marcaAgua{
+    opacity: 0.5;
+}
+
+.tituloApp{
+  color: white;
+  margin-top: 50px;
+}
+
+

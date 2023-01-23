@@ -140,7 +140,7 @@ const Graf_almuerzo_meses = () => {
         }
         {empleados.length <= 0 &&
 
-          <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar</p>
+          <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar.</p>
 
         }
       </div>
