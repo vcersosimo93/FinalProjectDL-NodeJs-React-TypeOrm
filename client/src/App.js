@@ -7,6 +7,7 @@ import Timeline from './Componentes/Timeline';
 import Informes from './Componentes/Informes';
 import Graficas from './Componentes/Graficas';
 import Horario from './Componentes/Horarios';
+import Feedback from './Componentes/Feedback';
 import Menu from './Componentes/Menu';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from "react-redux";
@@ -41,6 +42,7 @@ function App() {
           <Route exact path="/Graficas" component={Graficas}/>
           <Route exact path="/Timeline" component={Timeline}/>
           <Route exact path="/Menu" component={Menu}/>
+          <Route exact path="/Feedback" component={Feedback}/>
         </Switch>
       </div>
       </Router>

@@ -13,3 +13,26 @@ export const getFeedbacks = async (req,res) => {
     }
 }
 
+
+export const createFeedback = async (req, res, next) => {
+
+    const coment = req.body.comentario;
+    const fecha = new Date();
+    const persona = req.body.empleadoId;
+
+    try {
+        const feedback = new Feedback();
+        feedback.comentario = coment
+        feedback.empleadoId = persona
+        feedback.fecha = fecha
+        await manager.save(feedback)
+        res.status(201).json({
+            message: 'Menu creado exitosamente.',
+            post: { comentario: coment, empleadoId: persona }
+        });
+    }
+    catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+};
+
