@@ -36,7 +36,6 @@ const Informes = () => {
     const [menuesFiltradosPorSemana, setmenuesFiltradosPorSemana] = useState([{}]);
     const semanaMenu = useRef()
 
-
     useEffect(() => {
         setPedidosFiltrado(arrayPedidosFiltrado)
     }, [pedidosFiltrado])
@@ -106,6 +105,25 @@ const Informes = () => {
                 }
             )
     }, [feedbackTodos])
+
+    const inicializarArrays =() =>{
+        while (arrayPedidosFiltrado.length) {
+            arrayPedidosFiltrado.pop();
+        }
+        while (arrayFeedbacksFiltrado.length) {
+            arrayFeedbacksFiltrado.pop();
+        }
+        while (arrayEmpleadosFiltrado.length) {
+            arrayEmpleadosFiltrado.pop();
+        }
+        while (arrayMenuesFiltradosPorMes.length) {
+            arrayMenuesFiltradosPorMes.pop();
+        }
+        while (arrayMenuesFiltradosPorSemana.length) {
+            arrayMenuesFiltradosPorSemana.pop();
+        }
+    }
+
 
     const findHorarioPorId = (IdHorario) => {
         for (let unHorario of horariosTodos) {
@@ -450,7 +468,7 @@ const Informes = () => {
                 <div class="col d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
                     <NavLink exact to="/Inicio" id="dash" >
                         <table className="linkContainerSecondOption" >
-                            <img src={Volver_img} className="iconosImgSecondOption" />
+                            <img src={Volver_img} className="iconosImgSecondOption" onClick={inicializarArrays}/>
                         </table>
                     </NavLink>
                 </div>
@@ -471,7 +489,7 @@ const Informes = () => {
                         <input placeholder="Seleccionar fecha" type="date" className="form-control" id="fechaId" name="fecha" ref={fecha}></input><br></br>
                         <label className="divContenido">Horario de Almuerzo</label>
                         {horariosTodos.length > 0 &&
-                            <select className="form-select divContenido" aria-label="Default select example" id="horario" name="hora" ref={hora}>
+                            <select className="form-select divContenido selectblack" aria-label="Default select example" id="horario" name="hora" ref={hora}>
                                 <option value="">Seleccione Horario</option>
                                 {horariosTodos.map(h => <option key={h.id} value={h.id}>{h.hora}</option>)}
                             </select>
@@ -484,7 +502,7 @@ const Informes = () => {
                             <p className="col-9 d-flex align-items-center pContenido marcaAgua">No hay Horarios ingresados en el sistema para seleccionar. Debe ingresar previamente horarios para emitir el informe filtrado con esta condición.</p>
                         }
                         <br></br>
-                        <button onClick={filtroInformePedidos} type="button" className="btn btn-dark" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                        <button onClick={filtroInformePedidos} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
 
                         {pedidosFiltrado.length > 0 &&
                             <div className="divContenido">
@@ -522,30 +540,32 @@ const Informes = () => {
                         <h1 className="divContenidoTextos">Filtrar por mes para ver la cantidad de pedidos solicitados por empleado en dicho mes agrupados por menu. Si no se elije ningun filtro, se mostrarán la cantidad de pedidos totales acumuladas por empleado agrupados por menu.</h1>
                         <label className="divContenido">Mes</label>
                         <input type="month" id="month" name="mes" className="form-control" ref={mes}></input><br></br>
-                        <button onClick={filtroInformeEmpleados} type="button" className="btn btn-dark " data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
-                        {arrayEmpleadosFiltrado.length > 0 &&
+                        <button onClick={filtroInformeEmpleados} type="button" className="btn btn-primary " data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                        {menuesTodos.length > 0 && arrayEmpleadosFiltrado.length>0 &&
                             <div className="divContenido">
                                 {menuesTodos.map(mn =>
                                     <div className="card col d-flex justify-content-center" id={mn.id}>
-                                        <h3 className="divContenido">{mn.descripcion}</h3>
-                                        <table className="table table-striped table-dark table-hover borderTable">
-                                            <thead className="thead-ligth">
-                                                <tr>
-                                                    <th scope="col">Nombre Empleado</th>
-                                                    <th scope="col">Cantidad de Pedidos</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {(arrayEmpleadosFiltrado.filter(em => em.idMenu == mn.id)).map(e => <tr key={e.id}><td key={e.id + "nombre"}>{e.nombre}</td><td key={e.id + "cantidad"}> {e.cantidadPedidos}</td></tr>)}
-                                            </tbody>
-                                        </table>
+                                        {arrayEmpleadosFiltrado.filter(em => em.idMenu == mn.id).length > 0 &&
+                                            <h3 className="divContenido">{mn.descripcion}</h3>
+                                        }
+                                        {arrayEmpleadosFiltrado.filter(em => em.idMenu == mn.id).length > 0 &&
+                                            <table className="table table-striped table-dark table-hover borderTable">
+                                                <thead className="thead-ligth">
+                                                    <tr>
+                                                        <th scope="col">Nombre Empleado</th>
+                                                        <th scope="col">Cantidad de Pedidos</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {(arrayEmpleadosFiltrado.filter(em => em.idMenu == mn.id)).map(e => <tr key={e.id}><td key={e.id + "nombre"}>{e.nombre}</td><td key={e.id + "cantidad"}> {e.cantidadPedidos}</td></tr>)}
+                                                </tbody>
+                                            </table>
+                                        }
                                     </div>
                                 )}
-                                <h3 className="divContenido">Otros</h3>
-                                <p className="divTexto">No se registraron pedidos del resto de los menús en el mes seleccionado.</p>
                             </div>
                         }
-                        {arrayEmpleadosFiltrado.length <= 0 &&
+                        {menuesTodos.length <= 0 || arrayEmpleadosFiltrado.length <= 0 &&
                             <p className="col-9 d-flex align-items-center pContenido marcaAgua">No hay información para mostrar.</p>
                         }
                     </div>
@@ -558,7 +578,7 @@ const Informes = () => {
                         <h1 className="divContenidoTextos">Filtrar por mes para ver la cantidad de pedidos por menu de dicho mes. Si no se elije ningun filtro, se mostrarán la cantidad acumulada de pedidos por menu.</h1>
                         <label className="divContenido">Mes</label>
                         <input type="month" id="month" name="mesFiltro" className="form-control" ref={mesMenu}></input><br></br>
-                        <button onClick={filtroMenuesPorMes} type="button" className="btn btn-dark" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                        <button onClick={filtroMenuesPorMes} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
                         {menuesFiltradosPorMes.length > 0 &&
                             <table className="table table-striped table-dark table-hover borderTable">
                                 <thead className="thead-ligth">
@@ -583,7 +603,7 @@ const Informes = () => {
                         <h1 className="divContenidoTextos">Filtrar por semana para ver la cantidad de pedidos por menu de dicha semana. Si no se elije ningun filtro, se mostrarán la cantidad acumulada de pedidos por menu.</h1>
                         <label className="divContenido">Semana</label>
                         <input type="week" id="week" name="semanaMenu" className="form-control" ref={semanaMenu}></input><br></br>
-                        <button onClick={filtroMenuesPorSemana} type="button" className="btn btn-dark" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                        <button onClick={filtroMenuesPorSemana} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
                         {arrayMenuesFiltradosPorSemana.length > 0 &&
                             <table className="table table-striped table-dark table-hover borderTable">
                                 <thead className="thead-ligth">
@@ -611,7 +631,7 @@ const Informes = () => {
                         <br></br>
                         <label className="divContenido">Empleados</label>
                         {empleadosTodos.length > 0 &&
-                            <select className="form-select divContenido" aria-label="Default select example" id="empleados" name="empleado" ref={empleado}>
+                            <select className="form-select divContenido selectblack" aria-label="Default select example" id="empleados" name="empleado" ref={empleado}>
                                 <option value="">Seleccione Empleado</option>
                                 {empleadosTodos.map(e => <option key={e.id} value={e.id}>{e.nombre}</option>)}
                             </select>
@@ -624,7 +644,7 @@ const Informes = () => {
                                 <option value="">Seleccione Empleado</option>
                             </select>}
                         <br></br>
-                        <button onClick={filtroInformeFeedbacks} type="button" className="btn btn-dark" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
+                        <button onClick={filtroInformeFeedbacks} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
                         {arrayFeedbacksFiltrado.length > 0 &&
                             <table className="table table-striped table-dark table-hover borderTable">
                                 <thead className="thead-ligth">

@@ -233,7 +233,7 @@ const MenuSemanales = () => {
                                 </select>}
                             <br></br>
                             {menuesGet.length > 0 &&
-                                <button type="submit" className="btn btn-dark" data-toggle="button" aria-pressed="false" autoComplete="off" onClick={postearOpcionMenu}> Enviar Opciones</button>
+                                <button type="submit" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off" onClick={postearOpcionMenu}> Enviar Opciones</button>
                             }<br></br>
                             {menuesGet.length <= 0 &&
                                 <p className="col-9 d-flex align-items-center pContenido">No hay menús ingresados en el sistema para seleccionar. Ingresar previamente menús en la solapa "Menús".</p>
