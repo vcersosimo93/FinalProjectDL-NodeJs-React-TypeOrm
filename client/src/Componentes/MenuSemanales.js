@@ -267,7 +267,7 @@ const MenuSemanales = () => {
                         <Modal.Body>
                             <Form className="my-modal-form"  >
                                 <Form.Group className="mb-3" controlId="Confirmar Guardado." >
-                                    <Form.Label>La fecha seleccionada debe ser valida.</Form.Label>
+                                    <Form.Label>Debe de seleccionar al menos un menu y una fecha valida.</Form.Label>
                                 </Form.Group>
                             </Form>
                         </Modal.Body>
