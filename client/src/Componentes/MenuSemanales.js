@@ -23,7 +23,10 @@ const MenuSemanales = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [showError, setShowError] = useState(false);
+    const [showErrorMenu, setShowErrorMenu] = useState(false);
     const handleCloseError = () => setShowError(false);
+    const handleCloseErrorMenu = () => setShowErrorMenu(false);
+    const handleShowErrorMenu = () => setShowErrorMenu(true);
     const handleShowError = () => setShowError(true);
     const [modalEliminar, setShowMS] = useState(false);
     const cerrarModalEliminar = () => setShowMS(false);
@@ -125,7 +128,9 @@ const MenuSemanales = () => {
                 console.log(err);
             });
             reaccionId++;
-        }}
+        }}else{
+            handleShowErrorMenu();
+        }
     }
 
     const cerrarModal = () => {
@@ -134,6 +139,10 @@ const MenuSemanales = () => {
 
     const cerrarModalError = () => {
         handleCloseError();
+    }
+
+    const cerrarModalErrorMenu = () => {
+        handleCloseErrorMenu();
     }
 
     const eliminarMS = () => {
@@ -273,6 +282,24 @@ const MenuSemanales = () => {
                         </Modal.Body>
                         <Modal.Footer>
                             <Button type="submit" variant="outline-primary" onClick={cerrarModalError}  >
+                                Ok
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+
+                    <Modal show={showErrorMenu} className="my-modal" onHide={handleCloseErrorMenu}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Error</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form className="my-modal-form"  >
+                                <Form.Group className="mb-3" controlId="Sin menu seleccionado." >
+                                    <Form.Label>Tiene que seleccionar al menos un menu.</Form.Label>
+                                </Form.Group>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button type="submit" variant="outline-primary" onClick={cerrarModalErrorMenu}  >
                                 Ok
                             </Button>
                         </Modal.Footer>
