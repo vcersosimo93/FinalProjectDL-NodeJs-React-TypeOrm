@@ -141,7 +141,7 @@ const MenuSemanales = () => {
                     });
                     reaccionId++;
                 }
-            }else{
+            }else {
                 handleShowErrorMenuFecha();
             }
         }
@@ -162,7 +162,7 @@ const MenuSemanales = () => {
         handleCloseErrorMenu();
     }
 
-    const cerrarModalErrorMenuFecha = () => {
+    const cerrarModalErrorFecha = () => {
         handleCloseErrorMenuFecha();
     }
 
@@ -338,8 +338,8 @@ const MenuSemanales = () => {
                             </Form>
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button type="submit" variant="outline-primary" onClick={cerrarModalErrorMenuFecha}  >
-                                Ok
+                            <Button type="submit" variant="outline-primary" onClick={cerrarModalErrorFecha}  >
+                                Ok 
                             </Button>
                         </Modal.Footer>
                     </Modal>
