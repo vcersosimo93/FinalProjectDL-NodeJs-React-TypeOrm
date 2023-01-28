@@ -23,10 +23,15 @@ const MenuSemanales = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [showError, setShowError] = useState(false);
-    const [showErrorMenu, setShowErrorMenu] = useState(false);
     const handleCloseError = () => setShowError(false);
+    const [showErrorMenu, setShowErrorMenu] = useState(false);
     const handleCloseErrorMenu = () => setShowErrorMenu(false);
     const handleShowErrorMenu = () => setShowErrorMenu(true);
+
+    const [showErrorMenuFecha, setShowErrorMenuFecha] = useState(false);
+    const handleCloseErrorMenuFecha = () => setShowErrorMenuFecha(false);
+    const handleShowErrorMenuFecha = () => setShowErrorMenuFecha(true);
+
     const handleShowError = () => setShowError(true);
     const [modalEliminar, setShowMS] = useState(false);
     const cerrarModalEliminar = () => setShowMS(false);
@@ -92,43 +97,55 @@ const MenuSemanales = () => {
         setmenues(value);
     }
 
+
     const postearOpcionMenu = menuOpcionData => {
 
         menuOpcionData.preventDefault();
-        if (menues != undefined && menues[0] != undefined){
-        const menuSelecc = menues
-        const fechaAPublicar = fechaSeleccionada.current.value
-        let reaccionId = 1;
-        let url = process.env.REACT_APP_LOCALHOST + '/menuOpcionesFecha/post'
-        let method = 'POST'
+        if (menues != undefined && menues[0] != undefined) {
+            const menuSelecc = menues
+            const fechaAPublicar = fechaSeleccionada.current.value
+            let reaccionId = 1;
+            let url = process.env.REACT_APP_LOCALHOST + '/menuOpcionesFecha/post'
+            let method = 'POST'
 
-        console.log(fechaAPublicar)
-        console.log(menuSelecc)
+            console.log(fechaAPublicar)
+            console.log(menuSelecc)
 
-        for (let menu of menuSelecc) {
-            fetch(url, {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "menu": menu,
-                    "fechaAPublicar": fechaAPublicar,
-                    "reaccion": reaccionId
-                })
-            }).then(res => {
-                if (res.status !== 200 && res.status !== 201) {
-                    handleShowError();
-                } else {
-                    callUE(UE + 1);
-                    cargarMenusProgramados();
-                    handleShow();
+            var date = new Date();
+
+            var dateAPublicar = new Date(fechaAPublicar);
+
+            if (dateAPublicar >= date) {
+
+                for (let menu of menuSelecc) {
+                    fetch(url, {
+                        method: method,
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            "menu": menu,
+                            "fechaAPublicar": fechaAPublicar,
+                            "reaccion": reaccionId
+                        })
+                    }).then(res => {
+                        if (res.status !== 200 && res.status !== 201) {
+                            handleShowError();
+                        } else {
+                            callUE(UE + 1);
+                            cargarMenusProgramados();
+                            handleShow();
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                    });
+                    reaccionId++;
                 }
-            }).catch(err => {
-                console.log(err);
-            });
-            reaccionId++;
-        }}else{
+            }else{
+                handleShowErrorMenuFecha();
+            }
+        }
+        else {
             handleShowErrorMenu();
         }
     }
@@ -143,6 +160,10 @@ const MenuSemanales = () => {
 
     const cerrarModalErrorMenu = () => {
         handleCloseErrorMenu();
+    }
+
+    const cerrarModalErrorMenuFecha = () => {
+        handleCloseErrorMenuFecha();
     }
 
     const eliminarMS = () => {
@@ -300,6 +321,24 @@ const MenuSemanales = () => {
                         </Modal.Body>
                         <Modal.Footer>
                             <Button type="submit" variant="outline-primary" onClick={cerrarModalErrorMenu}  >
+                                Ok
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+
+                    <Modal show={showErrorMenuFecha} className="my-modal" onHide={handleCloseErrorMenuFecha}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Error</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form className="my-modal-form"  >
+                                <Form.Group className="mb-3" controlId="Fecha no valida." >
+                                    <Form.Label>La fecha seleccionada tiene que ser mayor a la fecha de hoy.</Form.Label>
+                                </Form.Group>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button type="submit" variant="outline-primary" onClick={cerrarModalErrorMenuFecha}  >
                                 Ok
                             </Button>
                         </Modal.Footer>
