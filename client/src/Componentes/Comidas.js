@@ -21,6 +21,10 @@ const Comidas = () => {
     const id = useRef()
     const [menues, setmenues] = useState([{}]);
 
+    const [showErrorMenu, setShowErrorMenu] = useState(false);
+    const handleCloseErrorMenu = () => setShowErrorMenu(false);
+    const handleShowErrorMenu = () => setShowErrorMenu(true);
+
 
     useEffect(() => {
         fetch(process.env.REACT_APP_LOCALHOST + '/menu/getAll').then(
@@ -62,35 +66,39 @@ const Comidas = () => {
         const desc = descripcion.current.value
 
         console.log(esVegetariano.current.checked);
-        console.log(desc);
+        
+        if (desc.length > 0) {
 
-        let url = process.env.REACT_APP_LOCALHOST + '/menu/post';
-        let method = 'POST';
+            let url = process.env.REACT_APP_LOCALHOST + '/menu/post';
+            let method = 'POST';
 
-        fetch(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "esVegetariano": esVegetariano.current.checked,
-                "descripcion": desc
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "esVegetariano": esVegetariano.current.checked,
+                    "descripcion": desc
+                })
             })
-        })
-            .then(res => {
-                if (res.status !== 200 && res.status !== 201) {
-                    throw new Error('Creating or editing a post failed!');
-                }
-                return res.json();
-            })
-            .then(resData => {
-                console.log(resData);
-                handleClose();
-            })
-            .catch(err => {
-                console.log(err);
-                alert("No Se pudo Ingresar el menu. Complete todos los campos.");
-            });
+                .then(res => {
+                    if (res.status !== 200 && res.status !== 201) {
+                        throw new Error('Creating or editing a post failed!');
+                    }
+                    return res.json();
+                })
+                .then(resData => {
+                    console.log(resData);
+                    handleClose();
+                })
+                .catch(err => {
+                    console.log(err);
+                    //alert("No Se pudo Ingresar el menu. Complete todos los campos.");
+                });
+        } else {
+            handleShowErrorMenu();
+        }
 
     }
 
@@ -127,6 +135,10 @@ const Comidas = () => {
             .catch(err => {
                 console.log(err);
             });
+    }
+
+    const cerrarModalError = () => {
+        handleCloseErrorMenu();
     }
 
     const [show, setShow] = useState(false);
@@ -251,6 +263,23 @@ const Comidas = () => {
 
                     </div>
                 </div>
+                <Modal show={showErrorMenu} className="my-modal" onHide={handleCloseErrorMenu}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Error</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form className="my-modal-form"  >
+                            <Form.Group className="mb-3" controlId="Fecha no valida." >
+                                <Form.Label>La descripcion no puede estar vacia.</Form.Label>
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button type="submit" variant="outline-primary" onClick={cerrarModalError}  >
+                            Ok
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
                 <div className="container">
                     {menues.length > 0 &&
                         <table className="table table-striped table-dark table-hover borderTable new" style={{ "paddingTop": "20%" }}>
@@ -273,6 +302,8 @@ const Comidas = () => {
                     {menues.length <= 0 &&
                         <div class="alert alert-primary marcaAgua" role="alert">No hay Menús Ingresados en el sistema para mostrar.</div>
                     }
+
+
                 </div>
             </div>
         )
