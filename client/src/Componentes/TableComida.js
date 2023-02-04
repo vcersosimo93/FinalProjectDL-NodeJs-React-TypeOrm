@@ -147,7 +147,7 @@ const TableComida = ({ menu }) => {
                             <Form.Control
                                 type="text"
                                 autoFocus
-                                placeholder="prueba"
+                                placeholder="Descripción"
                                 name="descripcion"
                                 ref={descripcion}
                                 defaultValue={descripcionMenu}
