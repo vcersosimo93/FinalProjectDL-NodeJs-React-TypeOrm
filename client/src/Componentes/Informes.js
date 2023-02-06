@@ -57,7 +57,7 @@ const Informes = () => {
     }, [menuesFiltradosPorSemana])
 
     useEffect(() => {
-        fetch('http://localhost:8080/pedido/get').then(
+        fetch(process.env.REACT_APP_LOCALHOST + '/pedido/get').then(
             response => response.json()
         ).then(
             data => {
@@ -67,7 +67,7 @@ const Informes = () => {
     }, [pedidosTodos])
 
     useEffect(() => {
-        fetch('http://localhost:8080/horario/get').then(
+        fetch(process.env.REACT_APP_LOCALHOST + '/horario/get').then(
             response => response.json())
             .then(
                 data => {
@@ -77,7 +77,7 @@ const Informes = () => {
     }, [horariosTodos])
 
     useEffect(() => {
-        fetch('http://localhost:8080/menu/getAll').then(
+        fetch(process.env.REACT_APP_LOCALHOST +'/menu/getAll').then(
             response => response.json())
             .then(
                 data => {
@@ -87,7 +87,7 @@ const Informes = () => {
     }, [menuesTodos])
 
     useEffect(() => {
-        fetch('http://localhost:8080/empleado/getAll').then(
+        fetch(process.env.REACT_APP_LOCALHOST + '/empleado/getAll').then(
             response => response.json())
             .then(
                 data => {
@@ -97,7 +97,7 @@ const Informes = () => {
     }, [empleadosTodos])
 
     useEffect(() => {
-        fetch('http://localhost:8080/feedback/getAll').then(
+        fetch(process.env.REACT_APP_LOCALHOST + '/feedback/getAll').then(
             response => response.json())
             .then(
                 data => {

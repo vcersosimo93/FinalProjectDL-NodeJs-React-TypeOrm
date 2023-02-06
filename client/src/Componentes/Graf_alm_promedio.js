@@ -25,7 +25,7 @@ const Graf_alm_promedio = () => {
     let contadorPedidosJul = 0; let contadorPedidosAgo = 0; let contadorPedidosSet = 0; let contadorPedidosOct = 0; let contadorPedidosNov = 0; let contadorPedidosDec = 0;
 
     useEffect(() => {
-        fetch('http://localhost:8080/pedido/get').then(
+        fetch(process.env.REACT_APP_LOCALHOST + '/pedido/get').then(
             response => response.json())
             .then(
                 data => {
@@ -100,7 +100,6 @@ const Graf_alm_promedio = () => {
                 contador++;
             }
         }
-        //return contador;
     }
 
 
@@ -110,7 +109,6 @@ const Graf_alm_promedio = () => {
         var i;
         for (i = 0; i < list.length; i++) {
             if (list[i].ano === obj.ano) {
-                //console.log(list[i].ano)
                 return true;
             }
         }

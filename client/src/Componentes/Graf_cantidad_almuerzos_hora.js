@@ -21,7 +21,7 @@ const Graf_cantidad_almuerzos_hora = () => {
   let horarios = []
 
   useEffect(() => {
-    fetch('http://localhost:8080/horario/get').then(
+    fetch(process.env.REACT_APP_LOCALHOST + '/horario/get').then(
       response => response.json())
       .then(
         data => {
@@ -34,7 +34,7 @@ const Graf_cantidad_almuerzos_hora = () => {
 
 
   useEffect(() => {
-    fetch('http://localhost:8080/pedido/get').then(
+    fetch(process.env.REACT_APP_LOCALHOST + '/pedido/get').then(
       response => response.json())
       .then(
         data => {
@@ -57,11 +57,6 @@ const Graf_cantidad_almuerzos_hora = () => {
 
   }
 
-
-  //console.log(empleados)
-
-
-
   let llenarHorarios = () => {
 
     for (let unHorario of Horarios) {
@@ -79,13 +74,8 @@ const Graf_cantidad_almuerzos_hora = () => {
 
   llenarHorarios();
 
-  //console.log(horarios)
 
   cantidadPedidosPorHorario();
-
-
-
-
 
   ChartJS.register(
     CategoryScale,

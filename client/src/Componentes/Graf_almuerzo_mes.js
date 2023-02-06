@@ -20,7 +20,7 @@ const Graf_almuerzo_meses = () => {
     let contadorPedidosJul = 0; let contadorPedidosAgo = 0; let contadorPedidosSet = 0; let contadorPedidosOct = 0; let contadorPedidosNov = 0; let contadorPedidosDec = 0;
 
     useEffect(() => {
-        fetch('http://localhost:8080/pedido/get').then(
+        fetch(process.env.REACT_APP_LOCALHOST +'/pedido/get').then(
             response => response.json())
             .then(
                 data => {

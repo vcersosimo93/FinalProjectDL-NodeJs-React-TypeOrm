@@ -64,11 +64,9 @@ export const findOpcionesDelDia = async () => {
 };
 
 export const deleteMO = async (req, res) => {
-    try {
-    
+    try {  
       const fecha = new Date(req.body.fecha);
-      const MO = await repoMO.findOneBy({fechaAPublicar : fecha});
-      console.log(MO);
+      const MO = await repoMO.findBy({fechaAPublicar : fecha});
       await manager.remove(MO);
       return 200;
 

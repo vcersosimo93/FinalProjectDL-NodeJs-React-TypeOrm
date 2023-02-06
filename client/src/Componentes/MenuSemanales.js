@@ -10,6 +10,7 @@ import { NavLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 
 
+
 const MenuSemanales = () => {
 
     const history = useHistory();
@@ -44,15 +45,36 @@ const MenuSemanales = () => {
 
 
     useEffect(() => {
+        fetchM();    
+        fetchMP();   
+        fetchMP();
+    }, [UE])
+
+    function fetchM(){
         fetch(process.env.REACT_APP_LOCALHOST + '/menu/getAll').then(
             response => response.json()).then(
                 data => { setmenuesGet(data.menus) });
+    }
 
+    function fetchMP(){
         fetch(process.env.REACT_APP_LOCALHOST + '/menuOpcionesFecha/getAllPendientes').then(
             response => response.json()).then(
-                data => { setMenuesProgramados(data) });
-    }, [UE])
+                data => { setMenuesProgramados(data) });  
+    }
 
+    const eliminarMS = async () => {
+        fetch(process.env.REACT_APP_LOCALHOST + '/menuOpcionesFecha/delete', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "fecha": menusProgramadosAMostrar[indexMS].fechaAPublicar
+            })})
+        .then(callUE(UE + 1))
+        .then(cargarMenusProgramados())
+        .then(cerrarModalEliminar())
+        }
 
     const menuCargado = (fecha) => {
         if (menusProgramadosAMostrar.length == 0) {
@@ -108,9 +130,6 @@ const MenuSemanales = () => {
             let url = process.env.REACT_APP_LOCALHOST + '/menuOpcionesFecha/post'
             let method = 'POST'
 
-            console.log(fechaAPublicar)
-            console.log(menuSelecc)
-
             var date = new Date();
 
             var dateAPublicar = new Date(fechaAPublicar);
@@ -164,25 +183,6 @@ const MenuSemanales = () => {
 
     const cerrarModalErrorFecha = () => {
         handleCloseErrorMenuFecha();
-    }
-
-    const eliminarMS = () => {
-        let url = process.env.REACT_APP_LOCALHOST + '/menuOpcionesFecha/delete'
-        let method = 'DELETE'
-
-        fetch(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "fecha": menusProgramadosAMostrar[indexMS].fechaAPublicar
-            })
-        }).then(res => {
-            callUE(UE + 1);
-            cargarMenusProgramados();
-            cerrarModalEliminar();
-        });
     }
 
     const ExisteIndex = () => {
@@ -333,7 +333,7 @@ const MenuSemanales = () => {
                         <Modal.Body>
                             <Form className="my-modal-form"  >
                                 <Form.Group className="mb-3" controlId="Fecha no valida." >
-                                    <Form.Label>La fecha seleccionada tiene que ser mayor a la fecha de hoy.</Form.Label>
+                                    <Form.Label>Error al seleccionar la fecha.</Form.Label>
                                 </Form.Group>
                             </Form>
                         </Modal.Body>

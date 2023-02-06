@@ -22,7 +22,7 @@ const Graf_almuerzo_meses = () => {
   let empleados = []
 
   useEffect(() => {
-    fetch('http://localhost:8080/empleado/getAll').then(
+    fetch(process.env.REACT_APP_LOCALHOST + '/empleado/getAll').then(
       response => response.json())
       .then(
         data => {
@@ -34,7 +34,7 @@ const Graf_almuerzo_meses = () => {
 
 
   useEffect(() => {
-    fetch('http://localhost:8080/pedido/get').then(
+    fetch(process.env.REACT_APP_LOCALHOST + '/pedido/get').then(
       response => response.json())
       .then(
         data => {

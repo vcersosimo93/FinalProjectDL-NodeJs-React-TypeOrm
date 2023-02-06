@@ -12,7 +12,7 @@ const Feedback = () => {
     const empleado = useRef()
 
     useEffect(() => {
-        fetch('http://localhost:8080/empleado/getAll').then(
+        fetch(process.env.REACT_APP_LOCALHOST + '/empleado/getAll').then(
             response => response.json())
             .then(
                 data => {

@@ -121,11 +121,10 @@ const Timeline = () => {
             body: JSON.stringify({
                 "menuId": ordenesAmostrar[indexPedido].id,
                 "horarioId": ordenesAmostrar[indexPedido].horarioId,
-            })});
-        callUE(UE + 1);
-        cargarMenus();
-        actualizarMenus(0);
-        MFClose();
+            })}).then(callUE(UE + 1))
+            .then(cargarMenus())
+            .then(actualizarMenus(0))
+            .then(MFClose());
     }
 
     cargarMenus();
