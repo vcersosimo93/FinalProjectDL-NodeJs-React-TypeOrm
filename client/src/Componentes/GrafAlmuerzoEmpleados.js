@@ -12,24 +12,24 @@ import {
   Legend,
 } from 'chart.js';
 
-const Graf_cantidad_almuerzos_hora = () => {
 
 
+const GrafAlmuerzoEmpleados = () => {
 
-  const [Horarios, setHorarios] = useState([{}]);
+
+  const [Empleados, setEmpleados] = useState([{}]);
   const [Pedidos, setPedidos] = useState([{}]);
-  let horarios = []
+  let empleados = []
 
   useEffect(() => {
-    fetch(process.env.REACT_APP_LOCALHOST + '/horario/get').then(
+    fetch(process.env.REACT_APP_LOCALHOST + '/empleado/getAll').then(
       response => response.json())
       .then(
         data => {
-          setHorarios(data);
-          llenarHorarios();
+          setEmpleados(data);
         }
       )
-  }, [Horarios])
+  }, [Empleados])
 
 
 
@@ -39,17 +39,16 @@ const Graf_cantidad_almuerzos_hora = () => {
       .then(
         data => {
           setPedidos(data);
-          cantidadPedidosPorHorario();
         }
       )
   }, [Pedidos])
 
 
-  let cantidadPedidosPorHorario = () => {
-    for (let unHorario of horarios) {
+  let cantidadPedidosPorEmpleado = () => {
+    for (let unEmpleado of empleados) {
       for (let unPedido of Pedidos) {
-        if (unPedido.horarioId === unHorario.id) {
-          unHorario.cantidad++
+        if (unPedido.empleadoId === unEmpleado.id) {
+          unEmpleado.cantidad++
         }
 
       }
@@ -57,25 +56,32 @@ const Graf_cantidad_almuerzos_hora = () => {
 
   }
 
-  let llenarHorarios = () => {
 
-    for (let unHorario of Horarios) {
 
-      let horario = {
-        id: unHorario.id,
-        hora: unHorario.hora,
+
+
+  let llenarNombreEmpleados = () => {
+
+    for (let unEmpleado of Empleados) {
+
+      let empleado = {
+        id: unEmpleado.id,
+        nombre: unEmpleado.nombre,
         cantidad: 0
       }
 
-      horarios.push(horario)
+      empleados.push(empleado)
     }
 
   }
 
-  llenarHorarios();
+  llenarNombreEmpleados();
+
+  cantidadPedidosPorEmpleado();
 
 
-  cantidadPedidosPorHorario();
+
+
 
   ChartJS.register(
     CategoryScale,
@@ -105,17 +111,16 @@ const Graf_cantidad_almuerzos_hora = () => {
     },
   };
   return (
-
     <div className="row textosMenuInicial">
       <div className=" card col d-flex justify-content-center">
-      <h3 className=" justify-content-center tituloInforme">Cantidad almuerzos por hora</h3>
-        {Pedidos.length > 0 &&
+        <h3 className=" justify-content-center tituloInforme">Cantidad de almuerzos por empleados</h3>
+        {empleados.length > 0 &&
           <Bar className="grafica divContenido" data={{
-            labels: horarios.map(p => (p.hora)),
+            labels: empleados.map(p => (p.nombre)),
             datasets: [
               {
                 label: 'Cant Almuerzos',
-                data: horarios.map(p => (p.cantidad)),
+                data: empleados.map(p => (p.cantidad)),
                 backgroundColor: [
                   'black',
                   'black',
@@ -133,9 +138,9 @@ const Graf_cantidad_almuerzos_hora = () => {
             ],
           }} options={options} />
         }
-        {Pedidos.length <= 0 &&
+        {empleados.length <= 0 &&
 
-          <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar</p>
+          <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar.</p>
 
         }
       </div>
@@ -143,4 +148,4 @@ const Graf_cantidad_almuerzos_hora = () => {
   )
 }
 
-export default Graf_cantidad_almuerzos_hora
+export default GrafAlmuerzoEmpleados

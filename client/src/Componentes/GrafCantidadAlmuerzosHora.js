@@ -12,24 +12,24 @@ import {
   Legend,
 } from 'chart.js';
 
+const GrafCantidadAlmuerzosHora = () => {
 
 
-const Graf_almuerzo_meses = () => {
 
-
-  const [Empleados, setEmpleados] = useState([{}]);
+  const [Horarios, setHorarios] = useState([{}]);
   const [Pedidos, setPedidos] = useState([{}]);
-  let empleados = []
+  let horarios = []
 
   useEffect(() => {
-    fetch(process.env.REACT_APP_LOCALHOST + '/empleado/getAll').then(
+    fetch(process.env.REACT_APP_LOCALHOST + '/horario/get').then(
       response => response.json())
       .then(
         data => {
-          setEmpleados(data);
+          setHorarios(data);
+          llenarHorarios();
         }
       )
-  }, [Empleados])
+  }, [Horarios])
 
 
 
@@ -39,16 +39,17 @@ const Graf_almuerzo_meses = () => {
       .then(
         data => {
           setPedidos(data);
+          cantidadPedidosPorHorario();
         }
       )
   }, [Pedidos])
 
 
-  let cantidadPedidosPorEmpleado = () => {
-    for (let unEmpleado of empleados) {
+  let cantidadPedidosPorHorario = () => {
+    for (let unHorario of horarios) {
       for (let unPedido of Pedidos) {
-        if (unPedido.empleadoId === unEmpleado.id) {
-          unEmpleado.cantidad++
+        if (unPedido.horarioId === unHorario.id) {
+          unHorario.cantidad++
         }
 
       }
@@ -56,32 +57,25 @@ const Graf_almuerzo_meses = () => {
 
   }
 
+  let llenarHorarios = () => {
 
+    for (let unHorario of Horarios) {
 
-
-
-  let llenarNombreEmpleados = () => {
-
-    for (let unEmpleado of Empleados) {
-
-      let empleado = {
-        id: unEmpleado.id,
-        nombre: unEmpleado.nombre,
+      let horario = {
+        id: unHorario.id,
+        hora: unHorario.hora,
         cantidad: 0
       }
 
-      empleados.push(empleado)
+      horarios.push(horario)
     }
 
   }
 
-  llenarNombreEmpleados();
-
-  cantidadPedidosPorEmpleado();
+  llenarHorarios();
 
 
-
-
+  cantidadPedidosPorHorario();
 
   ChartJS.register(
     CategoryScale,
@@ -111,16 +105,17 @@ const Graf_almuerzo_meses = () => {
     },
   };
   return (
+
     <div className="row textosMenuInicial">
       <div className=" card col d-flex justify-content-center">
-        <h3 className=" justify-content-center tituloInforme">Cantidad de almuerzos por empleados</h3>
-        {empleados.length > 0 &&
+      <h3 className=" justify-content-center tituloInforme">Cantidad almuerzos por hora</h3>
+        {Pedidos.length > 0 &&
           <Bar className="grafica divContenido" data={{
-            labels: empleados.map(p => (p.nombre)),
+            labels: horarios.map(p => (p.hora)),
             datasets: [
               {
                 label: 'Cant Almuerzos',
-                data: empleados.map(p => (p.cantidad)),
+                data: horarios.map(p => (p.cantidad)),
                 backgroundColor: [
                   'black',
                   'black',
@@ -138,9 +133,9 @@ const Graf_almuerzo_meses = () => {
             ],
           }} options={options} />
         }
-        {empleados.length <= 0 &&
+        {Pedidos.length <= 0 &&
 
-          <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar.</p>
+          <p className="col-9 d-flex align-items-center pContenido">No hay información para mostrar</p>
 
         }
       </div>
@@ -148,4 +143,4 @@ const Graf_almuerzo_meses = () => {
   )
 }
 
-export default Graf_almuerzo_meses
+export default GrafCantidadAlmuerzosHora

@@ -3,10 +3,10 @@ import React from 'react';
 import Volver_img from '../Images/Volver.png';
 import LogoInicio from '../Images/LogoInicio.jpg';
 import { NavLink } from 'react-router-dom';
-import Graf_almuerzo_empleados from './Graf_almuerzo_empleados';
-import Graf_almuerzo_mes from './Graf_almuerzo_mes';
-import Graf_cantidad_almuerzos_hora from './Graf_cantidad_almuerzos_hora'
-import Graf_alm_promedio  from './Graf_alm_promedio'
+import GrafAlmuerzoEmpleados from './GrafAlmuerzoEmpleados.js';
+import GrafAlmuerzoMes from './GrafAlmuerzoMes.js';
+import GrafCantidadAlmuerzosHora from './GrafCantidadAlmuerzosHora.js'
+import GrafAlmPromedio  from './GrafAlmPromedio.js'
 
 import {
     Chart as ChartJS,
@@ -44,10 +44,10 @@ const Graficas = () => {
                 </div>
                 <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Gráficas</h2>
                 <div className="row">
-                        <Graf_almuerzo_empleados />
-                        <Graf_almuerzo_mes/>
-                        <Graf_cantidad_almuerzos_hora/>
-                        <Graf_alm_promedio/>
+                        <GrafAlmuerzoEmpleados />
+                        <GrafAlmuerzoMes/>
+                        <GrafCantidadAlmuerzosHora/>
+                        <GrafAlmPromedio/>
                 </div>
             </div>
         </div>
