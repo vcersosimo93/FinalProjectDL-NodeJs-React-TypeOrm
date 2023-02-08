@@ -52,9 +52,12 @@ function Login() {
           }
         </div>
       </div >
-      <NavLink exact to="/Feedback" id="dash" href="#" className="link-light" style={{ "textAlign": "center" }}>
-          Presione Aqui Para Realizar Su Feedback.
+      <NavLink exact to="/Feedback" id="dash">
+        <div className="link" >
+        <a href="#" className="link-light" style={{ "text-align": "center" }}>Presione Aqui Para Realizar Su Feedback.</a>
+        </div>
       </NavLink>
+      
     </div >
 
   );

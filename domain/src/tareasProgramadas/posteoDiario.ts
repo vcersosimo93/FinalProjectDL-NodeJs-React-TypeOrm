@@ -54,7 +54,8 @@ async function obtenerMenus (){
 
 exports.initScheduledJobs = () => {
     //Corre a las 01:00 de lunes a viernes (1-5)
-    const posteoDiario = cron.schedule('00 09 * * 1-5', async ()  =>{
+    //const posteoDiario = cron.schedule('00 09 * * 1-5', async ()  =>{
+    const posteoDiario = cron.schedule('09 13 * * 1-5', async ()  =>{
     console.log("Comenzando posteo diario...")
     let mensaje = await obtenerMenus();
     mensaje += await obtenerHorarios();
