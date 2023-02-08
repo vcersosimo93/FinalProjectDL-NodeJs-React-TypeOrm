@@ -47,7 +47,7 @@ const Graf_almuerzo_meses = () => {
   let cantidadPedidosPorEmpleado = () => {
     for (let unEmpleado of empleados) {
       for (let unPedido of Pedidos) {
-        if (unPedido.empleadoId == unEmpleado.id) {
+        if (unPedido.empleadoId === unEmpleado.id) {
           unEmpleado.cantidad++
         }
 

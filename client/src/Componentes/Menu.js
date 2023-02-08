@@ -2,8 +2,8 @@ import React from 'react';
 
 const Menu = () => {
     return (
-        <div class="row textosMenuInicial">
-            <h2 class="col d-flex justify-content-center">Alta Menu</h2>
+        <div className="row textosMenuInicial">
+            <h2 className="col d-flex justify-content-center">Alta Menu</h2>
             <legend>Es Vegetariano ?</legend>
             <input type="radio" id="Si" name="Es Vegetariano ?" value="Si" checked></input>
             <label for="Si">Si</label><br></br>

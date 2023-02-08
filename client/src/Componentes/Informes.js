@@ -127,7 +127,7 @@ const Informes = () => {
 
     const findHorarioPorId = (IdHorario) => {
         for (let unHorario of horariosTodos) {
-            if (unHorario.id == IdHorario) {
+            if (unHorario.id === IdHorario) {
                 return unHorario.hora;
             }
         }
@@ -191,7 +191,7 @@ const Informes = () => {
     const menuEsVegetariano = (IdMenu) => {
         let menuEncontrado;
         for (let unMenu of menuesTodos) {
-            if (unMenu.id == IdMenu) {
+            if (unMenu.id === IdMenu) {
                 menuEncontrado = unMenu;
             }
         }
@@ -203,32 +203,19 @@ const Informes = () => {
         }
     }
 
-    const pedidosPorEmpleadoYMenu = (emplId, menId) => {
-
-        let pedidosPorEmpleadoPorMenu = 0;
-
-        for (let unPedido of pedidosTodos) {
-            if (unPedido.empleadoId == emplId && unPedido.menuId == menId) {
-                pedidosPorEmpleadoPorMenu++;
-            }
-        }
-
-        return pedidosPorEmpleadoPorMenu;
-    }
-
     const pedidosPorEmpleadoMenuYMes = (emplId, menId, mesSeleccionado) => {
 
         let pedidosPorEmpleadoPorMenu = 0;
-        if (mesSeleccionado == "") {
+        if (mesSeleccionado === "") {
             for (let unPedido of pedidosTodos) {
-                if (unPedido.empleadoId == emplId && unPedido.menuId == menId) {
+                if (unPedido.empleadoId === emplId && unPedido.menuId === menId) {
                     pedidosPorEmpleadoPorMenu++;
                 }
             }
         }
         else {
             for (let unPedido of pedidosTodos) {
-                if (unPedido.empleadoId == emplId && unPedido.menuId == menId && formatDateToMonth(unPedido.fechaSolicitud) == mesSeleccionado) {
+                if (unPedido.empleadoId === emplId && unPedido.menuId === menId && formatDateToMonth(unPedido.fechaSolicitud) === mesSeleccionado) {
                     pedidosPorEmpleadoPorMenu++;
                 }
             }
@@ -239,16 +226,16 @@ const Informes = () => {
 
     const cantidadPedidosPorMenuPorMes = (idMenu, mesFiltrado) => {
         let contadorPedidos = 0;
-        if (mesFiltrado == "") {
+        if (mesFiltrado === "") {
             for (let unPedido of pedidosTodos) {
-                if (unPedido.menuId == idMenu) {
+                if (unPedido.menuId === idMenu) {
                     contadorPedidos++;
                 }
             }
         }
         else {
             for (let unPedido of pedidosTodos) {
-                if (unPedido.menuId == idMenu && formatDateToMonth(unPedido.fechaSolicitud) == mesFiltrado) {
+                if (unPedido.menuId === idMenu && formatDateToMonth(unPedido.fechaSolicitud) === mesFiltrado) {
                     contadorPedidos++;
                 }
             }
@@ -260,9 +247,9 @@ const Informes = () => {
     const cantidadPedidosPorMenuPorSemana = (idMenu, semanaFiltrada) => {
         let contadorPedidos = 0;
         console.log(semanaFiltrada)
-        if (semanaFiltrada == "") {
+        if (semanaFiltrada === "") {
             for (let unPedido of pedidosTodos) {
-                if (unPedido.menuId == idMenu) {
+                if (unPedido.menuId === idMenu) {
                     contadorPedidos++;
                 }
             }
@@ -271,7 +258,7 @@ const Informes = () => {
             for (let unPedido of pedidosTodos) {
                 console.log(formatDateToWeek(unPedido.fechaSolicitud))
                 console.log(semanaFiltrada)
-                if (unPedido.menuId == idMenu && formatDateToWeek(unPedido.fechaSolicitud) == semanaFiltrada) {
+                if (unPedido.menuId === idMenu && formatDateToWeek(unPedido.fechaSolicitud) === semanaFiltrada) {
                     contadorPedidos++;
                 }
             }
@@ -279,22 +266,9 @@ const Informes = () => {
         return contadorPedidos;
     }
 
-    const cantidadPedidosPorMenu = (idMenu) => {
-        let contadorPedidos = 0;
-
-        for (let unPedido of pedidosTodos) {
-            if (unPedido.menuId == idMenu) {
-                contadorPedidos++;
-            }
-        }
-
-
-        return contadorPedidos;
-    }
-
     const nombreEmpleadoPorId = (idEmpleado) => {
         for (let unEmpleado of empleadosTodos) {
-            if (unEmpleado.id == idEmpleado) {
+            if (unEmpleado.id === idEmpleado) {
                 return unEmpleado.nombre;
             }
         }
@@ -309,31 +283,31 @@ const Informes = () => {
             arrayPedidosFiltrado.pop();
         }
 
-        if (fechaSeleccionada != "" && (idhorarioSeleccionado != "")) {
+        if (fechaSeleccionada !== "" && (idhorarioSeleccionado !== "")) {
             for (let unPedido of pedidosTodos) {
-                if (formatDateOther(unPedido.fechaSolicitud) == fechaSeleccionada && unPedido.horarioId == idhorarioSeleccionado) {
+                if (formatDateOther(unPedido.fechaSolicitud) === fechaSeleccionada && unPedido.horarioId === idhorarioSeleccionado) {
                     arrayPedidosFiltrado.push(unPedido)
                 }
             }
         }
 
-        if (fechaSeleccionada == "" && (idhorarioSeleccionado == "")) {
+        if (fechaSeleccionada === "" && (idhorarioSeleccionado === "")) {
             for (let unPedido of pedidosTodos) {
                 arrayPedidosFiltrado.push(unPedido)
             }
         }
 
-        if (fechaSeleccionada == "" && (idhorarioSeleccionado != "")) {
+        if (fechaSeleccionada === "" && (idhorarioSeleccionado !== "")) {
             for (let unPedido of pedidosTodos) {
-                if (unPedido.horarioId == idhorarioSeleccionado) {
+                if (unPedido.horarioId === idhorarioSeleccionado) {
                     arrayPedidosFiltrado.push(unPedido)
                 }
             }
         }
 
-        if (fechaSeleccionada != "" && (idhorarioSeleccionado == "")) {
+        if (fechaSeleccionada !== "" && (idhorarioSeleccionado === "")) {
             for (let unPedido of pedidosTodos) {
-                if (formatDateOther(unPedido.fechaSolicitud) == fechaSeleccionada) {
+                if (formatDateOther(unPedido.fechaSolicitud) === fechaSeleccionada) {
                     arrayPedidosFiltrado.push(unPedido)
                 }
             }
@@ -426,31 +400,31 @@ const Informes = () => {
             arrayFeedbacksFiltrado.pop();
         }
 
-        if (fechaDesdeSeleccionada != "" && (idempleadoSeleccionado != "")) {
+        if (fechaDesdeSeleccionada !== "" && (idempleadoSeleccionado !== "")) {
             for (let unFeedback of feedbackTodos) {
-                if ((formatDateOther(unFeedback.fecha) > fechaDesdeSeleccionada || formatDateOther(unFeedback.fecha) == fechaDesdeSeleccionada) && unFeedback.empleadoId == idempleadoSeleccionado) {
+                if ((formatDateOther(unFeedback.fecha) > fechaDesdeSeleccionada || formatDateOther(unFeedback.fecha) === fechaDesdeSeleccionada) && unFeedback.empleadoId === idempleadoSeleccionado) {
                     arrayFeedbacksFiltrado.push(unFeedback)
                 }
             }
         }
 
-        if (fechaDesdeSeleccionada == "" && (idempleadoSeleccionado == "")) {
+        if (fechaDesdeSeleccionada === "" && (idempleadoSeleccionado === "")) {
             for (let unFeedback of feedbackTodos) {
                 arrayFeedbacksFiltrado.push(unFeedback)
             }
         }
 
-        if (fechaDesdeSeleccionada == "" && (idempleadoSeleccionado != "")) {
+        if (fechaDesdeSeleccionada === "" && (idempleadoSeleccionado !== "")) {
             for (let unFeedback of feedbackTodos) {
-                if (unFeedback.empleadoId == idempleadoSeleccionado) {
+                if (unFeedback.empleadoId === idempleadoSeleccionado) {
                     arrayFeedbacksFiltrado.push(unFeedback)
                 }
             }
         }
 
-        if (fechaDesdeSeleccionada != "" && (idempleadoSeleccionado == "")) {
+        if (fechaDesdeSeleccionada !== "" && (idempleadoSeleccionado === "")) {
             for (let unFeedback of feedbackTodos) {
-                if ((formatDateOther(unFeedback.fecha) > fechaDesdeSeleccionada || formatDateOther(unFeedback.fecha) == fechaDesdeSeleccionada)) {
+                if ((formatDateOther(unFeedback.fecha) > fechaDesdeSeleccionada || formatDateOther(unFeedback.fecha) === fechaDesdeSeleccionada)) {
                     arrayFeedbacksFiltrado.push(unFeedback)
                 }
             }
@@ -465,21 +439,21 @@ const Informes = () => {
                 <div className="col d-flex">
                     <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
                 </div>
-                <div class="col d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
+                <div className="col d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
                     <NavLink exact to="/Inicio" id="dash" >
-                        <table className="linkContainerSecondOption" >
-                            <img src={Volver_img} className="iconosImgSecondOption" onClick={inicializarArrays}/>
-                        </table>
+                        <div className="linkContainerSecondOption" >
+                            <img src={Volver_img} alt ="imagenVolver" className="iconosImgSecondOption" onClick={inicializarArrays}/>
+                        </div>
                     </NavLink>
                 </div>
                 <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Informes</h2>
                 <p className="col-12 d-flex align-items-center pContenidoSinFondo">A continuación se muestra los informes disponibles para visualizar información acerca de los pedidos realizados en el sistema. Seleccione el informe que desee y el filtrado correspondiente.</p>
-                <div class="list-group list-group">
-                    <a href="#informeUno" class="list-group-item list-group-item-action list-group-item-primary">Platos elaborados por horario por día</a>
-                    <a href="#informeDos" class="list-group-item list-group-item-action list-group-item-primary">Asistencia de personas por mes</a>
-                    <a href="#informeTres" class="list-group-item list-group-item-action list-group-item-primary">Platos más pedidos del mes</a>
-                    <a href="#informeCuatro" class="list-group-item list-group-item-action list-group-item-primary">Cantidad de platos elaborados por semana</a>
-                    <a href="#informeCinco" class="list-group-item list-group-item-action list-group-item-primary">Tabla de Feedbacks</a>
+                <div className="list-group list-group">
+                    <a href="#informeUno" className="list-group-item list-group-item-action list-group-item-primary">Platos elaborados por horario por día</a>
+                    <a href="#informeDos" className="list-group-item list-group-item-action list-group-item-primary">Asistencia de personas por mes</a>
+                    <a href="#informeTres" className="list-group-item list-group-item-action list-group-item-primary">Platos más pedidos del mes</a>
+                    <a href="#informeCuatro" className="list-group-item list-group-item-action list-group-item-primary">Cantidad de platos elaborados por semana</a>
+                    <a href="#informeCinco" className="list-group-item list-group-item-action list-group-item-primary">Tabla de Feedbacks</a>
                 </div>
                 <div className="row textosMenuInicial">
                     <div className=" card col d-flex justify-content-center" id="informeUno">
@@ -545,10 +519,10 @@ const Informes = () => {
                             <div className="divContenido">
                                 {menuesTodos.map(mn =>
                                     <div className="card col d-flex justify-content-center" id={mn.id}>
-                                        {arrayEmpleadosFiltrado.filter(em => em.idMenu == mn.id).length > 0 &&
+                                        {arrayEmpleadosFiltrado.filter(em => em.idMenu === mn.id).length > 0 &&
                                             <h3 className="divContenido">{mn.descripcion}</h3>
                                         }
-                                        {arrayEmpleadosFiltrado.filter(em => em.idMenu == mn.id).length > 0 &&
+                                        {arrayEmpleadosFiltrado.filter(em => em.idMenu === mn.id).length > 0 &&
                                             <table className="table table-striped table-dark table-hover borderTable">
                                                 <thead className="thead-ligth">
                                                     <tr>
@@ -557,7 +531,7 @@ const Informes = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {(arrayEmpleadosFiltrado.filter(em => em.idMenu == mn.id)).map(e => <tr key={e.id}><td key={e.id + "nombre"}>{e.nombre}</td><td key={e.id + "cantidad"}> {e.cantidadPedidos}</td></tr>)}
+                                                    {(arrayEmpleadosFiltrado.filter(em => em.idMenu === mn.id)).map(e => <tr key={e.id}><td key={e.id + "nombre"}>{e.nombre}</td><td key={e.id + "cantidad"}> {e.cantidadPedidos}</td></tr>)}
                                                 </tbody>
                                             </table>
                                         }
@@ -565,7 +539,7 @@ const Informes = () => {
                                 )}
                             </div>
                         }
-                        {menuesTodos.length <= 0 || arrayEmpleadosFiltrado.length <= 0 &&
+                        {(menuesTodos.length <= 0 || arrayEmpleadosFiltrado.length <= 0) && 
                             <p className="col-9 d-flex align-items-center pContenido marcaAgua">No hay información para mostrar.</p>
                         }
                     </div>
@@ -649,13 +623,12 @@ const Informes = () => {
                             <table className="table table-striped table-dark table-hover borderTable">
                                 <thead className="thead-ligth">
                                     <tr>
-                                        <th scope="col">Empleado</th>
                                         <th scope="col">Comentario</th>
                                         <th scope="col">Fecha</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {arrayFeedbacksFiltrado.map(f => <tr key={f.id}><td key={f.id + "nombre"}>{nombreEmpleadoPorId(f.empleadoId)}</td><td key={f.id + "comentario"}>{f.comentario}</td><td key={f.id + "fecha"}>{f.fecha}</td></tr>)}
+                                    {arrayFeedbacksFiltrado.map(f => <tr key={f.id}><td key={f.id + "comentario"}>{f.comentario}</td><td key={f.id + "fecha"}>{f.fecha}</td></tr>)}
                                 </tbody>
                             </table>
                         }

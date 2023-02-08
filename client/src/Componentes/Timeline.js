@@ -34,32 +34,30 @@ const Timeline = () => {
 
     function fetchHorario() {
         fetch(process.env.REACT_APP_LOCALHOST + '/horario/get').then(
-            response => response.json()).
-            then(data => { setHoras(data) });
+            response => response.json()).then(data => { setHoras(data) });
     }
 
     function fetchTimeline() {
         fetch(process.env.REACT_APP_LOCALHOST + '/pedido/getTimeline').then(
-            response => response.json()).
-            then(data => { setPedidos(data) })
+            response => response.json()).then(data => { setPedidos(data) })
     }
 
     const horaProx = () => {
-        if (horas[cntHoras + 1] != undefined) {
+        if (horas[cntHoras + 1] !== undefined) {
             setCntHora(cntHoras + 1);
             actualizarMenus(1);
         }
     }
 
     const horaAnt = () => {
-        if (horas[cntHoras - 1] != undefined) {
+        if (horas[cntHoras - 1] !== undefined) {
             setCntHora(cntHoras - 1);
             actualizarMenus(-1);
         }
     }
 
     const ExisteIndex = () => {
-        if (ordenesAmostrar[indexPedido] == undefined || ordenesAmostrar[indexPedido].usuarios == undefined || ordenesAmostrar[indexPedido].usuarios[0] == undefined) {
+        if (ordenesAmostrar[indexPedido] === undefined || ordenesAmostrar[indexPedido].usuarios === undefined || ordenesAmostrar[indexPedido].usuarios[0] === undefined) {
             return false;
         }
         else { return true; }
@@ -68,19 +66,19 @@ const Timeline = () => {
     const actualizarMenus = (num) => {
         ordenesAmostrar.splice(0, ordenesAmostrar.length)
         for (let i = 0; i < ordenes.length; i++) {
-            if (horas.length > 0 && ordenes[i].horarioId == horas[cntHoras + num].id)
+            if (horas.length > 0 && ordenes[i].horarioId === horas[cntHoras + num].id)
                 ordenesAmostrar.push(ordenes[i]);
         }
     }
 
     const menuCargado = (menu, horario) => {
 
-        if (ordenes.length == 0) {
+        if (ordenes.length === 0) {
             return false;
         }
         else {
             for (let i = 0; i < ordenes.length; i++) {
-                if (ordenes[i].id == menu && ordenes[i].horarioId == horario) {
+                if (ordenes[i].id === menu && ordenes[i].horarioId === horario) {
                     return true;
                 }
             }
@@ -103,7 +101,7 @@ const Timeline = () => {
             }
             else {
                 for (let j = 0; j < ordenes.length; j++) {
-                    if (pedidos[i].menuId == ordenes[j].id && pedidos[i].horarioId == ordenes[j].horarioId) {
+                    if (pedidos[i].menuId === ordenes[j].id && pedidos[i].horarioId === ordenes[j].horarioId) {
                         ordenes[j].cantidad++;
                         ordenes[j].usuarios.push(pedidos[i].empleadoNombre);
                     }
@@ -136,15 +134,15 @@ const Timeline = () => {
     else {
         return (
             <div className="container m-2">
-                <div class="row heading" >
+                <div className="row heading" >
                     <div className="col d-flex">
                         <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
                     </div>
-                    <div class="col d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
+                    <div className="col d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
                         <NavLink exact to="/Inicio" id="dash" >
-                            <table className="linkContainerSecondOption" >
-                                <img src={Volver_img} className="iconosImgSecondOption" />
-                            </table>
+                            <div className="linkContainerSecondOption" >
+                                <img src={Volver_img} alt="volverImg" className="iconosImgSecondOption" />
+                            </div>
                         </NavLink>
                     </div>
                     <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Servicio</h2>
@@ -156,7 +154,7 @@ const Timeline = () => {
                                 <img src={flechaIzq} className="transparent" alt="flechaIzq" onClick={() => horaAnt()} />
                             </div>
                             <div className="col d-flex justify-content-center transparent">
-                                <h2 className='transparent'>{(horas[cntHoras].hora != undefined ? horas[cntHoras].hora.slice(0, 5) : "")}</h2>
+                                <h2 className='transparent'>{(horas[cntHoras].hora !== undefined ? horas[cntHoras].hora.slice(0, 5) : "")}</h2>
                             </div>
                             <div className="col d-flex justify-content-center transparent">
                                 <img src={flechaDer} className="transparent" alt="flechaDer" onClick={() => horaProx()} />
@@ -164,7 +162,7 @@ const Timeline = () => {
                         </div>
                     }
                     {horas.length <= 0 &&
-                        <div class="alert alert-primary marcaAgua" role="alert">No hay horarios ingresados en el sistema para mostrar los pedidos por horario.</div>
+                        <div className="alert alert-primary marcaAgua" role="alert">No hay horarios ingresados en el sistema para mostrar los pedidos por horario.</div>
                     }
                 </div>
 
@@ -191,7 +189,7 @@ const Timeline = () => {
                     </table>
                 }
                 {ordenesAmostrar.length <= 0 && horas.length > 0 &&
-                    <div class="alert alert-primary marcaAgua" role="alert">No hay pedidos realizados para mostrar en el horario seleccionado.</div>
+                    <div className="alert alert-primary marcaAgua" role="alert">No hay pedidos realizados para mostrar en el horario seleccionado.</div>
                 }
 
                 <Modal show={ModalFinalizar} className="my-modal" onHide={MFClose}>

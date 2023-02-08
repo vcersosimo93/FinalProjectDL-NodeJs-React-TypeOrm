@@ -77,13 +77,13 @@ const MenuSemanales = () => {
         }
 
     const menuCargado = (fecha) => {
-        if (menusProgramadosAMostrar.length == 0) {
+        if (menusProgramadosAMostrar.length === 0) {
             return false;
         }
         else {
             for (let i = 0; i < menusProgramadosAMostrar.length; i++) {
                 let menuFecha = menusProgramadosAMostrar[i].fechaAPublicar;
-                if (menuFecha == fecha) {
+                if (menuFecha === fecha) {
                     return true;
                 }
             }
@@ -106,7 +106,7 @@ const MenuSemanales = () => {
                 for (let j = 0; j < menusProgramadosAMostrar.length; j++) {
                     let menuFecha = menusProgramados[i].fechaAPublicar;
                     let menuFechaPA = menusProgramadosAMostrar[j].fechaAPublicar;
-                    if (menuFecha == menuFechaPA) {
+                    if (menuFecha === menuFechaPA) {
                         menusProgramadosAMostrar[j].menus.push(menusProgramados[i].menuNombre);
                     }
                 }
@@ -123,7 +123,7 @@ const MenuSemanales = () => {
     const postearOpcionMenu = menuOpcionData => {
 
         menuOpcionData.preventDefault();
-        if (menues != undefined && menues[0] != undefined) {
+        if (menues !== undefined && menues[0] !== undefined) {
             const menuSelecc = menues
             const fechaAPublicar = fechaSeleccionada.current.value
             let reaccionId = 1;
@@ -186,7 +186,7 @@ const MenuSemanales = () => {
     }
 
     const ExisteIndex = () => {
-        if (menusProgramadosAMostrar[indexMS] == undefined || menusProgramadosAMostrar[indexMS].menus == undefined || menusProgramadosAMostrar[indexMS].menus[0] == undefined) {
+        if (menusProgramadosAMostrar[indexMS] === undefined || menusProgramadosAMostrar[indexMS].menus === undefined || menusProgramadosAMostrar[indexMS].menus[0] === undefined) {
             return false;
         }
         else { return true; }
@@ -213,11 +213,11 @@ const MenuSemanales = () => {
                     <div className="col d-flex">
                         <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
                     </div>
-                    <div class="col d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
+                    <div className="col d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
                         <NavLink exact to="/Inicio" id="dash" >
-                            <table className="linkContainerSecondOption" >
-                                <img src={Volver_img} className="iconosImgSecondOption" />
-                            </table>
+                            <div className="linkContainerSecondOption" >
+                                <img src={Volver_img} alt="volverImg" className="iconosImgSecondOption" />
+                            </div>
                         </NavLink>
                     </div>
                     <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Menús Programados</h2>
@@ -244,7 +244,7 @@ const MenuSemanales = () => {
                             </tbody>
                         </table>}
                     {menusProgramadosAMostrar.length <= 0 &&
-                        <div class="alert alert-primary marcaAgua" role="alert">No hay Menús Programados en el sistema para mostrar.</div>
+                        <div className="alert alert-primary marcaAgua" role="alert">No hay Menús Programados en el sistema para mostrar.</div>
                     }
                     <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Programar Menús</h2>
                     <p className="col-12 d-flex align-items-center pContenidoSinFondo">Seleccionar a continuación fecha y opciones de menú/s para preparar el día seleccionado.</p>

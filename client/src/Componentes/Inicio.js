@@ -53,10 +53,10 @@ const Inicio = () => {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-                <div class="jumbotron jumbotron-fluid tituloApp">
-                    <div class="container ">
-                        <h1 class="display-4">Servicio Gastronómico December Labs</h1>
-                        <p class="lead">Aplicación enfocada en la optimización del servicio gastronómico brindado en la empresa.</p>
+                <div className="jumbotron jumbotron-fluid tituloApp">
+                    <div className="container ">
+                        <h1 className="display-4">Servicio Gastronómico December Labs</h1>
+                        <p className="lead">Aplicación enfocada en la optimización del servicio gastronómico brindado en la empresa.</p>
                     </div>
                 </div>
                 <div className="row " style={{ "paddingTop": "4%" }}>

@@ -94,11 +94,11 @@ const Horario = () => {
                             </Button>
                         </div>
                     </div>
-                    <div class="col-md-1 d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
+                    <div className="col-md-1 d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
                         <NavLink exact to="/Inicio" id="dash" >
-                            <table className="linkContainerSecondOption" >
+                            <div className="linkContainerSecondOption" >
                                 <img src={Volver_img} className="iconosImgSecondOption" alt="volver" />
-                            </table>
+                            </div>
                         </NavLink>
                     </div>
                     <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Horarios</h2>
@@ -150,7 +150,7 @@ const Horario = () => {
                         </table>
                     }
                     {horarios.length <= 0 &&
-                        <div class="alert alert-primary marcaAgua" role="alert">No hay Horarios ingresados en el sistema para mostrar.</div>
+                        <div className="alert alert-primary marcaAgua" role="alert">No hay Horarios ingresados en el sistema para mostrar.</div>
                     }
                 </div>
             </div>

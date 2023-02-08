@@ -91,7 +91,7 @@ const TableHorario = ({ horario }) => {
 
     return (
         <tr key={horario.id} >
-            <td >{horario.hora != undefined ? horario.hora.slice(0, 5) : ""}</td>
+            <td >{horario.hora !== undefined ? horario.hora.slice(0, 5) : ""}</td>
             <td ><Button variant="default" onClick={handleShowDL}><img src={Volver_img} className="iconosOtherOption" alt="volver"/></Button></td>
             <td ><Button variant="default" onClick={handleShow}><img src={Lapiz_Comidas_Menu_img} className="iconosOtherOption" alt="modificar"/></Button></td>
 

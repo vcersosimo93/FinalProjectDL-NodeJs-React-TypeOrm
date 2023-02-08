@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
+
 import Volver_img from '../Images/Volver.png';
 import LogoInicio from '../Images/LogoInicio.jpg';
 import { NavLink } from 'react-router-dom';
@@ -28,27 +28,6 @@ ChartJS.register(
     Legend
 );
 
-const options = {
-    indexAxis: 'x',
-    elements: {
-        bar: {
-            borderWidth: 2,
-        },
-    },
-    responsive: true,
-    plugins: {
-        legend: {
-            position: 'right',
-        },
-        title: {
-            display: true,
-            //text: 'Chart.js Horizontal Bar Chart',
-        },
-    },
-};
-
-
-
 const Graficas = () => {
     return (
         <div className="container m-2">
@@ -56,11 +35,11 @@ const Graficas = () => {
                 <div className="col d-flex">
                     <img src={LogoInicio} className="imgLogo" alt="LogoDL" />
                 </div>
-                <div class="col d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
+                <div className="col d-flex flex-row-reverse" style={{ "paddingTop": "2%" }}>
                     <NavLink exact to="/Inicio" id="dash" >
-                        <table className="linkContainerSecondOption" >
-                            <img src={Volver_img} className="iconosImgSecondOption" />
-                        </table>
+                        <div className="linkContainerSecondOption" >
+                            <img src={Volver_img} alt="volverImg" className="iconosImgSecondOption" />
+                        </div>
                     </NavLink>
                 </div>
                 <h2 className="col-md-12 d-flex justify-content-center textosMenuInicial">Gráficas</h2>

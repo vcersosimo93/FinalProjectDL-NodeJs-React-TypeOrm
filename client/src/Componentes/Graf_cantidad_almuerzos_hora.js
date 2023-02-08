@@ -48,7 +48,7 @@ const Graf_cantidad_almuerzos_hora = () => {
   let cantidadPedidosPorHorario = () => {
     for (let unHorario of horarios) {
       for (let unPedido of Pedidos) {
-        if (unPedido.horarioId == unHorario.id) {
+        if (unPedido.horarioId === unHorario.id) {
           unHorario.cantidad++
         }
 

@@ -16,8 +16,7 @@ const Graf_alm_promedio = () => {
 
 
     const [Pedidos, setPedidos] = useState([{}]);
-    const [ContadorAnos, setContadorAnos] = useState([{}]);
-    //const [ContadorAnos2, setContadorAnos2] = useState([{}]);
+
     let contador = 0;
     let anos = [];
     let arrayAnosMetodo = [];
@@ -46,7 +45,6 @@ const Graf_alm_promedio = () => {
         if (week.length < 2) {
             week = "0" + week;
         }
-        let weekString = "W" + week;
 
         return [anio];
     }
@@ -54,8 +52,7 @@ const Graf_alm_promedio = () => {
     const formatDate = (date) => {
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),
-            day = '' + d.getDate(),
-            year = d.getFullYear();
+            day = '' + d.getDate()
 
         if (month.length < 2)
             month = '0' + month;
@@ -121,29 +118,29 @@ const Graf_alm_promedio = () => {
 
     let cantidadPedidosPorMes = (fecha) => {
 
-        if (fecha == '01') {
+        if (fecha === '01') {
             contadorPedidosEne++;
-        } else if (fecha == '02') {
+        } else if (fecha === '02') {
             contadorPedidosFeb++;
-        } else if (fecha == '03') {
+        } else if (fecha === '03') {
             contadorPedidosMar++;
-        } else if (fecha == '04') {
+        } else if (fecha === '04') {
             contadorPedidosAbr++;
-        } else if (fecha == '05') {
+        } else if (fecha === '05') {
             contadorPedidosMay++;
-        } else if (fecha == '06') {
+        } else if (fecha === '06') {
             contadorPedidosJun++;
-        } else if (fecha == '07') {
+        } else if (fecha === '07') {
             contadorPedidosJul++;
-        } else if (fecha == '08') {
+        } else if (fecha === '08') {
             contadorPedidosAgo++;
-        } else if (fecha == '09') {
+        } else if (fecha === '09') {
             contadorPedidosSet++;
-        } else if (fecha == '10') {
+        } else if (fecha === '10') {
             contadorPedidosOct++;
-        } else if (fecha == '11') {
+        } else if (fecha === '11') {
             contadorPedidosNov++;
-        } else if (fecha == '12') {
+        } else if (fecha === '12') {
             contadorPedidosDec++;
         }
     }

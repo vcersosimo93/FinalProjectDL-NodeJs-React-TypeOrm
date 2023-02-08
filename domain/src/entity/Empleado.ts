@@ -18,10 +18,6 @@ export class Empleado {
     @Column({nullable :true})
     idSlack : string
 
-    @OneToMany(() => Feedback, (feedback) => feedback.empleado)
-    @JoinColumn({name: 'empleado_id_Feedbacks'})
-    feedbacks: Feedback[]
-
     @OneToMany(() => Pedido, (pedido) => pedido.empleado)
     @JoinColumn({name: 'empleado_id_Pedidos'})
     pedidos: Pedido[]

@@ -14,10 +14,4 @@ export class Feedback {
     @Column('date',{nullable :false})
     fecha: Date
 
-    @Column({name : 'empleadoId'})
-    empleadoId : number
-
-    @ManyToOne(() => Empleado, (empleado) => empleado.feedbacks)
-    @JoinColumn({ name : 'empleadoId'})
-    empleado: Empleado
 }
