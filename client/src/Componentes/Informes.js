@@ -285,7 +285,7 @@ const Informes = () => {
 
         if (fechaSeleccionada !== "" && (idhorarioSeleccionado !== "")) {
             for (let unPedido of pedidosTodos) {
-                if (formatDateOther(unPedido.fechaSolicitud) === fechaSeleccionada && unPedido.horarioId === idhorarioSeleccionado) {
+                if (formatDateOther(unPedido.fechaSolicitud) === fechaSeleccionada && (unPedido.horarioId).toString() === idhorarioSeleccionado.toString()) {
                     arrayPedidosFiltrado.push(unPedido)
                 }
             }
@@ -299,7 +299,7 @@ const Informes = () => {
 
         if (fechaSeleccionada === "" && (idhorarioSeleccionado !== "")) {
             for (let unPedido of pedidosTodos) {
-                if (unPedido.horarioId === idhorarioSeleccionado) {
+                if ((unPedido.horarioId).toString() === idhorarioSeleccionado.toString()) {
                     arrayPedidosFiltrado.push(unPedido)
                 }
             }
@@ -394,39 +394,22 @@ const Informes = () => {
     const filtroInformeFeedbacks = postData => {
         postData.preventDefault();
         const fechaDesdeSeleccionada = fechaDesde.current.value
-        const idempleadoSeleccionado = empleado.current.value
 
         while (arrayFeedbacksFiltrado.length) {
             arrayFeedbacksFiltrado.pop();
         }
 
-        if (fechaDesdeSeleccionada !== "" && (idempleadoSeleccionado !== "")) {
-            for (let unFeedback of feedbackTodos) {
-                if ((formatDateOther(unFeedback.fecha) > fechaDesdeSeleccionada || formatDateOther(unFeedback.fecha) === fechaDesdeSeleccionada) && unFeedback.empleadoId === idempleadoSeleccionado) {
-                    arrayFeedbacksFiltrado.push(unFeedback)
-                }
-            }
-        }
-
-        if (fechaDesdeSeleccionada === "" && (idempleadoSeleccionado === "")) {
-            for (let unFeedback of feedbackTodos) {
-                arrayFeedbacksFiltrado.push(unFeedback)
-            }
-        }
-
-        if (fechaDesdeSeleccionada === "" && (idempleadoSeleccionado !== "")) {
-            for (let unFeedback of feedbackTodos) {
-                if (unFeedback.empleadoId === idempleadoSeleccionado) {
-                    arrayFeedbacksFiltrado.push(unFeedback)
-                }
-            }
-        }
-
-        if (fechaDesdeSeleccionada !== "" && (idempleadoSeleccionado === "")) {
+        if (fechaDesdeSeleccionada !== "") {
             for (let unFeedback of feedbackTodos) {
                 if ((formatDateOther(unFeedback.fecha) > fechaDesdeSeleccionada || formatDateOther(unFeedback.fecha) === fechaDesdeSeleccionada)) {
                     arrayFeedbacksFiltrado.push(unFeedback)
                 }
+            }
+        }
+
+        if (fechaDesdeSeleccionada === "") {
+            for (let unFeedback of feedbackTodos) {
+                    arrayFeedbacksFiltrado.push(unFeedback)
             }
         }
 
@@ -602,21 +585,6 @@ const Informes = () => {
                         <h1 className="divContenidoTextos">Filtrar por fecha desde o nombre de empleado para mostrar los feedbacks realizados. Si no se elije ninguna fecha ni empleado, se mostrarán todos los feedbacks realizados.</h1>
                         <label className="divContenido">Fecha Desde</label>
                         <input placeholder="Seleccionar fecha" type="date" className="form-control" id="horario" name="fechaDesde" ref={fechaDesde}></input>
-                        <br></br>
-                        <label className="divContenido">Empleados</label>
-                        {empleadosTodos.length > 0 &&
-                            <select className="form-select divContenido selectblack" aria-label="Default select example" id="empleados" name="empleado" ref={empleado}>
-                                <option value="">Seleccione Empleado</option>
-                                {empleadosTodos.map(e => <option key={e.id} value={e.id}>{e.nombre}</option>)}
-                            </select>
-                        }
-                        {empleadosTodos.length <= 0 &&
-                            <p className="col-9 d-flex align-items-center pContenido marcaAgua">No hay Empleados ingresados en el sistema para seleccionar.  Debe ingresar previamente empleados para emitir el informe filtrado con esta condición.</p>
-                        }
-                        {empleadosTodos.length <= 0 &&
-                            <select className="form-select divContenido" aria-label="Default select example" id="empleados" name="empleado" ref={empleado} hidden="hidden">
-                                <option value="">Seleccione Empleado</option>
-                            </select>}
                         <br></br>
                         <button onClick={filtroInformeFeedbacks} type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
                         {arrayFeedbacksFiltrado.length > 0 &&
