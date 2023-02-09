@@ -439,7 +439,7 @@ const Informes = () => {
                         {horariosTodos.length > 0 &&
                             <select className="form-select divContenido selectblack" aria-label="Default select example" id="horario" name="hora" ref={hora}>
                                 <option value="">Seleccione Horario</option>
-                                {horariosTodos.map(h => <option key={h.id} value={h.id}>{h.hora}</option>)}
+                                {horariosTodos.map((h,index) => <option key={index} value={h.id}>{h.hora}</option>)}
                             </select>
                         }
                         {horariosTodos.length <= 0 &&
@@ -467,7 +467,7 @@ const Informes = () => {
                                     </thead>
 
                                     <tbody>
-                                        {pedidosFiltrado.map(p => <tr key={p.id}><td key={p.id + "nombre"}>{p.menuNombre}</td><td key={p.id + "nombreEmpleado"}>{p.empleadoNombre}</td><td key={p.id + "horario"}>{findHorarioPorId(p.horarioId)}</td><td key={p.id + "dia"}>{formatDate(p.fechaSolicitud)}</td><td key={p.id + "esVeg"}>{menuEsVegetariano(p.menuId)}</td></tr>)}
+                                        {pedidosFiltrado.map((p,index) => <tr key={index}><td key={p.id + "nombre"}>{p.menuNombre}</td><td key={p.id + "nombreEmpleado"}>{p.empleadoNombre}</td><td key={p.id + "horario"}>{findHorarioPorId(p.horarioId)}</td><td key={p.id + "dia"}>{formatDate(p.fechaSolicitud)}</td><td key={p.id + "esVeg"}>{menuEsVegetariano(p.menuId)}</td></tr>)}
                                     </tbody>
 
                                 </table>
@@ -491,8 +491,8 @@ const Informes = () => {
                         <button onClick={filtroInformeEmpleados} type="button" className="btn btn-primary " data-toggle="button" aria-pressed="false" autoComplete="off"> Filtrar</button><br></br>
                         {menuesTodos.length > 0 && arrayEmpleadosFiltrado.length>0 &&
                             <div className="divContenido">
-                                {menuesTodos.map(mn =>
-                                    <div className="card col d-flex justify-content-center" id={mn.id}>
+                                {menuesTodos.map((mn,index) =>
+                                    <div className="card col d-flex justify-content-center" key={index} id={mn.id}>
                                         {arrayEmpleadosFiltrado.filter(em => em.idMenu === mn.id).length > 0 &&
                                             <h3 className="divContenido">{mn.descripcion}</h3>
                                         }
@@ -505,7 +505,7 @@ const Informes = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {(arrayEmpleadosFiltrado.filter(em => em.idMenu === mn.id)).map(e => <tr key={e.id}><td key={e.id + "nombre"}>{e.nombre}</td><td key={e.id + "cantidad"}> {e.cantidadPedidos}</td></tr>)}
+                                                    {(arrayEmpleadosFiltrado.filter(em => em.idMenu === mn.id)).map((e,index) => <tr key={index}><td key={e.id + "nombre"}>{e.nombre}</td><td key={e.id + "cantidad"}> {e.cantidadPedidos}</td></tr>)}
                                                 </tbody>
                                             </table>
                                         }
@@ -536,7 +536,7 @@ const Informes = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {menuesFiltradosPorMes.map(m => <tr key={m.id}><td key={m.id + "nombre"}>{m.descripcion}</td><td key={m.id + "cantidad"}>{m.cantidad}</td></tr>)}
+                                    {menuesFiltradosPorMes.map((m,index) => <tr key={index}><td key={m.id + "nombre"}>{m.descripcion}</td><td key={m.id + "cantidad"}>{m.cantidad}</td></tr>)}
                                 </tbody>
                             </table>
                         }
@@ -561,7 +561,7 @@ const Informes = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {arrayMenuesFiltradosPorSemana.map(m => <tr key={m.id}><td key={m.id + "nombre"}>{m.descripcion}</td><td key={m.id + "cantidad"}>{m.cantidad}</td></tr>)}
+                                    {arrayMenuesFiltradosPorSemana.map((m,index) => <tr key={index}><td key={m.id + "nombre"}>{m.descripcion}</td><td key={m.id + "cantidad"}>{m.cantidad}</td></tr>)}
                                 </tbody>
                             </table>
                         }
@@ -587,7 +587,7 @@ const Informes = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {arrayFeedbacksFiltrado.map(f => <tr key={f.id}><td key={f.id + "comentario"}>{f.comentario}</td><td key={f.id + "fecha"}>{f.fecha}</td></tr>)}
+                                    {arrayFeedbacksFiltrado.map((f,index) => <tr key={index}><td key={f.id + "comentario"}>{f.comentario}</td><td key={f.id + "fecha"}>{f.fecha}</td></tr>)}
                                 </tbody>
                             </table>
                         }

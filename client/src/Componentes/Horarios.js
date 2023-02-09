@@ -22,6 +22,15 @@ const Horario = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const [showErrorHora, setShowErrorHora] = useState(false);
+    const handleCloseErrorHora = () => setShowErrorHora(false);
+    const handleShowErrorHora = () => setShowErrorHora(true);
+
+    const [showErrorHoraMayor, setShowErrorHoraMayor] = useState(false);
+    const handleCloseErrorHoraMayor = () => setShowErrorHoraMayor(false);
+    const handleShowErrorHoraMayor = () => setShowErrorHoraMayor(true);
+
+
     useEffect(() => {
         fetch(process.env.REACT_APP_LOCALHOST + '/horario/get').then(
             response => response.json())
@@ -32,55 +41,93 @@ const Horario = () => {
             )
     }, [horarios])
 
+    const cerrarModalHora = () => {
+        handleCloseErrorHora();
+    }
+
+    const checkHorario = () => {
+        let cantidadHorarios = 0
+        for (let unHorario of horarios) {
+            cantidadHorarios++;
+        }
+        return [cantidadHorarios];
+    }
+
+    const checkHorarioExiste = (nuevaHora) => {
+        for (let unHorario of horarios) {
+            let hora = unHorario.hora;
+            const first5 = hora.slice(0, 5);
+            if (first5 == nuevaHora) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    const cerrarModalHoraMayor = () => {
+        handleCloseErrorHoraMayor();
+    }
+
+
     const handleSubmit = postData => {
 
         postData.preventDefault();
         const horaHorario = hora.current.value
-        let reaccionHorarioId = 1
-        console.log(horarios)
+        let reaccionHorarioId = checkHorario();
+        const horarioCheck = checkHorarioExiste(horaHorario);
 
         if (horarios != null) {
-            reaccionHorarioId = horarios.length + 1;
+            //reaccionHorarioId = horarios.length + 1;
         }
+
 
         let url = process.env.REACT_APP_LOCALHOST + '/horario/post';
         let method = 'POST';
 
-        fetch(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "hora": horaHorario,
-                "reaccionHorario": reaccionHorarioId
-            })
-        })
-            .then(res => {
-                if (res.status !== 200 && res.status !== 201) {
-                    throw new Error('Fallo el alta del nuevo horario!');
-                }
-                return res.json();
-            })
-            .then(resData => {
-                console.log(resData);
-                reaccionHorarioId++;
-                handleClose();
-            }).catch(err => {
-                console.log(err);
-                if (reaccionHorarioId > 9) {
-                    alert("No se puede añadir un horario superior a id 9.");
-                }
-                else {
-                    alert("No Se pudo Ingresar el horario. Complete todos los campos.");
-                }
-            })
+        if (!horarioCheck) {
+            if (reaccionHorarioId[0] < 9) {
+                fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "hora": horaHorario,
+                        "reaccionHorario": reaccionHorarioId
+                    })
+                })
+                    .then(res => {
+                        if (res.status !== 200 && res.status !== 201) {
+                            throw new Error('Fallo el alta del nuevo horario!');
+                        }
+                        return res.json();
+                    })
+                    .then(resData => {
+                        console.log(resData);
+                        reaccionHorarioId++;
+                        handleClose();
+                    }).catch(err => {
+                        console.log(err);
+                        /* 
+                        if (reaccionHorarioId[0] > 8) {
+                            alert("No se puede añadir un horario superior a id 9.");
+                        }
+                        else {
+                            handleShowErrorHora()
+                        }*/
+                    })
+            } else {
+                handleShowErrorHoraMayor();
+            }
+        }else {
+            handleShowErrorHora();
+        }
     }
 
-    if (localStorage.getItem("user") == null){
+    if (localStorage.getItem("user") == null) {
         history.push('/Login')
     }
-    else{
+    else {
         return (
             <div className="container m-2">
                 <div className="row heading" >
@@ -153,6 +200,41 @@ const Horario = () => {
                         <div className="alert alert-primary marcaAgua" role="alert">No hay Horarios ingresados en el sistema para mostrar.</div>
                     }
                 </div>
+                <Modal show={showErrorHora} className="my-modal" onHide={handleCloseErrorHora}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Error</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form className="my-modal-form"  >
+                            <Form.Group className="mb-3" controlId="Fecha no valida." >
+                                <Form.Label>Ya existe la hora registrada.</Form.Label>
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button type="submit" variant="outline-primary" onClick={cerrarModalHora}  >
+                            Ok
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                <Modal show={showErrorHoraMayor} className="my-modal" onHide={handleCloseErrorHoraMayor}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Error</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form className="my-modal-form"  >
+                            <Form.Group className="mb-3" controlId="Fecha no valida." >
+                                <Form.Label>La cantidad de horarios no puede ser mayor a 9.</Form.Label>
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button type="submit" variant="outline-primary" onClick={cerrarModalHoraMayor}  >
+                            Ok
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         )
     }

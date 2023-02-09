@@ -45,20 +45,20 @@ const MenuSemanales = () => {
 
 
     useEffect(() => {
-        fetchM();    
-        fetchMP();   
+        fetchM();
+        fetchMP();
     }, [UE])
 
-    function fetchM(){
+    function fetchM() {
         fetch(process.env.REACT_APP_LOCALHOST + '/menu/getAll').then(
             response => response.json()).then(
                 data => { setmenuesGet(data.menus) });
     }
 
-    function fetchMP(){
+    function fetchMP() {
         fetch(process.env.REACT_APP_LOCALHOST + '/menuOpcionesFecha/getAllPendientes').then(
             response => response.json()).then(
-                data => { setMenuesProgramados(data) });  
+                data => { setMenuesProgramados(data) });
     }
 
     const eliminarMS = async () => {
@@ -69,11 +69,12 @@ const MenuSemanales = () => {
             },
             body: JSON.stringify({
                 "fecha": menusProgramadosAMostrar[indexMS].fechaAPublicar
-            })})
-        .then(callUE(UE + 1))
-        .then(cargarMenusProgramados())
-        .then(cerrarModalEliminar())
-        }
+            })
+        })
+            .then(callUE(UE + 1))
+            .then(cargarMenusProgramados())
+            .then(cerrarModalEliminar())
+    }
 
     const menuCargado = (fecha) => {
         if (menusProgramadosAMostrar.length === 0) {
@@ -159,7 +160,7 @@ const MenuSemanales = () => {
                     });
                     reaccionId++;
                 }
-            }else {
+            } else {
                 handleShowErrorMenuFecha();
             }
         }
@@ -233,7 +234,7 @@ const MenuSemanales = () => {
                             <tbody>
                                 {menusProgramadosAMostrar.map((m, index) =>
                                 (
-                                    <tr key={m.fechaAPublicar} onClick={() => setIndex(index)}>
+                                    <tr key={index} onClick={() => setIndex(index)}>
                                         <td >{formatearFecha(m.fechaAPublicar)}</td>
                                         <td ><Button variant="default" onClick={mostrarModalMenus}><img src={comida_img} className="iconosOtherOption" alt="volver" /></Button></td>
                                         <td ><Button variant="default" onClick={mostrarModalEliminar}><img src={Volver_img} className="iconosOtherOption" alt="volver" /></Button></td>
@@ -338,7 +339,7 @@ const MenuSemanales = () => {
                         </Modal.Body>
                         <Modal.Footer>
                             <Button type="submit" variant="outline-primary" onClick={cerrarModalErrorFecha}  >
-                                Ok 
+                                Ok
                             </Button>
                         </Modal.Footer>
                     </Modal>

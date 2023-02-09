@@ -179,7 +179,7 @@ const Timeline = () => {
                         <tbody>
                             {ordenesAmostrar.map((o, index) =>
                             (
-                                <tr key={o.id} onClick={() => setIndex(index)}>
+                                <tr key={index} onClick={() => setIndex(index)}>
                                     <td onClick={handleShow}>{o.nombre}</td>
                                     <td className="text-center">{o.cantidad}</td>
                                     <td onClick={MFShow}><img src={Finalizar_img} className="iconoGeneral" alt="finalizar" /></td>
@@ -214,9 +214,9 @@ const Timeline = () => {
                     </Modal.Header>
                     <Modal.Body>
                         <Form className="my-modal-form"  >
-                            {(ExisteIndex() ? ordenesAmostrar[indexPedido].usuarios.map((usuario) =>
-                                <Form.Group className="mb-3" controlId={usuario} >
-                                    <Form.Label>{usuario}</Form.Label>
+                            {(ExisteIndex() ? ordenesAmostrar[indexPedido].usuarios.map((usuario,index) =>
+                                <Form.Group className="mb-3"  controlId={usuario} >
+                                    <Form.Label >{usuario}</Form.Label>
                                 </Form.Group>) : "")}
                         </Form>
                     </Modal.Body>
