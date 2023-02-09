@@ -47,7 +47,6 @@ const MenuSemanales = () => {
     useEffect(() => {
         fetchM();    
         fetchMP();   
-        fetchMP();
     }, [UE])
 
     function fetchM(){

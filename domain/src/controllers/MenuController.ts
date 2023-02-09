@@ -196,24 +196,5 @@ export const getMenuNombre = async (Id) => {
     }
 }
 
-export const precargaMenus = async () => {
-    insertMenuManager(" Bondiola confitada a la cerveza acompañada por puré mixto con parmesano y ciboulette.", false);
-    insertMenuManager(" Bondiola confitada a la cerveza acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.", false);
-    insertMenuManager(" Tortilla de papa con criollita acompañada por ensalada de tomate, albahaca, zanahoria y queso crema.", false);
-    insertMenuManager(" Tortilla de papa con criollita acompañada por puré mixto con parmesano y ciboulette.", false);
-    insertMenuManager(" Ensalada de la semana: Tomates cherry, champiñones a la provenzal, rúcula, zanahoria, pollo, lascas de parmesano, nuez y huevo duro.", true);
-    console.log("Se insertó correctamente la precarga de menus.")
-}
-
-export const insertMenuManager = async (descrip, esVeget) => {
-   try { const menu = new Menu()
-    menu.esVegetariano = esVeget;
-    menu.descripcion = descrip;
-    await AppDataSource.manager.save(menu)
-    }
-    catch(error){
-        throw new Error (error)
-    }
-};
 
 

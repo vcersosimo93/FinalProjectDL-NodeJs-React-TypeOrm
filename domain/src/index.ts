@@ -6,10 +6,6 @@ configDotenv({ path: resolve(__dirname, "./.env") })
 
 import { AppDataSource } from "./data-source"
 import "reflect-metadata";
-import { precargaMenus } from "./controllers/MenuController"
-import { precargaHorarios } from "./controllers/HorarioController"
-import { precargaReacciones } from "./controllers/ReaccionController"
-import { precargaReaccionesHorarios } from "./controllers/ReaccionHorarioController"
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -29,18 +25,6 @@ app.use(cors({ origin: '*' }));
 
 AppDataSource.initialize().then(async () => {
 
-  /*precargaReaccionesHorarios().catch((err) => {
-    console.log(err);
-  })
-  precargaMenus().catch((err) => {
-    console.log(err);
-  })
-  precargaReacciones().catch((err) => {
-    console.log(err);
-  })
-  precargaHorarios().catch((err) => {
-    console.log(err);
-  });*/
 })
   .catch(error => console.log(error))
 

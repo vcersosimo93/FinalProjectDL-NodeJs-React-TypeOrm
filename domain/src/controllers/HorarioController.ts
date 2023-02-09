@@ -81,7 +81,7 @@ export const updateHorario = async(req, res, next) => {
                 const horarioEncontrado = manager.findOneBy(Horario, {
                     id: idHorario
                 }).then(horarioEncontrado => {
-                    if (!horarioEncontrado) {
+                    if ((!horarioEncontrado) ||(horarioEncontrado && ((horarioEncontrado.hora).toString() === hora.toString()))) {
                         const error2 = new Error('No se encontro el horario.');
                         throw error2;
                     }
@@ -135,21 +135,3 @@ export const deleteHorario = async (req, res, next) => {
         return res.status(500).json({ message: error.message })
     }
 };
-
-export const precargaHorarios = async () => {
-    await insertHorario('12:30');
-    await insertHorario('12:45');
-    await insertHorario('13:00');
-    await insertHorario('13:15');
-    await insertHorario('13:30');
-    await insertHorario('13:45');
-    await insertHorario('14:00');
-    console.log("Se insertó correctamente la precarga de horarios.")
-}
-
-export const insertHorario = async (hra) => {
-    const horario = new Horario()
-    horario.hora = hra;
-    await AppDataSource.manager.save(horario)
-};
-
