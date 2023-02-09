@@ -44,7 +44,7 @@ function Login() {
           <p className="lead">Aplicación enfocada en la optimización del servicio gastronómico brindado en la empresa.</p>
         </div>
       </div>
-      <div className="card-body p-5 text-center login" style={{ "marginTop": "150px" }} >
+      <div className="card-body p-5 text-center login" style={{ "marginTop": "150px","marginBottom": "50px" }} >
         <h2 className="mb-md-5">Iniciar sesión</h2>
         <div style={{ "paddingLeft": "20%" }} id="signInDiv">
           {userLS &&
@@ -52,10 +52,8 @@ function Login() {
           }
         </div>
       </div >
-      <NavLink exact to="/Feedback" id="dash">
-        <div className="link" >
-        <a href="#" className="link-light" style={{ "text-align": "center" }}>Presione Aqui Para Realizar Su Feedback.</a>
-        </div>
+      <NavLink exact to="/Feedback" id="dash" href="#" className="link-light" style={{ "textAlign": "center"}}>
+          <div>Presione Aqui Para Realizar Su Feedback.</div>
       </NavLink>
       
     </div >

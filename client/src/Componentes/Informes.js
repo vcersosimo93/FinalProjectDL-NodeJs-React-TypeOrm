@@ -26,7 +26,6 @@ const Informes = () => {
 
     const [feedbacksFiltrado, setFeedbacksFiltrado] = useState([{}]);
     const fechaDesde = useRef()
-    const empleado = useRef()
 
     const [empleadosFiltrado, setEmpleadosFiltrado] = useState([{}]);
     const mes = useRef()
@@ -264,14 +263,6 @@ const Informes = () => {
             }
         }
         return contadorPedidos;
-    }
-
-    const nombreEmpleadoPorId = (idEmpleado) => {
-        for (let unEmpleado of empleadosTodos) {
-            if (unEmpleado.id === idEmpleado) {
-                return unEmpleado.nombre;
-            }
-        }
     }
 
     const filtroInformePedidos = postData => {

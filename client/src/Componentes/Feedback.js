@@ -1,6 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import LogoInicio from '../Images/LogoInicio.jpg';
 import { NavLink } from 'react-router-dom';
 import Volver_img from '../Images/Volver.png';
